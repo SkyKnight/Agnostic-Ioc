@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7035CDED-81B4-44B7-ABC4-733D1E9F65E9}</ProjectGuid>
+    <ProjectGuid>{33E72AB7-7558-42EE-864A-A7F832A366FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cardinal.IoC.UnitTests</RootNamespace>
-    <AssemblyName>Cardinal.IoC.UnitTests</AssemblyName>
+    <RootNamespace>Cardinal.IoC.Unity</RootNamespace>
+    <AssemblyName>Cardinal.IoC.Unity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
@@ -46,9 +40,6 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,30 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MultipleContainerResolutionTests.cs" />
-    <Compile Include="BasicResolutionTests.cs" />
-    <Compile Include="DependantClass.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestConstants.cs" />
-    <Compile Include="TestUnityContainerAdapter.cs" />
-    <Compile Include="TestWindsorContainerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cardinal.IoC.Unity\Cardinal.IoC.Unity.csproj">
-      <Project>{33e72ab7-7558-42ee-864a-a7f832a366fc}</Project>
-      <Name>Cardinal.IoC.Unity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cardinal.IoC.Windsor\Cardinal.IoC.Windsor.csproj">
-      <Project>{9a903aed-6afb-493c-b90c-15ceea0f977c}</Project>
-      <Name>Cardinal.IoC.Windsor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cardinal.IoC\Cardinal.IoC.csproj">
       <Project>{1c483a51-35b8-4fbf-8304-29e62711fafe}</Project>
       <Name>Cardinal.IoC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
