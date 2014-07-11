@@ -1,0 +1,7 @@
+Cardinal.IoC.UnitTests/bin/
+Cardinal.IoC.UnitTests/obj/
+Cardinal.IoC.Windsor/bin/
+Cardinal.IoC.Windsor/obj/
+Cardinal.IoC/obj/
+Cardinal.IoC/bin/
+*.suo
