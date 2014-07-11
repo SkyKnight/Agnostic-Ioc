@@ -1,25 +1,26 @@
-﻿using System;
-using Castle.Windsor;
+﻿using Castle.Windsor;
 
 namespace Cardinal.IoC.Windsor
 {
     public abstract class WindsorContainerAdapter : ContainerAdapter<IWindsorContainer>
     {
-        private static readonly IWindsorContainer container = new WindsorContainer();
+        protected WindsorContainerAdapter() : this(new WindsorContainer())
+        {
+            
+        }
+
+        protected WindsorContainerAdapter(IWindsorContainer container) : base(container)
+        {
+        }
 
         public override T Resolve<T>()
         {
-            return container.Resolve<T>();
+            return Container.Resolve<T>();
         }
 
         public override T Resolve<T>(string name)
         {
-            return container.Resolve<T>(name);
-        }
-
-        public override IWindsorContainer Container 
-        {
-            get { return container; }
+            return Container.Resolve<T>(name);
         }
     }
 }

@@ -5,3 +5,6 @@ Cardinal.IoC.Windsor/obj/
 Cardinal.IoC/obj/
 Cardinal.IoC/bin/
 *.suo
+Cardinal.IoC.Unity/bin/
+Cardinal.IoC.Unity/obj/
+*.user

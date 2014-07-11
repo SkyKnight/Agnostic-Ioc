@@ -78,7 +78,16 @@ namespace Cardinal.IoC
         private static void PopulateAdaptersInAssembly(Assembly assembly)
         {
             // todo: IsAssignableFrom doesn't work - need a better way.
-            IEnumerable<Type> potentialAdapters = assembly.GetTypes().Where(t => t.GetInterface(typeof(IContainerAdapter).FullName.ToString(CultureInfo.InvariantCulture)) != null);
+            IEnumerable<Type> potentialAdapters;
+            try
+            {
+                potentialAdapters = assembly.GetTypes().Where(IsPotentialAdapter);
+            }
+            catch
+            {
+                return;
+            }
+
             foreach (Type potentialAdapter in potentialAdapters)
             {
                 if (potentialAdapter.IsAbstract)
@@ -93,6 +102,18 @@ namespace Cardinal.IoC
                 }
 
                 adapters.Add(adapter.Name, adapter);
+            }
+        }
+
+        private static bool IsPotentialAdapter(Type type)
+        {
+            try
+            {
+                return type.GetInterface(typeof(IContainerAdapter).FullName.ToString(CultureInfo.InvariantCulture)) != null;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

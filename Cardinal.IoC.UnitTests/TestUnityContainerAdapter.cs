@@ -1,0 +1,20 @@
+﻿using Cardinal.IoC.Unity;
+using Microsoft.Practices.Unity;
+
+namespace Cardinal.IoC.UnitTests
+{
+    public class TestUnityContainerAdapter : UnityContainerAdapter
+    {
+        public override string Name
+        {
+            get { return TestConstants.UnityContainerName; }
+        }
+
+        public override void Setup()
+        {
+            Container.RegisterType(typeof(IDependantClass), typeof (DependantClass2), null, new ContainerControlledLifetimeManager());
+
+            Container.RegisterType(typeof(IDependantClass), typeof(DependantClass), "DependentClass2", new ContainerControlledLifetimeManager());
+        }
+    }
+}
