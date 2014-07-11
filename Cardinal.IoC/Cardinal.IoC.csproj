@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ContainerAdapter.cs" />
     <Compile Include="ContainerManager.cs" />
+    <Compile Include="ContainerManagerFactory.cs" />
     <Compile Include="IContainerAdapter.cs" />
     <Compile Include="IContainerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

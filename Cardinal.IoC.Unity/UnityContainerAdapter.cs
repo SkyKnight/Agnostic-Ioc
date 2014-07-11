@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using System.Collections;
+using Microsoft.Practices.Unity;
 
 namespace Cardinal.IoC.Unity
 {
@@ -20,6 +22,16 @@ namespace Cardinal.IoC.Unity
         public override T Resolve<T>()
         {
             return Container.Resolve<T>();
+        }
+
+        public override T Resolve<T>(string name, IDictionary arguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override T Resolve<T>(IDictionary arguments)
+        {
+            throw new NotImplementedException();
         }
     }
 }

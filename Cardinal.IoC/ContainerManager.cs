@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,7 +9,11 @@ namespace Cardinal.IoC
 {
     public class ContainerManager : IContainerManager
     {
-        private static Dictionary<string, IContainerAdapter> adapters;
+        private static readonly Dictionary<string, IContainerAdapter> adapters = new Dictionary<string, IContainerAdapter>();
+
+        private static bool hasScanned;
+
+        private readonly bool preventAssemblyScan;
 
         private IContainerAdapter currentAdapter;
 
@@ -16,8 +21,13 @@ namespace Cardinal.IoC
         {
         }
 
-        public ContainerManager(string adapterName)
+        public ContainerManager(string adapterName): this(adapterName, false)
         {
+        }
+
+        protected ContainerManager(string adapterName, bool preventAssemblyScan)
+        {
+            this.preventAssemblyScan = preventAssemblyScan;
             CurrentAdapter = GetAdapter(adapterName);
         }
 
@@ -30,10 +40,10 @@ namespace Cardinal.IoC
             }
         }
 
-        protected IContainerAdapter CurrentAdapter
+        public IContainerAdapter CurrentAdapter
         {
             get { return currentAdapter; }
-            set
+            protected set
             {
                 if (value == null)
                 {
@@ -42,6 +52,16 @@ namespace Cardinal.IoC
 
                 currentAdapter = value;
             }
+        }
+
+        public static void AddAdapter(string name, IContainerAdapter adapter)
+        {
+            if (adapters.ContainsKey(name))
+            {
+                return;
+            }
+
+            adapters.Add(name, adapter);
         }
 
         public T Resolve<T>()
@@ -54,6 +74,16 @@ namespace Cardinal.IoC
             return CurrentAdapter.Resolve<T>(name);
         }
 
+        public T Resolve<T>(IDictionary arguments)
+        {
+            return CurrentAdapter.Resolve<T>(arguments);
+        }
+
+        public T Resolve<T>(string name, IDictionary arguments)
+        {
+            return CurrentAdapter.Resolve<T>(name, arguments);
+        }
+
         protected IContainerAdapter GetAdapter(string adapterName)
         {
             return !Adapters.ContainsKey(adapterName) ? null : Adapters[adapterName];
@@ -61,12 +91,12 @@ namespace Cardinal.IoC
 
         protected void PopulateAdapters()
         {
-            if (adapters != null)
+            if (hasScanned || preventAssemblyScan)
             {
                 return;
             }
 
-            adapters = new Dictionary<string, IContainerAdapter>();
+            hasScanned = true;
 
             // go fishing ;)
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -77,7 +107,6 @@ namespace Cardinal.IoC
 
         private static void PopulateAdaptersInAssembly(Assembly assembly)
         {
-            // todo: IsAssignableFrom doesn't work - need a better way.
             IEnumerable<Type> potentialAdapters;
             try
             {
@@ -109,6 +138,7 @@ namespace Cardinal.IoC
         {
             try
             {
+                // todo: IsAssignableFrom doesn't work - need a better way.
                 return type.GetInterface(typeof(IContainerAdapter).FullName.ToString(CultureInfo.InvariantCulture)) != null;
             }
             catch

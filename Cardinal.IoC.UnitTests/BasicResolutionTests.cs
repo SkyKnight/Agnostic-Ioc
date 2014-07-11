@@ -7,31 +7,13 @@ namespace Cardinal.IoC.UnitTests
     public class BasicResolutionTests
     {
         [Test]
-        public void ResolveItemByInterfaceOnly()
+        public void GetContainerFromFactory()
         {
-            ContainerManager containerManager = new ContainerManager();
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependency);
-        }
+            var containerManager = ContainerManagerFactory.GetContainerManager();
+            Assert.AreEqual(String.Empty, containerManager.CurrentAdapter.Name);
 
-        [Test]
-        public void ResolveItemByName()
-        {
-            ContainerManager containerManager = new ContainerManager();
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2");
-            Assert.IsNotNull(dependency);
-        }
-
-        [Test]
-        public void ResolveItemWithParameters()
-        {
-            throw new NotImplementedException("Implement This");
-        }
-
-        [Test]
-        public void LocateIndependentServices()
-        {
-            throw new NotImplementedException("Implement This");
+            var containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.UnityContainerName);
+            Assert.AreEqual(TestConstants.UnityContainerName, containerManager2.CurrentAdapter.Name); 
         }
     }
 }

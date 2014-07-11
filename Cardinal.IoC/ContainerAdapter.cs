@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace Cardinal.IoC
 {
@@ -26,6 +27,10 @@ namespace Cardinal.IoC
 
         public abstract T Resolve<T>();
 
+        public abstract T Resolve<T>(IDictionary arguments);
+
         public abstract T Resolve<T>(string name);
+
+        public abstract T Resolve<T>(string name, IDictionary arguments);
     }
 }

@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IContainerTestSuite.cs" />
     <Compile Include="MultipleContainerResolutionTests.cs" />
     <Compile Include="BasicResolutionTests.cs" />
     <Compile Include="DependantClass.cs" />
@@ -65,6 +66,8 @@
     <Compile Include="TestConstants.cs" />
     <Compile Include="TestUnityContainerAdapter.cs" />
     <Compile Include="TestWindsorContainerAdapter.cs" />
+    <Compile Include="UnityContainerTests.cs" />
+    <Compile Include="WindsorContainerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

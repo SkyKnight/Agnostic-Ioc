@@ -9,7 +9,7 @@ namespace Cardinal.IoC.UnitTests
         {
             Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
 
-            Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>().Named("DependentClass2"));
+            Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass2>().Named("DependentClass2"));
         }
     }
 }
