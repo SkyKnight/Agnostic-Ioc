@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Microsoft.Practices.Unity;
 
 namespace Cardinal.IoC.Unity
@@ -26,12 +25,24 @@ namespace Cardinal.IoC.Unity
 
         public override T Resolve<T>(string name, IDictionary arguments)
         {
-            throw new NotImplementedException();
+            ParameterOverrides resolverOverride = GetParametersOverrideFromDictionary<T>(arguments);
+            return Container.Resolve<T>(name, resolverOverride);
         }
 
         public override T Resolve<T>(IDictionary arguments)
         {
-            throw new NotImplementedException();
+            ParameterOverrides resolverOverride = GetParametersOverrideFromDictionary<T>(arguments);
+            return Container.Resolve<T>(resolverOverride);
+        }
+
+        private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary arguments)
+        {
+            ParameterOverrides resolverOverride = new ParameterOverrides();
+            foreach (string key in arguments.Keys)
+            {
+                resolverOverride.Add(key, arguments[key]);
+            }
+            return resolverOverride;
         }
     }
 }
