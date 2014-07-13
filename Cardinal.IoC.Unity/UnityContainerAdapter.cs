@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cardinal.IoC.Registration;
 using Microsoft.Practices.Unity;
 
 namespace Cardinal.IoC.Unity
@@ -33,6 +34,11 @@ namespace Cardinal.IoC.Unity
         {
             ParameterOverrides resolverOverride = GetParametersOverrideFromDictionary<T>(arguments);
             return Container.Resolve<T>(resolverOverride);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
+        {
+            Container.RegisterType(typeof (TRegisteredAs), typeof (TResolvedTo));
         }
 
         private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary arguments)

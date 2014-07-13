@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.UnitTests.TestAdapters;
+using Castle.MicroKernel;
+using Moq;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests
@@ -15,6 +21,66 @@ namespace Cardinal.IoC.UnitTests
 
             var containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.UnityContainerName);
             Assert.AreEqual(TestConstants.UnityContainerName, containerManager2.CurrentAdapter.Name); 
+        }
+
+        [Test]
+        [ExpectedException(typeof(ComponentNotFoundException))]
+        public void StartContainerManually()
+        {
+            var containerManager = new ContainerManager(new EmptytWindsorContainerAdapter());
+            Assert.AreEqual(TestConstants.EmptyWindsorContainerName, containerManager.CurrentAdapter.Name);
+
+            Assert.IsNull(containerManager.Resolve<IDependantClass>());
+
+            containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
+            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
+
+            Assert.IsNotNull(dependantClass);
+            Assert.AreEqual(TestConstants.DependantClassName, dependantClass.Name);
+        }
+
+        [Test]
+        public void TestTryResolvesSuccessful()
+        {
+            Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
+            DependantClass dependantClass = new DependantClass();
+            
+            IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
+            
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>()).Returns(dependantClass);
+            Assert.AreEqual(dependantClass, containerManager.TryResolve<IDependantClass>());
+
+            DependantClass dependantClass2 = new DependantClass { Name = "Pass 2" };
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<string>())).Returns(dependantClass2);
+            Assert.AreEqual(dependantClass2, containerManager.TryResolve<IDependantClass>("string"));
+
+            DependantClass dependantClass3 = new DependantClass { Name = "Pass 3" };
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<IDictionary>())).Returns(dependantClass3);
+            Assert.AreEqual(dependantClass3, containerManager.TryResolve<IDependantClass>(new Dictionary<string, string>()));
+
+            DependantClass dependantClass4 = new DependantClass { Name = "Pass 4" };
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary>())).Returns(dependantClass4);
+            Assert.AreEqual(dependantClass4, containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
+        }
+
+        [Test]
+        public void TestTryResolvesFails()
+        {
+            Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
+
+            IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
+
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>()).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
+
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>("string"));
+
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<IDictionary>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>(new Dictionary<string, string>()));
+
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
         }
     }
 }
