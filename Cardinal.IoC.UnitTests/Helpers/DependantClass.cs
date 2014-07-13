@@ -1,4 +1,4 @@
-﻿namespace Cardinal.IoC.UnitTests
+﻿namespace Cardinal.IoC.UnitTests.Helpers
 {
     public class DependantClass2 : IDependantClass
     {
