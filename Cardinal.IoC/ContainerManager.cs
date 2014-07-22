@@ -69,7 +69,15 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            CurrentAdapter.Register(registrationDefinition);
+            INamedRegistrationDefinition namedRegistrationDefinition = registrationDefinition as INamedRegistrationDefinition;
+            if (namedRegistrationDefinition != null)
+            {
+                CurrentAdapter.RegisterNamed(registrationDefinition, namedRegistrationDefinition.Name);
+            }
+            else
+            {
+                CurrentAdapter.Register(registrationDefinition);
+            }
         }
 
         public static void AddAdapter(string name, IContainerAdapter adapter)

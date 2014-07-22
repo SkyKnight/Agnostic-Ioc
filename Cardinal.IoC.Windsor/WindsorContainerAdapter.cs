@@ -40,5 +40,10 @@ namespace Cardinal.IoC.Windsor
         {
             Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>());
         }
+
+        public override void RegisterNamed<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        {
+            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name));
+        }
     }
 }

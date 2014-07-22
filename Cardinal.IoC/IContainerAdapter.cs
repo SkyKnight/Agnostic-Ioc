@@ -33,5 +33,10 @@ namespace Cardinal.IoC
         void Register<TRegisteredAs, TResolvedTo>(
             IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
+
+        void RegisterNamed<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
     }
 }

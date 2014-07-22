@@ -21,13 +21,11 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNotNull(dependantClass);
         }
 
-        [Ignore("This needs implementing")]
         [Test]
-        [ExpectedException(typeof(ComponentNotFoundException))]
         public void TestSimpleNamedRegistration()
         {
             IContainerManager containerManager = new ContainerManager(TestConstants.EmptyWindsorContainerName);
-            Assert.IsNull(containerManager.Resolve<IDependantClass>());
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             const string dependencyName = "dependantReg";
 
