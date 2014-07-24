@@ -1,7 +1,8 @@
-﻿using Cardinal.IoC.Windsor;
+﻿using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.Windsor;
 using Castle.MicroKernel.Registration;
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.TestAdapters
 {
     public class TestWindsorContainerAdapter : WindsorContainerAdapter
     {

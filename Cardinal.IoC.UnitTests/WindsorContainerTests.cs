@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cardinal.IoC.UnitTests.Helpers;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests

@@ -46,6 +46,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -58,14 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\LateDependantClass.cs" />
     <Compile Include="IContainerTestSuite.cs" />
     <Compile Include="MultipleContainerResolutionTests.cs" />
     <Compile Include="BasicResolutionTests.cs" />
-    <Compile Include="DependantClass.cs" />
+    <Compile Include="Helpers\DependantClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestConstants.cs" />
-    <Compile Include="TestUnityContainerAdapter.cs" />
-    <Compile Include="TestWindsorContainerAdapter.cs" />
+    <Compile Include="Helpers\TestConstants.cs" />
+    <Compile Include="Registration\BasicRegistrationTests.cs" />
+    <Compile Include="TestAdapters\TestUnityContainerAdapter.cs" />
+    <Compile Include="TestAdapters\TestWindsorContainerAdapter.cs" />
+    <Compile Include="TestAdapters\EmptyWindsorContainerAdapter.cs" />
     <Compile Include="UnityContainerTests.cs" />
     <Compile Include="WindsorContainerTests.cs" />
   </ItemGroup>

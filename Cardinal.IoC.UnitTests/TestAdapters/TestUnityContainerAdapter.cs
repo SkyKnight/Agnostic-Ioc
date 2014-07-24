@@ -1,7 +1,8 @@
-﻿using Cardinal.IoC.Unity;
+﻿using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.Unity;
 using Microsoft.Practices.Unity;
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.TestAdapters
 {
     public class TestUnityContainerAdapter : UnityContainerAdapter
     {

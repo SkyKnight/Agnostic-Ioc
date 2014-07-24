@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Cardinal.IoC.Registration;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 
 namespace Cardinal.IoC.Windsor
@@ -32,6 +34,11 @@ namespace Cardinal.IoC.Windsor
         public override T Resolve<T>(string name, IDictionary arguments)
         {
             return Container.Resolve<T>(name, arguments);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
+        {
+            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>());
         }
     }
 }

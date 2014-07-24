@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
@@ -20,14 +22,15 @@ namespace Cardinal.IoC
         public ContainerManager() : this(String.Empty)
         {
         }
-
-        public ContainerManager(string adapterName): this(adapterName, false)
+        
+        public ContainerManager(IContainerAdapter containerAdapter)
         {
+            preventAssemblyScan = true;
+            CurrentAdapter = containerAdapter;
         }
 
-        protected ContainerManager(string adapterName, bool preventAssemblyScan)
+        public ContainerManager(string adapterName)
         {
-            this.preventAssemblyScan = preventAssemblyScan;
             CurrentAdapter = GetAdapter(adapterName);
         }
 
@@ -38,6 +41,16 @@ namespace Cardinal.IoC
                 PopulateAdapters();
                 return adapters;
             }
+        }
+
+        public T TryResolve<T>(string name)
+        {
+            return CurrentAdapter.TryResolve<T>(name);
+        }
+
+        public T TryResolve<T>(IDictionary parameters)
+        {
+            return CurrentAdapter.TryResolve<T>(parameters);
         }
 
         public IContainerAdapter CurrentAdapter
@@ -52,6 +65,11 @@ namespace Cardinal.IoC
 
                 currentAdapter = value;
             }
+        }
+
+        public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+        {
+            CurrentAdapter.Register(registrationDefinition);
         }
 
         public static void AddAdapter(string name, IContainerAdapter adapter)
@@ -69,9 +87,19 @@ namespace Cardinal.IoC
             return CurrentAdapter.Resolve<T>();
         }
 
+        public T TryResolve<T>()
+        {
+            return CurrentAdapter.TryResolve<T>();
+        }
+
         public T Resolve<T>(string name)
         {
             return CurrentAdapter.Resolve<T>(name);
+        }
+
+        public T TryResolve<T>(string name, IDictionary arguments)
+        {
+            return CurrentAdapter.TryResolve<T>(name, arguments);
         }
 
         public T Resolve<T>(IDictionary arguments)

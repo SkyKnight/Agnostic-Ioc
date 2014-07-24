@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
@@ -21,18 +22,68 @@ namespace Cardinal.IoC
             get { return String.Empty; }
         }
 
-        public TContainer Container { get; protected set; }
+        public abstract void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
+        
+        public TContainer Container { get; private set; }
 
         protected void Initialize()
         {
             Setup();
         }
 
+        public T TryResolve<T>(string name, IDictionary arguments)
+        {
+            try
+            {
+                return Resolve<T>(name, arguments);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
         public abstract void Setup();
 
         public abstract T Resolve<T>();
 
+        public T TryResolve<T>()
+        {
+            try
+            {
+                return Resolve<T>();
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        public T TryResolve<T>(string name)
+        {
+            try
+            {
+                return Resolve<T>(name);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
         public abstract T Resolve<T>(IDictionary arguments);
+
+        public T TryResolve<T>(IDictionary arguments)
+        {
+            try
+            {
+                return Resolve<T>(arguments);
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
 
         public abstract T Resolve<T>(string name);
 
