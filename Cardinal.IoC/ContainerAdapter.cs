@@ -24,7 +24,7 @@ namespace Cardinal.IoC
 
         public abstract void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
         
-        public TContainer Container { get; private set; }
+        public TContainer Container { get; protected set; }
 
         protected void Initialize()
         {

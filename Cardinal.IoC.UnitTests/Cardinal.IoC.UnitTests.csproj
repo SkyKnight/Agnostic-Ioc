@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutofacAdapterTests.cs" />
     <Compile Include="Helpers\LateDependantClass.cs" />
     <Compile Include="IContainerTestSuite.cs" />
     <Compile Include="MultipleContainerResolutionTests.cs" />
