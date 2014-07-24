@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.5.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -70,6 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\TestConstants.cs" />
     <Compile Include="Registration\BasicRegistrationTests.cs" />
+    <Compile Include="TestAdapters\TestAutofacContainerAdapter.cs" />
     <Compile Include="TestAdapters\TestUnityContainerAdapter.cs" />
     <Compile Include="TestAdapters\TestWindsorContainerAdapter.cs" />
     <Compile Include="TestAdapters\EmptyWindsorContainerAdapter.cs" />
@@ -80,6 +85,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cardinal.IoC.Autofac\Cardinal.IoC.Autofac.csproj">
+      <Project>{10415df0-94e3-4636-993b-a4e56068edb9}</Project>
+      <Name>Cardinal.IoC.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cardinal.IoC.Unity\Cardinal.IoC.Unity.csproj">
       <Project>{33e72ab7-7558-42ee-864a-a7f832a366fc}</Project>
       <Name>Cardinal.IoC.Unity</Name>

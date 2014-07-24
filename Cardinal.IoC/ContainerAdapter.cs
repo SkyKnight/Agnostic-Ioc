@@ -8,7 +8,7 @@ namespace Cardinal.IoC
     {
         protected ContainerAdapter()
         {
-            
+            Initialize();
         }
 
         protected ContainerAdapter(TContainer container)
