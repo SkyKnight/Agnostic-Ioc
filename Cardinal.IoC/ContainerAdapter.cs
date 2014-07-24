@@ -5,6 +5,11 @@ namespace Cardinal.IoC
 {
     public abstract class ContainerAdapter<TContainer> : IContainerAdapter<TContainer>
     {
+        protected ContainerAdapter()
+        {
+            
+        }
+
         protected ContainerAdapter(TContainer container)
         {
             Container = container;
@@ -16,7 +21,7 @@ namespace Cardinal.IoC
             get { return String.Empty; }
         }
 
-        public TContainer Container { get; private set; }
+        public TContainer Container { get; protected set; }
 
         protected void Initialize()
         {
