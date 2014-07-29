@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// Copyright (c) 2014, Simon Proctor and Nathanial Mann
+// Copyright (c) 2014, Simon Proctor and Nathanael Mann
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,10 +43,10 @@ namespace Cardinal.IoC.UnitTests.TestAdapters
         /// 
         /// </summary>
         /// <param name="builder"></param>
-        public override void RegisterComponents(ContainerBuilder builder)
+        public override void RegisterComponents()
         {
-            builder.RegisterType<DependantClass>().As<IDependantClass>();
-            builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependantClass2");
+            Builder.RegisterType<DependantClass>().As<IDependantClass>();
+            Builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependantClass2");
         }
     }
 }

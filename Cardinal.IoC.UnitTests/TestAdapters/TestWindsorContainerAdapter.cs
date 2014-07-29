@@ -6,7 +6,7 @@ namespace Cardinal.IoC.UnitTests.TestAdapters
 {
     public class TestWindsorContainerAdapter : WindsorContainerAdapter
     {
-        public override void Setup()
+        public override void RegisterComponents()
         {
             Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
 

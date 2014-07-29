@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// Copyright (c) 2014, Simon Proctor and Nathanial Mann
+// Copyright (c) 2014, Simon Proctor and Nathanael Mann
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,12 +35,13 @@ namespace Cardinal.Ioc.Autofac
     /// </summary>
     public abstract class AutofacContainerAdapter : ContainerAdapter<IContainer>
     {
+        protected ContainerBuilder Builder { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AutofacContainerAdapter"/> class.
         /// </summary>
         protected AutofacContainerAdapter()
         {
-
         }
 
         /// <summary>
@@ -55,27 +56,26 @@ namespace Cardinal.Ioc.Autofac
         {
         }
 
-        /// <summary>
-        /// Register components against the configured container builder. Allows for sub classes to load
-        /// configuration from modules and configuration files as required.
-        /// </summary>
-        /// <param name="builder">The container builder</param>
-        public abstract void RegisterComponents(ContainerBuilder builder);
-
-        /// <summary>
-        /// Sets up the container if one has not already been provided. Creates a new container builder
-        /// and calls RegisterComponents. This method is part of the initialisation step of the adapter.
-        /// </summary>
-        public override void Setup()
+        protected override void InitializeAdapter()
         {
-            // Could have done IContainerBuilder.Update but that is potentially expensive and can
-            // cause ownership issues so is only possible once anyway.
-            if (Container == null)
+            base.InitializeAdapter();
+            if (Container != null)
             {
-                ContainerBuilder builder = new ContainerBuilder();
-                RegisterComponents(builder);
-                Container = builder.Build();
+                return;
             }
+
+            Builder = new ContainerBuilder();
+        }
+
+        protected override void InitializeContainer()
+        {
+            base.InitializeContainer();
+            if (Container != null)
+            {
+                return;
+            }
+
+            Container = Builder.Build();
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Cardinal.Ioc.Autofac
         }
 
         /// <summary>
-        /// Add a late bound registration. Where possible use <see cref="RegisterComponents"/> instead
+        /// Add a late bound registration. Where possible use <see cref="RegisterComponents(Autofac.ContainerBuilder)"/> instead
         /// as this is done on startup rather than during application execution.
         /// </summary>
         /// <typeparam name="TRegisteredAs">The type definition of the component to register</typeparam>
@@ -157,6 +157,30 @@ namespace Cardinal.Ioc.Autofac
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.Update(Container);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        {
+            // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.Update(Container);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+        {
+            // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.Update(Container);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name, TResolvedTo instance)
+        {
+            // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
             builder.Update(Container);
         }
 

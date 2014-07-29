@@ -26,12 +26,28 @@ namespace Cardinal.IoC
 
         T TryResolve<T>(string name, IDictionary arguments);
 
-        void Setup();
+        void RegisterComponents();
 
         string Name { get; }
 
         void Register<TRegisteredAs, TResolvedTo>(
             IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name,
+            TResolvedTo instance)
+            where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
     }
 }

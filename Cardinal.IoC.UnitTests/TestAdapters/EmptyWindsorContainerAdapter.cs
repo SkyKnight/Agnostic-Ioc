@@ -10,7 +10,7 @@ namespace Cardinal.IoC.UnitTests.TestAdapters
             get { return TestConstants.EmptyWindsorContainerName; }
         }
 
-        public override void Setup()
+        public override void RegisterComponents()
         {
         }
     }

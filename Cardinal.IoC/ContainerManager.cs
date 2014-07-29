@@ -69,6 +69,26 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
+            INamedRegistrationDefinition namedRegistration = registrationDefinition as INamedRegistrationDefinition;
+            IInstanceRegistrationDefinition<TResolvedTo> instanceRegistration = registrationDefinition as IInstanceRegistrationDefinition<TResolvedTo>;
+            if (instanceRegistration != null && namedRegistration != null)
+            {
+                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name, instanceRegistration.Instance);
+                return;
+            }
+
+            if (instanceRegistration != null)
+            {
+                CurrentAdapter.Register(registrationDefinition, instanceRegistration.Instance);
+                return;
+            }
+
+            if (namedRegistration != null)
+            {
+                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name);
+                return;
+            }
+
             CurrentAdapter.Register(registrationDefinition);
         }
 

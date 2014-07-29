@@ -11,7 +11,7 @@ namespace Cardinal.IoC.UnitTests.TestAdapters
             get { return TestConstants.UnityContainerName; }
         }
 
-        public override void Setup()
+        public override void RegisterComponents()
         {
             Container.RegisterType(typeof(IDependantClass), typeof (DependantClass2), null, new ContainerControlledLifetimeManager());
 

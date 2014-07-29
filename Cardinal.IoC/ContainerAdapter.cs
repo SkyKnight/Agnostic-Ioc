@@ -23,12 +23,36 @@ namespace Cardinal.IoC
         }
 
         public abstract void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
-        
+
+        public abstract void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        public abstract void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        public abstract void Register<TRegisteredAs, TResolvedTo>(
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name,
+            TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
+
         public TContainer Container { get; protected set; }
 
         protected void Initialize()
         {
-            Setup();
+            InitializeAdapter();
+            RegisterComponents();
+            InitializeContainer();
+        }
+
+        protected virtual void InitializeContainer()
+        {
+        }
+
+        protected virtual void InitializeAdapter()
+        {
         }
 
         public T TryResolve<T>(string name, IDictionary arguments)
@@ -43,7 +67,7 @@ namespace Cardinal.IoC
             }
         }
 
-        public abstract void Setup();
+        public abstract void RegisterComponents();
 
         public abstract T Resolve<T>();
 
