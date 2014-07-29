@@ -22,11 +22,22 @@ namespace Cardinal.IoC
         public ContainerManager() : this(String.Empty)
         {
         }
-        
+
         public ContainerManager(IContainerAdapter containerAdapter)
         {
             preventAssemblyScan = true;
             CurrentAdapter = containerAdapter;
+            if (String.IsNullOrEmpty(containerAdapter.Name) || adapters.ContainsKey(containerAdapter.Name))
+            {
+                return;
+            }
+
+            adapters.Add(containerAdapter.Name, containerAdapter);
+        }
+
+        public ContainerManager(IContainerManager masterContainerManager) : this(masterContainerManager.CurrentAdapter)
+        {
+            
         }
 
         public ContainerManager(string adapterName)

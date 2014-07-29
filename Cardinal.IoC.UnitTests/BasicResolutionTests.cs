@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestAdapters;
+using Cardinal.IoC.Windsor;
 using Castle.MicroKernel;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Moq;
 using NUnit.Framework;
 
@@ -52,6 +55,7 @@ namespace Cardinal.IoC.UnitTests
         public void TryResolvesSuccessful()
         {
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
+            containerAdapterMock.SetupGet(x => x.Name).Returns("Try Resolves");
             DependantClass dependantClass = new DependantClass();
             
             IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
@@ -81,6 +85,7 @@ namespace Cardinal.IoC.UnitTests
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
 
             IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
+            containerAdapterMock.SetupGet(x => x.Name).Returns("Try Resolves Fails");
 
             containerAdapterMock.Setup(x => x.Resolve<IDependantClass>()).Throws<Exception>();
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
@@ -93,6 +98,28 @@ namespace Cardinal.IoC.UnitTests
 
             containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary>())).Throws<Exception>();
             Assert.IsNull(containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ReuseSameContainerManagerFromExternalContainer()
+        {
+            IWindsorContainer windsorContainer = new WindsorContainer();
+            windsorContainer.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass2>());
+            IContainerManager containerManager =
+                new ContainerManager(new WindsorContainerAdapter(windsorContainer));
+            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
+            Assert.IsNotNull(dependantClass);
+            IContainerManager containerManager2 = new ContainerManager("New Container");
+
+            IDependantClass dependantClass2 = containerManager2.Resolve<IDependantClass>();
+            Assert.IsNotNull(dependantClass2);
+
+            IContainerManager containerManager3 = new ContainerManager("New Container 1");
+
+            // Show its not random
+            IDependantClass dependantClass3 = containerManager3.TryResolve<IDependantClass>();
+            Assert.IsNull(dependantClass3);
         }
     }
 }

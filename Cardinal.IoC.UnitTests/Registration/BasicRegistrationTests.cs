@@ -12,11 +12,10 @@ namespace Cardinal.IoC.UnitTests.Registration
     public class BasicRegistrationTests
     {
         [Test]
-        [ExpectedException(typeof(ComponentNotFoundException))]
         public void TestSimpleRegistration()
         {
             IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
-            Assert.IsNull(containerManager.Resolve<IDependantClass>());
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
@@ -43,11 +42,10 @@ namespace Cardinal.IoC.UnitTests.Registration
         }
 
         [Test]
-        [ExpectedException(typeof(ComponentNotFoundException))]
         public void TestSimpleInstanceRegistration()
         {
             IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
-            Assert.IsNull(containerManager.Resolve<IDependantClass>());
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
             containerManager.Register(new InstanceRegistrationDefinition<IDependantClass, DependantClass>(instanceDependantClass));
