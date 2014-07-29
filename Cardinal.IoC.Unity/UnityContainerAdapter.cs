@@ -56,11 +56,6 @@ namespace Cardinal.IoC.Unity
             Container.RegisterInstance(typeof(TRegisteredAs), name, instance);
         }
 
-        public override void RegisterNamed<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
-        {
-            Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo), name);
-        }
-
         private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary arguments)
         {
             ParameterOverrides resolverOverride = new ParameterOverrides();
