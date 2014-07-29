@@ -4,13 +4,12 @@
     <id>Agnostic.IoC.Core</id>
     <version>0.1</version>
     <title>Agnostic Inversion of Control Extensions</title>
-    <authors></authors>
+    <authors>cardinal252</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This handy extension allows you to define code regardless of the final IoC container, simply add the packages for the containers you wish to support.</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC</tags>
   </metadata>
