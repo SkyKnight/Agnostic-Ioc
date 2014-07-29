@@ -13,6 +13,9 @@ namespace Cardinal.IoC.UnitTests
     [TestFixture]
     public class BasicResolutionTests
     {
+        /// <summary>
+        /// Tests getting the desired container from the factory - useful for parameterless constructors
+        /// </summary>
         [Test]
         public void GetContainerFromFactory()
         {
@@ -23,6 +26,9 @@ namespace Cardinal.IoC.UnitTests
             Assert.AreEqual(TestConstants.UnityContainerName, containerManager2.CurrentAdapter.Name); 
         }
 
+        /// <summary>
+        /// Tests starting a container manager manually
+        /// </summary>
         [Test]
         [ExpectedException(typeof(ComponentNotFoundException))]
         public void StartContainerManually()
@@ -39,8 +45,11 @@ namespace Cardinal.IoC.UnitTests
             Assert.AreEqual(TestConstants.DependantClassName, dependantClass.Name);
         }
 
+        /// <summary>
+        /// Tests working on TryResolves
+        /// </summary>
         [Test]
-        public void TestTryResolvesSuccessful()
+        public void TryResolvesSuccessful()
         {
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
             DependantClass dependantClass = new DependantClass();
@@ -63,8 +72,11 @@ namespace Cardinal.IoC.UnitTests
             Assert.AreEqual(dependantClass4, containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
         }
 
+        /// <summary>
+        /// Tests the behaviour of when TryResolve fails.
+        /// </summary>
         [Test]
-        public void TestTryResolvesFails()
+        public void TryResolvesFails()
         {
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
 

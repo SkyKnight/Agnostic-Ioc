@@ -4,6 +4,10 @@ using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
+    /// <summary>
+    /// A basic container adapter
+    /// </summary>
+    /// <typeparam name="TContainer">The resulting container type</typeparam>
     public abstract class ContainerAdapter<TContainer> : IContainerAdapter<TContainer>
     {
         protected ContainerAdapter()
@@ -17,48 +21,118 @@ namespace Cardinal.IoC
             Initialize();
         }
 
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
         public virtual string Name
         {
             get { return String.Empty; }
         }
 
+        /// <summary>
+        /// Gets or sets the container.
+        /// </summary>
         public TContainer Container { get; protected set; }
 
+        /// <summary>
+        /// Registers a component using a simple registration definition
+        /// </summary>
+        /// <param name="registrationDefinition">
+        /// The registration definition.
+        /// </param>
+        /// <typeparam name="TRegisteredAs">
+        /// The type to register as
+        /// </typeparam>
+        /// <typeparam name="TResolvedTo">
+        /// The type it resolves to
+        /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
+        /// <summary>
+        /// Registers a component using a simple named registration definition
+        /// </summary>
+        /// <param name="registrationDefinition">
+        /// The registration definition.
+        /// </param>
+        /// <param name="name">
+        /// The name
+        /// </param>
+        /// <typeparam name="TRegisteredAs">
+        /// The type to register as
+        /// </typeparam>
+        /// <typeparam name="TResolvedTo">
+        /// The type it resolves to
+        /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(
             IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
+        /// <summary>
+        /// Registers a component using a simple instance registration definition
+        /// </summary>
+        /// <param name="registrationDefinition">
+        /// The registration definition.
+        /// </param>
+        /// <param name="instance">
+        /// The instance to resolve as
+        /// </param>
+        /// <typeparam name="TRegisteredAs">
+        /// The type to register as
+        /// </typeparam>
+        /// <typeparam name="TResolvedTo">
+        /// The type it resolves to
+        /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(
             IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
+        /// <summary>
+        /// Registers a component using a simple name and instance registration definition
+        /// </summary>
+        /// <param name="registrationDefinition">
+        /// The registration definition.
+        /// </param>
+        /// <param name="name">
+        /// The name
+        /// </param>
+        /// <param name="instance">
+        /// The instance to resolve as
+        /// </param>
+        /// <typeparam name="TRegisteredAs">
+        /// The type to register as
+        /// </typeparam>
+        /// <typeparam name="TResolvedTo">
+        /// The type it resolves to
+        /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(
-            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name,
+            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, 
+            string name,
             TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
+        /// <summary>
+        /// Use this method to register components if you are creating the container
+        /// </summary>
         public virtual void RegisterComponents()
         {
         }
 
-        protected void Initialize()
-        {
-            InitializeAdapter();
-            RegisterComponents();
-            InitializeContainer();
-        }
-
-        protected virtual void InitializeContainer()
-        {
-        }
-
-        protected virtual void InitializeAdapter()
-        {
-        }
-
+        /// <summary>
+        /// Attempts to resolve the requested type with arguments
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="arguments">
+        /// The arguments.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public T TryResolve<T>(string name, IDictionary arguments)
         {
             try
@@ -71,8 +145,15 @@ namespace Cardinal.IoC
             }
         }
 
-        public abstract T Resolve<T>();
-
+        /// <summary>
+        /// Attempts to resolve the requested type
+        /// </summary>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public T TryResolve<T>()
         {
             try
@@ -85,6 +166,18 @@ namespace Cardinal.IoC
             }
         }
 
+        /// <summary>
+        /// Attempts to resolve the requested type by name
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public T TryResolve<T>(string name)
         {
             try
@@ -97,8 +190,18 @@ namespace Cardinal.IoC
             }
         }
 
-        public abstract T Resolve<T>(IDictionary arguments);
-
+        /// <summary>
+        /// Attempts to resolve the requested type with arguments
+        /// </summary>
+        /// <param name="arguments">
+        /// The arguments.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public T TryResolve<T>(IDictionary arguments)
         {
             try
@@ -111,8 +214,84 @@ namespace Cardinal.IoC
             }
         }
 
-        public abstract T Resolve<T>(string name);
+        /// <summary>
+        /// Attempts to resolve the requested type
+        /// </summary>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public abstract T Resolve<T>();
 
+        /// <summary>
+        /// Attempts to resolve the requested type with arguments
+        /// </summary>
+        /// <param name="arguments">
+        /// The arguments.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public abstract T Resolve<T>(IDictionary arguments);
+
+        /// <summary>
+        /// Attempts to resolve the requested type by name
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
+        public abstract T Resolve<T>(string name);
+        
+        /// <summary>
+        /// Attempts to resolve the requested type by name with arguments
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="arguments">
+        /// The arguments.
+        /// </param>
+        /// <typeparam name="T">
+        /// The requested type
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="T"/>.
+        /// </returns>
         public abstract T Resolve<T>(string name, IDictionary arguments);
+
+        /// <summary>
+        /// Initializes the Container Manager
+        /// </summary>
+        protected void Initialize()
+        {
+            InitializeAdapter();
+            RegisterComponents();
+            InitializeContainer();
+        }
+
+        /// <summary>
+        /// Initializes the Container
+        /// </summary>
+        protected virtual void InitializeContainer()
+        {
+        }
+
+        /// <summary>
+        /// Initializes the Container Adapter if required
+        /// </summary>
+        protected virtual void InitializeAdapter()
+        {
+        }
     }
 }
