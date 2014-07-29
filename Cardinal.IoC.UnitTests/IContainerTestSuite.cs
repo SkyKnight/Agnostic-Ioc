@@ -9,5 +9,7 @@
         void ResolveItemWithParameters();
 
         void ResolveItemWithNameAndParameters();
+
+        void UseExternalContainer();
     }
 }

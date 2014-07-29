@@ -22,6 +22,8 @@ namespace Cardinal.IoC
             get { return String.Empty; }
         }
 
+        public TContainer Container { get; protected set; }
+
         public abstract void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
         public abstract void Register<TRegisteredAs, TResolvedTo>(
@@ -38,7 +40,9 @@ namespace Cardinal.IoC
             IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name,
             TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
-        public TContainer Container { get; protected set; }
+        public virtual void RegisterComponents()
+        {
+        }
 
         protected void Initialize()
         {
@@ -66,8 +70,6 @@ namespace Cardinal.IoC
                 return default(T);
             }
         }
-
-        public abstract void RegisterComponents();
 
         public abstract T Resolve<T>();
 

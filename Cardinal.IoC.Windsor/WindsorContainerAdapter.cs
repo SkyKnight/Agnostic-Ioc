@@ -5,13 +5,13 @@ using Castle.Windsor;
 
 namespace Cardinal.IoC.Windsor
 {
-    public abstract class WindsorContainerAdapter : ContainerAdapter<IWindsorContainer>
+    public class WindsorContainerAdapter : ContainerAdapter<IWindsorContainer>
     {
         protected WindsorContainerAdapter() : this(new WindsorContainer())
         {
         }
 
-        protected WindsorContainerAdapter(IWindsorContainer container) : base(container)
+        public WindsorContainerAdapter(IWindsorContainer container) : base(container)
         {
         }
 

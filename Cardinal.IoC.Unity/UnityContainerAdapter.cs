@@ -4,13 +4,13 @@ using Microsoft.Practices.Unity;
 
 namespace Cardinal.IoC.Unity
 {
-    public abstract class UnityContainerAdapter : ContainerAdapter<IUnityContainer>
+    public class UnityContainerAdapter : ContainerAdapter<IUnityContainer>
     {
         protected UnityContainerAdapter() : this(new UnityContainer())
         {
         }
 
-        protected UnityContainerAdapter(IUnityContainer container) : base(container)
+        public UnityContainerAdapter(IUnityContainer container) : base(container)
         {
         }
 

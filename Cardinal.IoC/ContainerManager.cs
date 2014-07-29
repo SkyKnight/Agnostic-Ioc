@@ -167,12 +167,14 @@ namespace Cardinal.IoC
 
             foreach (Type potentialAdapter in potentialAdapters)
             {
-                if (potentialAdapter.IsAbstract)
+                ConstructorInfo constructor = potentialAdapter.GetConstructor(Type.EmptyTypes);
+                if (potentialAdapter.IsAbstract || constructor == null)
                 {
                     continue;
                 }
 
                 IContainerAdapter adapter = Activator.CreateInstance(potentialAdapter) as IContainerAdapter;
+                
                 if (adapter == null)
                 {
                     continue;
