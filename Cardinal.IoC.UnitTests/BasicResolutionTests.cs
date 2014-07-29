@@ -27,7 +27,7 @@ namespace Cardinal.IoC.UnitTests
         [ExpectedException(typeof(ComponentNotFoundException))]
         public void StartContainerManually()
         {
-            var containerManager = new ContainerManager(new EmptytWindsorContainerAdapter());
+            var containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
             Assert.AreEqual(TestConstants.EmptyWindsorContainerName, containerManager.CurrentAdapter.Name);
 
             Assert.IsNull(containerManager.Resolve<IDependantClass>());

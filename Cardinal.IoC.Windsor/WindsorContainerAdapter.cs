@@ -9,7 +9,6 @@ namespace Cardinal.IoC.Windsor
     {
         protected WindsorContainerAdapter() : this(new WindsorContainer())
         {
-            
         }
 
         protected WindsorContainerAdapter(IWindsorContainer container) : base(container)

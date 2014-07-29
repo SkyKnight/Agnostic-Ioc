@@ -1,7 +1,9 @@
-﻿using System;
-using Cardinal.IoC.Registration;
+﻿using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.UnitTests.TestAdapters;
+using Cardinal.IoC.Windsor;
 using Castle.MicroKernel;
+using Castle.Windsor;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests.Registration
@@ -13,7 +15,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         [ExpectedException(typeof(ComponentNotFoundException))]
         public void TestSimpleRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.EmptyWindsorContainerName);
+            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
             Assert.IsNull(containerManager.Resolve<IDependantClass>());
 
             containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
@@ -21,11 +23,10 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNotNull(dependantClass);
         }
 
-        [Ignore("This needs implementing")]
         [Test]
         public void TestSimpleNamedRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.EmptyWindsorContainerName);
+            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
 
             const string dependencyName = "dependantReg";
 
@@ -41,12 +42,11 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(TestConstants.DependantClass2Name, dependantClass2.Name);
         }
 
-        [Ignore("This needs implementing")]
         [Test]
         [ExpectedException(typeof(ComponentNotFoundException))]
         public void TestSimpleInstanceRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.EmptyWindsorContainerName);
+            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
             Assert.IsNull(containerManager.Resolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();

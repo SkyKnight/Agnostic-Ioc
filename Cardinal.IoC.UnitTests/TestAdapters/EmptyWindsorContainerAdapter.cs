@@ -3,7 +3,7 @@ using Cardinal.IoC.Windsor;
 
 namespace Cardinal.IoC.UnitTests.TestAdapters
 {
-    public class EmptytWindsorContainerAdapter : WindsorContainerAdapter
+    public class EmptyWindsorContainerAdapter : WindsorContainerAdapter
     {
         public override string Name
         {
