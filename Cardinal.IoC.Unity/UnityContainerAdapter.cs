@@ -38,7 +38,22 @@ namespace Cardinal.IoC.Unity
 
         public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
         {
-            Container.RegisterType(typeof (TRegisteredAs), typeof (TResolvedTo));
+            Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo));
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        {
+            Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo), name);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+        {
+            Container.RegisterInstance(typeof(TRegisteredAs), instance);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name, TResolvedTo instance)
+        {
+            Container.RegisterInstance(typeof(TRegisteredAs), name, instance);
         }
 
         public override void RegisterNamed<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)

@@ -2,6 +2,8 @@ Cardinal.IoC.UnitTests/bin/
 Cardinal.IoC.UnitTests/obj/
 Cardinal.IoC.Windsor/bin/
 Cardinal.IoC.Windsor/obj/
+Cardinal.IoC.Autofac/bin/
+Cardinal.IoC.Autofac/obj/
 Cardinal.IoC/obj/
 Cardinal.IoC/bin/
 *.suo

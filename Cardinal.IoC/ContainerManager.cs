@@ -69,15 +69,27 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            INamedRegistrationDefinition namedRegistrationDefinition = registrationDefinition as INamedRegistrationDefinition;
-            if (namedRegistrationDefinition != null)
+            INamedRegistrationDefinition namedRegistration = registrationDefinition as INamedRegistrationDefinition;
+            IInstanceRegistrationDefinition<TResolvedTo> instanceRegistration = registrationDefinition as IInstanceRegistrationDefinition<TResolvedTo>;
+            if (instanceRegistration != null && namedRegistration != null)
             {
-                CurrentAdapter.RegisterNamed(registrationDefinition, namedRegistrationDefinition.Name);
+                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name, instanceRegistration.Instance);
+                return;
             }
-            else
+
+            if (instanceRegistration != null)
             {
-                CurrentAdapter.Register(registrationDefinition);
+                CurrentAdapter.Register(registrationDefinition, instanceRegistration.Instance);
+                return;
             }
+
+            if (namedRegistration != null)
+            {
+                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name);
+                return;
+            }
+
+            CurrentAdapter.Register(registrationDefinition);
         }
 
         public static void AddAdapter(string name, IContainerAdapter adapter)

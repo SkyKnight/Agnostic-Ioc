@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardinal.IoC.Windsor", "Car
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardinal.IoC.Unity", "Cardinal.IoC.Unity\Cardinal.IoC.Unity.csproj", "{33E72AB7-7558-42EE-864A-A7F832A366FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardinal.IoC.Autofac", "Cardinal.IoC.Autofac\Cardinal.IoC.Autofac.csproj", "{10415DF0-94E3-4636-993B-A4E56068EDB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{33E72AB7-7558-42EE-864A-A7F832A366FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33E72AB7-7558-42EE-864A-A7F832A366FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33E72AB7-7558-42EE-864A-A7F832A366FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10415DF0-94E3-4636-993B-A4E56068EDB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10415DF0-94E3-4636-993B-A4E56068EDB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10415DF0-94E3-4636-993B-A4E56068EDB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10415DF0-94E3-4636-993B-A4E56068EDB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,11 @@
 {
     public class TestConstants
     {
+        public static string AutofacContainerName
+        {
+            get { return "AutofacContainer"; }
+        }
+
         public static string UnityContainerName
         {
             get { return "UnityContainer"; }
