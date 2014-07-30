@@ -90,12 +90,12 @@ namespace Cardinal.IoC.UnitTests
             Assert.AreEqual(dependantClass2, containerManager.TryResolve<IDependantClass>("string"));
 
             DependantClass dependantClass3 = new DependantClass { Name = "Pass 3" };
-            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<IDictionary>())).Returns(dependantClass3);
-            Assert.AreEqual(dependantClass3, containerManager.TryResolve<IDependantClass>(new Dictionary<string, string>()));
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<IDictionary<string, object>>())).Returns(dependantClass3);
+            Assert.AreEqual(dependantClass3, containerManager.TryResolve<IDependantClass>(new Dictionary<string, object>()));
 
             DependantClass dependantClass4 = new DependantClass { Name = "Pass 4" };
-            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary>())).Returns(dependantClass4);
-            Assert.AreEqual(dependantClass4, containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
+            containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary<string, object>>())).Returns(dependantClass4);
+            Assert.AreEqual(dependantClass4, containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, object>()));
         }
 
         /// <summary>
@@ -115,11 +115,11 @@ namespace Cardinal.IoC.UnitTests
             containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>())).Throws<Exception>();
             Assert.IsNull(containerManager.TryResolve<IDependantClass>("string"));
 
-            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<IDictionary>())).Throws<Exception>();
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>(new Dictionary<string, string>()));
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<IDictionary<string, object>>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>(new Dictionary<string, object>()));
 
-            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary>())).Throws<Exception>();
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, string>()));
+            containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary<string, object>>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, object>()));
         }
 
         [Test]

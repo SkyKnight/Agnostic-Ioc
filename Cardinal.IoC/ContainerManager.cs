@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
@@ -76,7 +77,7 @@ namespace Cardinal.IoC
             return CurrentAdapter.TryResolve<T>(name);
         }
 
-        public T TryResolve<T>(IDictionary parameters)
+        public T TryResolve<T>(IDictionary<string, object> parameters)
         {
             return CurrentAdapter.TryResolve<T>(parameters);
         }
@@ -135,17 +136,17 @@ namespace Cardinal.IoC
             return CurrentAdapter.Resolve<T>(name);
         }
 
-        public T TryResolve<T>(string name, IDictionary arguments)
+        public T TryResolve<T>(string name, IDictionary<string, object> arguments)
         {
             return CurrentAdapter.TryResolve<T>(name, arguments);
         }
 
-        public T Resolve<T>(IDictionary arguments)
+        public T Resolve<T>(IDictionary<string, object> arguments)
         {
             return CurrentAdapter.Resolve<T>(arguments);
         }
 
-        public T Resolve<T>(string name, IDictionary arguments)
+        public T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
             return CurrentAdapter.Resolve<T>(name, arguments);
         }

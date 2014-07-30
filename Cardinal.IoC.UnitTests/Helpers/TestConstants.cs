@@ -29,6 +29,11 @@ namespace Cardinal.IoC.UnitTests.Helpers
             get { return "AutofacContainer"; }
         }
 
+        public static string StructureMapContainerName
+        {
+            get { return "StructureMapContainer"; }
+        }
+
         public static string UnityContainerName
         {
             get { return "UnityContainer"; }

@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
@@ -155,7 +156,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T TryResolve<T>(string name, IDictionary arguments)
+        public T TryResolve<T>(string name, IDictionary<string, object> arguments)
         {
             try
             {
@@ -224,7 +225,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public T TryResolve<T>(IDictionary arguments)
+        public T TryResolve<T>(IDictionary<string, object> arguments)
         {
             try
             {
@@ -259,7 +260,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public abstract T Resolve<T>(IDictionary arguments);
+        public abstract T Resolve<T>(IDictionary<string, object> arguments);
 
         /// <summary>
         /// Attempts to resolve the requested type by name
@@ -290,7 +291,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The <see cref="T"/>.
         /// </returns>
-        public abstract T Resolve<T>(string name, IDictionary arguments);
+        public abstract T Resolve<T>(string name, IDictionary<string, object> arguments);
 
         /// <summary>
         /// Initializes the Container Manager

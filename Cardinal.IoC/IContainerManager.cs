@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
@@ -92,7 +93,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The resolved dependency
         /// </returns>
-        T Resolve<T>(string name, IDictionary parameters);
+        T Resolve<T>(string name, IDictionary<string, object> parameters);
 
         /// <summary>
         /// Attempts to resolve the dependency returning the default if failed
@@ -109,7 +110,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The resolved dependency or default
         /// </returns>
-        T TryResolve<T>(string name, IDictionary arguments);
+        T TryResolve<T>(string name, IDictionary<string, object> arguments);
 
         /// <summary>
         /// Attempts to resolve the dependency
@@ -120,7 +121,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The resolved dependency
         /// </returns>
-        T Resolve<T>(IDictionary parameters);
+        T Resolve<T>(IDictionary<string, object> parameters);
 
         /// <summary>
         /// Attempts to resolve the dependency returning the default if failed
@@ -131,7 +132,7 @@ namespace Cardinal.IoC
         /// <returns>
         /// The resolved dependency or default
         /// </returns>
-        T TryResolve<T>(IDictionary parameters);
+        T TryResolve<T>(IDictionary<string, object> parameters);
 
         /// <summary>
         /// Gets the current adapter

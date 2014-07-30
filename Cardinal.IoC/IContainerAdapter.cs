@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
@@ -40,13 +41,13 @@ namespace Cardinal.IoC
 
         T TryResolve<T>(string name);
 
-        T Resolve<T>(IDictionary arguments);
+        T Resolve<T>(IDictionary<string, object> arguments);
 
-        T TryResolve<T>(IDictionary arguments);
+        T TryResolve<T>(IDictionary<string, object> arguments);
 
-        T Resolve<T>(string name, IDictionary arguments);
+        T Resolve<T>(string name, IDictionary<string, object> arguments);
 
-        T TryResolve<T>(string name, IDictionary arguments);
+        T TryResolve<T>(string name, IDictionary<string, object> arguments);
 
         void RegisterComponents();
 

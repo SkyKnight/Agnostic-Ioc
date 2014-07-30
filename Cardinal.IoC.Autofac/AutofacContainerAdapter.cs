@@ -114,7 +114,7 @@ namespace Cardinal.Ioc.Autofac
         /// <typeparam name="T">Type to resolve</typeparam>
         /// <param name="arguments">The constructor arguments</param>
         /// <returns>The registered component</returns>
-        public override T Resolve<T>(IDictionary arguments)
+        public override T Resolve<T>(IDictionary<string, object> arguments)
         {
             if (!Container.IsRegistered<T>())
             {
@@ -133,7 +133,7 @@ namespace Cardinal.Ioc.Autofac
         /// <param name="name">The name of the component registration</param>
         /// <param name="arguments">The constructor arguments</param>
         /// <returns>The registered component</returns>
-        public override T Resolve<T>(string name, IDictionary arguments)
+        public override T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
             if (!Container.IsRegisteredWithName<T>(name))
             {
@@ -190,7 +190,7 @@ namespace Cardinal.Ioc.Autofac
         /// </summary>
         /// <param name="arguments">The dictionary of arguments</param>
         /// <returns>The named parameter array</returns>
-        internal static Parameter[] GetParametersFromDictionary(IDictionary arguments)
+        internal static Parameter[] GetParametersFromDictionary(IDictionary<string, object> arguments)
         {
             List<Parameter> parameters = new List<Parameter>(arguments.Keys.Count);
 

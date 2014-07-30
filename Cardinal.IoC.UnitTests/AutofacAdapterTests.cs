@@ -114,7 +114,7 @@ namespace Cardinal.IoC.UnitTests
         public void ResolveComponentWithParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, string>());
+            IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());
         }
@@ -126,7 +126,7 @@ namespace Cardinal.IoC.UnitTests
         public void ResolveComponentWithNameAndParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependantClass2", new Dictionary<string, string>());
+            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependantClass2", new Dictionary<string, object>());
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
         }

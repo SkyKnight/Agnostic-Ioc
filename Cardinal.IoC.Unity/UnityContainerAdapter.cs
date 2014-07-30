@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 using Microsoft.Practices.Unity;
 
@@ -46,13 +47,13 @@ namespace Cardinal.IoC.Unity
             return Container.Resolve<T>();
         }
 
-        public override T Resolve<T>(string name, IDictionary arguments)
+        public override T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
             ParameterOverrides resolverOverride = GetParametersOverrideFromDictionary<T>(arguments);
             return Container.Resolve<T>(name, resolverOverride);
         }
 
-        public override T Resolve<T>(IDictionary arguments)
+        public override T Resolve<T>(IDictionary<string, object> arguments)
         {
             ParameterOverrides resolverOverride = GetParametersOverrideFromDictionary<T>(arguments);
             return Container.Resolve<T>(resolverOverride);
@@ -78,7 +79,7 @@ namespace Cardinal.IoC.Unity
             Container.RegisterInstance(typeof(TRegisteredAs), name, instance);
         }
 
-        private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary arguments)
+        private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary<string, object> arguments)
         {
             ParameterOverrides resolverOverride = new ParameterOverrides();
             foreach (string key in arguments.Keys)

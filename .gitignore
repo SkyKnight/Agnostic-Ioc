@@ -10,3 +10,6 @@ Cardinal.IoC/bin/
 Cardinal.IoC.Unity/bin/
 Cardinal.IoC.Unity/obj/
 *.user
+Cardinal.IoC.StructureMap/bin/
+Cardinal.IoC.StructureMap/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+Cardinal.IoC.StructureMap/obj/

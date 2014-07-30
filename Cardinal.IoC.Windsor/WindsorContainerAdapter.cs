@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections;
+using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -47,12 +48,12 @@ namespace Cardinal.IoC.Windsor
             return Container.Resolve<T>(name);
         }
 
-        public override T Resolve<T>(IDictionary arguments)
+        public override T Resolve<T>(IDictionary<string, object> arguments)
         {
             return Container.Resolve<T>(arguments);
         }
 
-        public override T Resolve<T>(string name, IDictionary arguments)
+        public override T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
             return Container.Resolve<T>(name, arguments);
         }
