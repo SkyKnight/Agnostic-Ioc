@@ -20,36 +20,12 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC
 {
-    /// <summary>
-    /// A basic suite of tests to ensure that the containers have at least the same base functionality
-    /// </summary>
-    public interface IContainerTestSuite
+    public interface IContainerAdapterFactory
     {
-        /// <summary>
-        /// Tests resolving an item just passing in the interface
-        /// </summary>
-        void ResolveComponentByInterfaceOnly();
+        IContainerAdapter GetAdapter(string key);
 
-        /// <summary>
-        /// Tests resolving a type using the name 
-        /// </summary>
-        void ResolveComponentByName();
-
-        /// <summary>
-        /// Tests resolving a type using the parameters passed in
-        /// </summary>
-        void ResolveComponentWithParameters();
-
-        /// <summary>
-        /// Tests resolving a type using the name and parameters passed in
-        /// </summary>
-        void ResolveComponentWithNameAndParameters();
-
-        /// <summary>
-        /// Tests initialising a container manager based on an existing container of the default type
-        /// </summary>
-        void UseExternalContainer();
+        void AddAdapter(string key, IContainerAdapter adapter);
     }
 }

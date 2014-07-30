@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacAdapterTests.cs" />
+    <Compile Include="ContainerAdapterTests.cs" />
     <Compile Include="Helpers\LateDependantClass.cs" />
     <Compile Include="IContainerTestSuite.cs" />
     <Compile Include="MultipleContainerResolutionTests.cs" />

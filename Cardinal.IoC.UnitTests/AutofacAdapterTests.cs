@@ -21,6 +21,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using Autofac;
+using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using NUnit.Framework;
@@ -31,7 +33,7 @@ namespace Cardinal.IoC.UnitTests
     /// Test fixture for the Autofac container adapter.
     /// </summary>
     [TestFixture]
-    public class AutofacAdapterTests
+    public class AutofacAdapterTests : IContainerTestSuite
     {
         /// <summary>
         /// Test that the Autofac container adapter can be loaded from the container factory correctly.
@@ -41,36 +43,6 @@ namespace Cardinal.IoC.UnitTests
         {
             IContainerManager containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.AutofacContainerName);
             Assert.AreEqual(TestConstants.AutofacContainerName, containerManager2.CurrentAdapter.Name);
-        }
-
-        /// <summary>
-        /// Resolve a registered component by interface
-        /// </summary>
-        [Test]
-        public void ResolveByInterfaceFromAutofacAdapterTest()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            IDependantClass component = manager.Resolve<IDependantClass>();
-            Assert.IsNotNull(component);
-
-            Assert.AreEqual(typeof(DependantClass), component.GetType());
-        }
-
-        /// <summary>
-        /// Resolve a registered component by interface and name
-        /// </summary>
-        [Test]
-        public void ResolveNamedComponentByInterfaceFromAutofacAdapterTest()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            IDependantClass component = manager.Resolve<IDependantClass>("DependantClass2");
-            Assert.IsNotNull(component);
-
-            Assert.AreEqual(typeof(DependantClass2), component.GetType());
         }
 
         /// <summary>
@@ -113,11 +85,33 @@ namespace Cardinal.IoC.UnitTests
             Assert.IsNotNull(dependantClass);
         }
 
+        public void ResolveComponentByInterfaceOnly()
+        {
+            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
+            Assert.IsNotNull(manager);
+
+            IDependantClass component = manager.Resolve<IDependantClass>();
+            Assert.IsNotNull(component);
+
+            Assert.AreEqual(typeof(DependantClass), component.GetType());
+        }
+
+        public void ResolveComponentByName()
+        {
+            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
+            Assert.IsNotNull(manager);
+
+            IDependantClass component = manager.Resolve<IDependantClass>("DependantClass2");
+            Assert.IsNotNull(component);
+
+            Assert.AreEqual(typeof(DependantClass2), component.GetType());
+        }
+
         /// <summary>
         /// Test that trying to resolve a component with parameters that has been registered returns that component
         /// </summary>
         [Test]
-        public void ResolveItemWithParameters()
+        public void ResolveComponentWithParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, string>());
@@ -129,10 +123,20 @@ namespace Cardinal.IoC.UnitTests
         /// Test that trying to resolve a named component with parameters that has been registered returns that component
         /// </summary>
         [Test]
-        public void ResolveItemWithNameAndParameters()
+        public void ResolveComponentWithNameAndParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependantClass2", new Dictionary<string, string>());
+            Assert.IsNotNull(dependency);
+            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
+        }
+
+        public void UseExternalContainer()
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<DependantClass2>().As<IDependantClass>();
+            ContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(builder.Build()));
+            IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
         }

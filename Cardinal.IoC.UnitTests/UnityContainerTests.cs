@@ -33,7 +33,7 @@ namespace Cardinal.IoC.UnitTests
     public class UnityContainerTests : IContainerTestSuite
     {
         [Test]
-        public void ResolveItemByInterfaceOnly()
+        public void ResolveComponentByInterfaceOnly()
         {
             IContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
@@ -42,7 +42,7 @@ namespace Cardinal.IoC.UnitTests
         }
 
         [Test]
-        public void ResolveItemByName()
+        public void ResolveComponentByName()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2");
@@ -51,7 +51,7 @@ namespace Cardinal.IoC.UnitTests
         }
 
         [Test]
-        public void ResolveItemWithParameters()
+        public void ResolveComponentWithParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, string>());
@@ -60,7 +60,7 @@ namespace Cardinal.IoC.UnitTests
         }
 
         [Test]
-        public void ResolveItemWithNameAndParameters()
+        public void ResolveComponentWithNameAndParameters()
         {
             ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2", new Dictionary<string, string>());

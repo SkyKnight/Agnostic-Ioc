@@ -20,36 +20,22 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using NUnit.Framework;
+
 namespace Cardinal.IoC.UnitTests
 {
-    /// <summary>
-    /// A basic suite of tests to ensure that the containers have at least the same base functionality
-    /// </summary>
-    public interface IContainerTestSuite
+    [Ignore("Stop, these tests are not ready yet!")]
+    [TestFixture]
+    public class ContainerAdapterTests
     {
-        /// <summary>
-        /// Tests resolving an item just passing in the interface
-        /// </summary>
-        void ResolveComponentByInterfaceOnly();
+        [Test]
+        public void AddAdapterToFactory()
+        {
+        }
 
-        /// <summary>
-        /// Tests resolving a type using the name 
-        /// </summary>
-        void ResolveComponentByName();
-
-        /// <summary>
-        /// Tests resolving a type using the parameters passed in
-        /// </summary>
-        void ResolveComponentWithParameters();
-
-        /// <summary>
-        /// Tests resolving a type using the name and parameters passed in
-        /// </summary>
-        void ResolveComponentWithNameAndParameters();
-
-        /// <summary>
-        /// Tests initialising a container manager based on an existing container of the default type
-        /// </summary>
-        void UseExternalContainer();
+        [Test]
+        public void GetAssemblyScannedAdapter()
+        {
+        }
     }
 }

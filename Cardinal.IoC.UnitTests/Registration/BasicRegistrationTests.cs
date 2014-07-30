@@ -36,7 +36,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
+            IWindsorContainer container = new WindsorContainer();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
@@ -47,7 +48,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleNamedRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
+            IWindsorContainer container = new WindsorContainer();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
 
             const string dependencyName = "dependantReg";
 
@@ -66,7 +68,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleInstanceRegistration()
         {
-            IContainerManager containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
+            IWindsorContainer container = new WindsorContainer();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();

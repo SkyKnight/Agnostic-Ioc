@@ -33,7 +33,7 @@ namespace Cardinal.Ioc.Autofac
     /// <summary>
     /// The Autofac container adapter.
     /// </summary>
-    public abstract class AutofacContainerAdapter : ContainerAdapter<IContainer>
+    public class AutofacContainerAdapter : ContainerAdapter<IContainer>
     {
         protected ContainerBuilder Builder { get; private set; }
 
@@ -51,7 +51,7 @@ namespace Cardinal.Ioc.Autofac
         /// which in turn modify the container via an Update call. Though this is not recommended.
         /// </summary>
         /// <param name="container">The existing container</param>
-        protected AutofacContainerAdapter(IContainer container)
+        public AutofacContainerAdapter(IContainer container)
             : base(container)
         {
         }
