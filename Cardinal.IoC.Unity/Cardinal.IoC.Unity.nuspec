@@ -14,4 +14,7 @@
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Unity</tags>
   </metadata>
+	<dependencies>
+        <dependency id="Agnostic.IoC.Core" version="0.1"/>
+    </dependencies>
 </package>
