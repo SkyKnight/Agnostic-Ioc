@@ -12,8 +12,8 @@
     <description>This handy extension allows you to define code regardless of the final IoC container, this is to allow you to use windsor</description>
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Windsor</tags>
+	<dependencies>
+	  <dependency id="Agnostic.IoC.Core" version="0.1"/>
+	</dependencies>  
   </metadata>
-  <dependencies>
-      <dependency id="Agnostic.IoC.Core" version="0.1"/>
-  </dependencies>  
 </package>
