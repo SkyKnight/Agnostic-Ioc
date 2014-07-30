@@ -58,8 +58,9 @@ namespace Cardinal.IoC.UnitTests
         [ExpectedException(typeof(ComponentNotFoundException))]
         public void StartContainerManually()
         {
-            var containerManager = new ContainerManager(new EmptyWindsorContainerAdapter());
-            Assert.AreEqual(TestConstants.EmptyWindsorContainerName, containerManager.CurrentAdapter.Name);
+            IWindsorContainer container = new WindsorContainer();
+            string containerKey = Guid.NewGuid().ToString();
+            var containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
 
             Assert.IsNull(containerManager.Resolve<IDependantClass>());
 
@@ -67,7 +68,6 @@ namespace Cardinal.IoC.UnitTests
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
 
             Assert.IsNotNull(dependantClass);
-            Assert.AreEqual(TestConstants.DependantClassName, dependantClass.Name);
         }
 
         /// <summary>
@@ -76,11 +76,12 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void TryResolvesSuccessful()
         {
+            string containerKey = Guid.NewGuid().ToString();
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
             containerAdapterMock.SetupGet(x => x.Name).Returns("Try Resolves");
             DependantClass dependantClass = new DependantClass();
             
-            IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
+            IContainerManager containerManager = new ContainerManager(containerKey, containerAdapterMock.Object);
             
             containerAdapterMock.Setup(x => x.TryResolve<IDependantClass>()).Returns(dependantClass);
             Assert.AreEqual(dependantClass, containerManager.TryResolve<IDependantClass>());
@@ -104,9 +105,10 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void TryResolvesFails()
         {
+            string containerKey = Guid.NewGuid().ToString();
             Mock<IContainerAdapter> containerAdapterMock = new Mock<IContainerAdapter>();
 
-            IContainerManager containerManager = new ContainerManager(containerAdapterMock.Object);
+            IContainerManager containerManager = new ContainerManager(containerKey, containerAdapterMock.Object);
             containerAdapterMock.SetupGet(x => x.Name).Returns("Try Resolves Fails");
 
             containerAdapterMock.Setup(x => x.Resolve<IDependantClass>()).Throws<Exception>();
@@ -128,8 +130,10 @@ namespace Cardinal.IoC.UnitTests
         {
             IWindsorContainer windsorContainer = new WindsorContainer();
             windsorContainer.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass2>());
+            string containerKey = Guid.NewGuid().ToString();
+
             IContainerManager containerManager =
-                new ContainerManager(new WindsorContainerAdapter(windsorContainer));
+                new ContainerManager(containerKey, new WindsorContainerAdapter(windsorContainer));
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
             IContainerManager containerManager2 = new ContainerManager("New Container");

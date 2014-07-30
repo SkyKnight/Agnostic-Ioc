@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.Windsor;
@@ -72,7 +73,8 @@ namespace Cardinal.IoC.UnitTests
         {
             IWindsorContainer container = new WindsorContainer();
             container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
-            ContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
+            string containerKey = Guid.NewGuid().ToString();
+            ContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());

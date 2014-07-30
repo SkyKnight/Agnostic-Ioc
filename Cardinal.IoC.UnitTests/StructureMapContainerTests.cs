@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Cardinal.IoC.StructureMap;
 using Cardinal.IoC.UnitTests.Helpers;
@@ -71,7 +72,8 @@ namespace Cardinal.IoC.UnitTests
         {
             IContainer container = new Container();
             container.Configure(x => x.For<IDependantClass>().Use<DependantClass>());
-            ContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(container));
+            string containerKey = Guid.NewGuid().ToString();
+            ContainerManager containerManager = new ContainerManager(containerKey, new StructureMapContainerAdapter(container));
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());

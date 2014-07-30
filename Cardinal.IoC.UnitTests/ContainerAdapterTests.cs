@@ -20,22 +20,64 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.IO;
+using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.Windsor;
+using Castle.Windsor;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests
 {
-    [Ignore("Stop, these tests are not ready yet!")]
     [TestFixture]
     public class ContainerAdapterTests
     {
         [Test]
         public void AddAdapterToFactory()
         {
+            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
+            string newAdapterKey = Guid.NewGuid().ToString();
+
+            IContainerAdapter adapter = adapterFactory.GetAdapter(newAdapterKey);
+            Assert.IsNull(adapter);
+            IWindsorContainer container = new WindsorContainer();
+            IContainerAdapter addedAdapter = new WindsorContainerAdapter(container);
+            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
+
+            IContainerAdapterFactory newAdapterFactory = new ContainerAdapterFactory();
+            IContainerAdapter newAdapter = newAdapterFactory.GetAdapter(newAdapterKey);
+            Assert.IsNotNull(newAdapter);
+            Assert.AreEqual(addedAdapter, newAdapter);
         }
 
         [Test]
         public void GetAssemblyScannedAdapter()
         {
+            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
+            IContainerAdapter adapter = adapterFactory.GetAdapter(TestConstants.AutofacContainerName);
+            Assert.IsNotNull(adapter);
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void AddAdapterTwice()
+        {
+            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
+            string newAdapterKey = Guid.NewGuid().ToString();
+
+            IContainerAdapter adapter = adapterFactory.GetAdapter(newAdapterKey);
+            Assert.IsNull(adapter);
+
+            IWindsorContainer container = new WindsorContainer();
+            IContainerAdapter addedAdapter = new WindsorContainerAdapter(container);
+            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
+
+            IWindsorContainer newContainer = new WindsorContainer();
+            IContainerAdapter newAdapter = new WindsorContainerAdapter(newContainer);
+            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
+            IContainerAdapter retrievedAdapter = adapterFactory.GetAdapter(newAdapterKey);
+            Assert.IsNotNull(newAdapter);
+            Assert.AreEqual(retrievedAdapter, newAdapter);
         }
     }
 }
