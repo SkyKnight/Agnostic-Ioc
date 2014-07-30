@@ -4,7 +4,7 @@
     <id>Agnostic.IoC.Unity</id>
     <version>0.1</version>
     <title>Enables Unity for Agnostic Inversion of Control Extensions</title>
-    <authors></authors>
+    <authors>cardinal252 simonproctor</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>

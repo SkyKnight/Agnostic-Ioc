@@ -4,7 +4,7 @@
     <id>Agnostic.IoC.Windsor</id>
     <version>0.1</version>
     <title>Enables Windsor for Agnostic Inversion of Control Extensions</title>
-    <authors>cardinal252</authors>
+    <authors>cardinal252 simonproctor</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>
