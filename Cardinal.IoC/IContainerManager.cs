@@ -141,5 +141,11 @@ namespace Cardinal.IoC
 
         void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)  where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
+
+        /// <summary>
+        /// Registers a group of components in a similar manner to Modules / Installers.
+        /// </summary>
+        /// <param name="groupRegistration"></param>
+        void Register(IContainerManagerGroupRegistration groupRegistration);
     }
 }

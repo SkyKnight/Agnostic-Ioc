@@ -21,7 +21,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
@@ -41,6 +40,11 @@ namespace Cardinal.IoC
         }
 
         public ContainerManager(IContainerAdapter containerAdapter) : this(containerAdapter, new ContainerAdapterFactory())
+        {
+        }
+
+        public ContainerManager(string name, IContainerAdapter containerAdapter)
+            : this(name, containerAdapter, new ContainerAdapterFactory())
         {
         }
 
@@ -119,6 +123,11 @@ namespace Cardinal.IoC
             }
 
             CurrentAdapter.Register(registrationDefinition);
+        }
+
+        public void Register(IContainerManagerGroupRegistration groupRegistration)
+        {
+            groupRegistration.RegisterComponents(this);
         }
 
         public T Resolve<T>()

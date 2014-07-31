@@ -20,24 +20,24 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.UnitTests.TestAdapters;
 using Cardinal.IoC.Windsor;
-using Castle.MicroKernel;
 using Castle.Windsor;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class BasicRegistrationTests
+    public class WindsorRegistrationTests
     {
         [Test]
         public void TestSimpleRegistration()
         {
             IWindsorContainer container = new WindsorContainer();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
@@ -49,7 +49,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         public void TestSimpleNamedRegistration()
         {
             IWindsorContainer container = new WindsorContainer();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
 
             const string dependencyName = "dependantReg";
 
@@ -69,13 +70,31 @@ namespace Cardinal.IoC.UnitTests.Registration
         public void TestSimpleInstanceRegistration()
         {
             IWindsorContainer container = new WindsorContainer();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(container));
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
             containerManager.Register(new InstanceRegistrationDefinition<IDependantClass, DependantClass>(instanceDependantClass));
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.AreEqual(instanceDependantClass, dependantClass);
+        }
+
+        [Test]
+        public void GroupRegistration()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
+
+            IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
+            containerManager.Register(groupRegistration);
+
+            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
+            Assert.IsNotNull(dependantClass);
+            Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
+
         }
     }
 }

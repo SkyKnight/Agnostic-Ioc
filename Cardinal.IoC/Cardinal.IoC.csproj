@@ -47,6 +47,7 @@
     <Compile Include="IContainerAdapter.cs" />
     <Compile Include="IContainerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration\IContainerManagerGroupRegistration.cs" />
     <Compile Include="Registration\IInstanceRegistrationDefinition.cs" />
     <Compile Include="Registration\INamedRegistrationDefinition.cs" />
     <Compile Include="Registration\InstanceRegistrationDefinition.cs" />
