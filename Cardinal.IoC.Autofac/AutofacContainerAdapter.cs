@@ -152,7 +152,15 @@ namespace Cardinal.Ioc.Autofac
         /// <typeparam name="TRegisteredAs">The type definition of the component to register</typeparam>
         /// <typeparam name="TResolvedTo">How the type is resolved in the container</typeparam>
         /// <param name="registrationDefinition">The registration definition providing further options</param>
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
+        {
+            // Http is the default for Autofac ASP.NET integrations. Transient per dependency otherwise.
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.Update(Container);
+        }
+
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
@@ -160,7 +168,7 @@ namespace Cardinal.Ioc.Autofac
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
@@ -168,15 +176,7 @@ namespace Cardinal.Ioc.Autofac
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
-        {
-            // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
-            ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
-            builder.Update(Container);
-        }
-
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();

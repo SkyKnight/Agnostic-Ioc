@@ -20,10 +20,23 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Cardinal.IoC.Registration
+using Cardinal.IoC.StructureMap;
+using Cardinal.IoC.UnitTests.Helpers;
+
+namespace Cardinal.IoC.UnitTests.TestClasses
 {
-    public interface IRegistrationDefinition<TRegisteredAs, TResolvedTo>  where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+    public class TestStructureMapContainerAdapter : StructureMapContainerAdapter
     {
-        LifetimeScope Scope { get; set; }
+        public override string Name
+        {
+            get { return TestConstants.StructureMapContainerName; }
+        }
+
+        public override void RegisterComponents()
+        {
+            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass2>());
+
+            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass>().Named("DependentClass3"));
+        }
     }
 }

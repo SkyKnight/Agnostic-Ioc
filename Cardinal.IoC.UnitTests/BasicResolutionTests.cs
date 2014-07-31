@@ -25,7 +25,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.UnitTests.TestAdapters;
 using Cardinal.IoC.Windsor;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
@@ -64,7 +63,7 @@ namespace Cardinal.IoC.UnitTests
 
             Assert.IsNull(containerManager.Resolve<IDependantClass>());
 
-            containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
 
             Assert.IsNotNull(dependantClass);

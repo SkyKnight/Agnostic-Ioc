@@ -20,20 +20,32 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using Autofac;
+using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.Windsor;
 
-namespace Cardinal.IoC.UnitTests.TestAdapters
+namespace Cardinal.IoC.UnitTests.TestClasses
 {
-    public class EmptyWindsorContainerAdapter : WindsorContainerAdapter
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TestAutofacContainerAdapter : AutofacContainerAdapter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public override string Name
         {
-            get { return TestConstants.EmptyWindsorContainerName; }
+            get { return TestConstants.AutofacContainerName; }
         }
 
+        /// <summary>
+        /// Registers the components
+        /// </summary>
         public override void RegisterComponents()
         {
+            Builder.RegisterType<DependantClass>().As<IDependantClass>();
+            Builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependantClass2");
         }
     }
 }

@@ -23,7 +23,6 @@
 using System;
 using System.Collections.Generic;
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.UnitTests.TestAdapters;
 using Cardinal.IoC.Unity;
 using Microsoft.Practices.Unity;
 using NUnit.Framework;

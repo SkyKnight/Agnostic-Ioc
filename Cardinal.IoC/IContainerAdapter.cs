@@ -20,7 +20,6 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections;
 using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
@@ -53,24 +52,37 @@ namespace Cardinal.IoC
 
         string Name { get; }
 
-        void Register<TRegisteredAs, TResolvedTo>(
-            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
-
-        void Register<TRegisteredAs, TResolvedTo>(
-            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        void Register<TRegisteredAs, TResolvedTo>()
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
-        void Register<TRegisteredAs, TResolvedTo>(
-            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope) where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(string name)
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
-        void Register<TRegisteredAs, TResolvedTo>(
-            IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name,
-            TResolvedTo instance)
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register(IContainerManagerGroupRegistration groupRegistration);
     }
 }

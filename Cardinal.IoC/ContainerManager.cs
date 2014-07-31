@@ -100,56 +100,6 @@ namespace Cardinal.IoC
             }
         }
 
-        /// <summary>
-        /// Performs a simple registration using types
-        /// </summary>
-        /// <typeparam name="TRegisteredAs">The type to register</typeparam>
-        /// <typeparam name="TResolvedTo">The type to resolve too</typeparam>
-        public void Register<TRegisteredAs, TResolvedTo>() where TRegisteredAs : class where TResolvedTo : TRegisteredAs
-        {
-            Register(new RegistrationDefinition<TRegisteredAs, TResolvedTo>());
-        }
-
-        /// <summary>
-        /// Performs a simple named registration using types
-        /// </summary>
-        /// <typeparam name="TRegisteredAs">The type to register</typeparam>
-        /// <typeparam name="TResolvedTo">The type to resolve too</typeparam>
-        public void Register<TRegisteredAs, TResolvedTo>(string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
-        {
-            Register(new NamedRegistrationDefinition<TRegisteredAs, TResolvedTo>(name));
-        }
-
-        public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
-        {
-            INamedRegistrationDefinition namedRegistration = registrationDefinition as INamedRegistrationDefinition;
-            IInstanceRegistrationDefinition<TResolvedTo> instanceRegistration = registrationDefinition as IInstanceRegistrationDefinition<TResolvedTo>;
-            if (instanceRegistration != null && namedRegistration != null)
-            {
-                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name, instanceRegistration.Instance);
-                return;
-            }
-
-            if (instanceRegistration != null)
-            {
-                CurrentAdapter.Register(registrationDefinition, instanceRegistration.Instance);
-                return;
-            }
-
-            if (namedRegistration != null)
-            {
-                CurrentAdapter.Register(registrationDefinition, namedRegistration.Name);
-                return;
-            }
-
-            CurrentAdapter.Register(registrationDefinition);
-        }
-
-        public void Register(IContainerManagerGroupRegistration groupRegistration)
-        {
-            groupRegistration.RegisterComponents(this);
-        }
-
         public T Resolve<T>()
         {
             return CurrentAdapter.Resolve<T>();

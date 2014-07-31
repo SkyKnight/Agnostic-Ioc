@@ -21,18 +21,23 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.Windsor;
-using Castle.MicroKernel.Registration;
+using Cardinal.IoC.Unity;
+using Microsoft.Practices.Unity;
 
-namespace Cardinal.IoC.UnitTests.TestAdapters
+namespace Cardinal.IoC.UnitTests.TestClasses
 {
-    public class TestWindsorContainerAdapter : WindsorContainerAdapter
+    public class TestUnityContainerAdapter : UnityContainerAdapter
     {
+        public override string Name
+        {
+            get { return TestConstants.UnityContainerName; }
+        }
+
         public override void RegisterComponents()
         {
-            Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
+            Container.RegisterType(typeof(IDependantClass), typeof (DependantClass2), null, new ContainerControlledLifetimeManager());
 
-            Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass2>().Named("DependentClass2"));
+            Container.RegisterType(typeof(IDependantClass), typeof(DependantClass), "DependentClass2", new ContainerControlledLifetimeManager());
         }
     }
 }

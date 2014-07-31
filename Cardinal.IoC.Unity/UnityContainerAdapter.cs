@@ -59,22 +59,22 @@ namespace Cardinal.IoC.Unity
             return Container.Resolve<T>(resolverOverride);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
             Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
             Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo), name);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
         {
             Container.RegisterInstance(typeof(TRegisteredAs), instance);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
             Container.RegisterInstance(typeof(TRegisteredAs), name, instance);
         }

@@ -23,14 +23,14 @@
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 
-namespace Cardinal.IoC.UnitTests.Registration
+namespace Cardinal.IoC.UnitTests.TestClasses
 {
     public class TestGroupRegistration : IContainerManagerGroupRegistration
     {
-        public void RegisterComponents(IContainerManager containerManager)
+        public void RegisterComponents(IContainerAdapter containerAdapter)
         {
-            containerManager.Register<IDependantClass, DependantClass>();
-            containerManager.Register<IDependantClass, DependantClass2>("new name");
+            containerAdapter.Register<IDependantClass, DependantClass>();
+            containerAdapter.Register<IDependantClass, DependantClass2>("new name");
         }
     }
 }

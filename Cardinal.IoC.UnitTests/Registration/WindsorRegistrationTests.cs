@@ -23,6 +23,7 @@
 using System;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
+using Cardinal.IoC.UnitTests.TestClasses;
 using Cardinal.IoC.Windsor;
 using Castle.Windsor;
 using NUnit.Framework;
@@ -40,7 +41,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
-            containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
         }
@@ -54,8 +55,8 @@ namespace Cardinal.IoC.UnitTests.Registration
 
             const string dependencyName = "dependantReg";
 
-            containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
-            containerManager.Register(new NamedRegistrationDefinition<IDependantClass, DependantClass2>(dependencyName));
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass2>(dependencyName);
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
 
@@ -75,7 +76,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
-            containerManager.Register(new InstanceRegistrationDefinition<IDependantClass, DependantClass>(instanceDependantClass));
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>(instanceDependantClass);
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.AreEqual(instanceDependantClass, dependantClass);
         }
@@ -89,7 +90,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
-            containerManager.Register(groupRegistration);
+            containerManager.CurrentAdapter.Register(groupRegistration);
 
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);

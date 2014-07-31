@@ -24,7 +24,8 @@ namespace Cardinal.IoC.Registration
 {
     public enum LifetimeScope
     {
-        Instance,
+        Default,
+        Transient,
         Singleton,
         PerHttpRequest
     }

@@ -80,7 +80,7 @@ namespace Cardinal.IoC.UnitTests
         {
             IContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
 
-            containerManager.Register(new RegistrationDefinition<ILateDependantClass, LateDependantClass>());
+            containerManager.CurrentAdapter.Register<ILateDependantClass, LateDependantClass>();
             ILateDependantClass dependantClass = containerManager.Resolve<ILateDependantClass>();
             Assert.IsNotNull(dependantClass);
         }

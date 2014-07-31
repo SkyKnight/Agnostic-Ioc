@@ -20,8 +20,9 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cardinal.IoC.Registration;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -58,22 +59,22 @@ namespace Cardinal.IoC.Windsor
             return Container.Resolve<T>(name, arguments);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
             Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>());
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
             Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
         {
             Container.Register(Component.For<TRegisteredAs>().Instance(instance));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
             Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
         }
