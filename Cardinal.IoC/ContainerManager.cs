@@ -56,8 +56,8 @@ namespace Cardinal.IoC
 
         public ContainerManager(string name, IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
         {
-            CurrentAdapter = containerAdapter; 
             adapterFactory.AddAdapter(name, containerAdapter);
+            CurrentAdapter = containerAdapter; 
         }
 
         public ContainerManager(IContainerManager masterContainerManager) : this(masterContainerManager.CurrentAdapter)

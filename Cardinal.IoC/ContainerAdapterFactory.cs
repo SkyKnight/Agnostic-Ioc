@@ -23,6 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -48,7 +49,7 @@ namespace Cardinal.IoC
         {
             if (adapters.ContainsKey(key))
             {
-                return;
+                throw new InvalidDataException("An adapter has already been registered with this key");
             }
 
             adapters.Add(key, adapter);
