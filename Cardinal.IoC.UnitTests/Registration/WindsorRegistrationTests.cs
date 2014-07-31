@@ -30,7 +30,7 @@ using NUnit.Framework;
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class WindsorRegistrationTests
+    public class WindsorRegistrationTests : IRegistrationTestSuite
     {
         [Test]
         public void TestSimpleRegistration()

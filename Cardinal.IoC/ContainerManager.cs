@@ -100,6 +100,26 @@ namespace Cardinal.IoC
             }
         }
 
+        /// <summary>
+        /// Performs a simple registration using types
+        /// </summary>
+        /// <typeparam name="TRegisteredAs">The type to register</typeparam>
+        /// <typeparam name="TResolvedTo">The type to resolve too</typeparam>
+        public void Register<TRegisteredAs, TResolvedTo>() where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+        {
+            Register(new RegistrationDefinition<TRegisteredAs, TResolvedTo>());
+        }
+
+        /// <summary>
+        /// Performs a simple named registration using types
+        /// </summary>
+        /// <typeparam name="TRegisteredAs">The type to register</typeparam>
+        /// <typeparam name="TResolvedTo">The type to resolve too</typeparam>
+        public void Register<TRegisteredAs, TResolvedTo>(string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+        {
+            Register(new NamedRegistrationDefinition<TRegisteredAs, TResolvedTo>(name));
+        }
+
         public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
             INamedRegistrationDefinition namedRegistration = registrationDefinition as INamedRegistrationDefinition;

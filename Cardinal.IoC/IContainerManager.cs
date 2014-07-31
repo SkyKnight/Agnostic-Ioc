@@ -139,6 +139,14 @@ namespace Cardinal.IoC
         /// </summary>
         IContainerAdapter CurrentAdapter { get; }
 
+        void Register<TRegisteredAs, TResolvedTo>()
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
         void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition)  where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 

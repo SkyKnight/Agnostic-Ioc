@@ -7,8 +7,8 @@ namespace Cardinal.IoC.UnitTests.Registration
     {
         public void RegisterComponents(IContainerManager containerManager)
         {
-            containerManager.Register(new RegistrationDefinition<IDependantClass, DependantClass>());
-            containerManager.Register(new NamedRegistrationDefinition<IDependantClass, DependantClass2>("new name"));
+            containerManager.Register<IDependantClass, DependantClass>();
+            containerManager.Register<IDependantClass, DependantClass2>("new name");
         }
     }
 }
