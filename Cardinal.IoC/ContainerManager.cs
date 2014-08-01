@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
@@ -43,20 +42,9 @@ namespace Cardinal.IoC
         {
         }
 
-        public ContainerManager(string name, IContainerAdapter containerAdapter)
-            : this(name, containerAdapter, new ContainerAdapterFactory())
+        public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
         {
-        }
-
-        public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory)
-            : this(String.Empty, containerAdapter, adapterFactory)
-        {
-            
-        }
-
-        public ContainerManager(string name, IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
-        {
-            adapterFactory.AddAdapter(name, containerAdapter);
+            adapterFactory.AddAdapter(containerAdapter.Name, containerAdapter);
             CurrentAdapter = containerAdapter; 
         }
 
@@ -98,6 +86,11 @@ namespace Cardinal.IoC
 
                 currentAdapter = value;
             }
+        }
+
+        public IEnumerable<T> ResolveAll<T>()
+        {
+            return CurrentAdapter.ResolveAll<T>();
         }
 
         public T Resolve<T>()

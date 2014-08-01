@@ -39,9 +39,9 @@ namespace Cardinal.IoC.UnitTests.Helpers
             get { return "UnityContainer"; }
         }
 
-        public static string EmptyWindsorContainerName
+        public static string WindsorContainerName
         {
-            get { return "EmptyWindsorContainer"; }
+            get { return "WindsorContainer"; }
         }
 
         public static string DependantClass2Name

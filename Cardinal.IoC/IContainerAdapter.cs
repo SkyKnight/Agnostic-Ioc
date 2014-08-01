@@ -84,5 +84,11 @@ namespace Cardinal.IoC
             where TResolvedTo : TRegisteredAs;
 
         void Register(IContainerManagerGroupRegistration groupRegistration);
+
+        void RegisterAll<TRegisteredAs>();
+
+        void RegisterAll<TRegisteredAs>(string assemblyName);
+
+        IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
     }
 }

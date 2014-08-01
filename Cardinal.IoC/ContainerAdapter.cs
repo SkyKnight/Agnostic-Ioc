@@ -32,16 +32,19 @@ namespace Cardinal.IoC
     /// <typeparam name="TContainer">The resulting container type</typeparam>
     public abstract class ContainerAdapter<TContainer> : IContainerAdapter<TContainer>
     {
+        private string name;
+
         protected ContainerAdapter()
         {
             Initialize();
         }
 
-        protected ContainerAdapter(TContainer container)
+        protected ContainerAdapter(string name, TContainer container)
         {
             Container = container;
             Initialize();
             LifetimeScopes = new Dictionary<string, object>();
+            Name = name;
         }
 
         public Dictionary<string, object> LifetimeScopes { get; set; }
@@ -51,7 +54,8 @@ namespace Cardinal.IoC
         /// </summary>
         public virtual string Name
         {
-            get { return String.Empty; }
+            get { return name ?? String.Empty; }
+            private set { name = value; }
         }
 
         /// <summary>
@@ -158,6 +162,26 @@ namespace Cardinal.IoC
         {
             groupRegistration.RegisterComponents(this);
         }
+
+        /// <summary>
+        /// Registers all of the given type
+        /// </summary>
+        /// <typeparam name="TRegisteredAs"></typeparam>
+        public abstract void RegisterAll<TRegisteredAs>();
+
+        /// <summary>
+        /// Registers all of the given types in the assembly
+        /// </summary>
+        /// <typeparam name="TRegisteredAs"></typeparam>
+        /// <param name="assemblyName"></param>
+        public abstract void RegisterAll<TRegisteredAs>(string assemblyName);
+
+        /// <summary>
+        /// Resolves all registrations of the given type
+        /// </summary>
+        /// <typeparam name="TResolvedTo"></typeparam>
+        /// <returns></returns>
+        public abstract IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
 
         /// <summary>
         /// Use this method to register components if you are creating the container

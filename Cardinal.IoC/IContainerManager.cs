@@ -137,5 +137,12 @@ namespace Cardinal.IoC
         /// Gets the current adapter
         /// </summary>
         IContainerAdapter CurrentAdapter { get; }
+
+        /// <summary>
+        /// Resolves all instances of the given type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IEnumerable<T> ResolveAll<T>();
     }
 }

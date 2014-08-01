@@ -73,7 +73,7 @@ namespace Cardinal.IoC.UnitTests
             IUnityContainer container = new UnityContainer();
             container.RegisterType(typeof(IDependantClass), typeof(DependantClass));
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(containerKey, new UnityContainerAdapter(container));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());

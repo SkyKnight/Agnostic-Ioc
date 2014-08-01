@@ -35,7 +35,7 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void ResolveComponentByInterfaceOnly()
         {
-            IContainerManager containerManager = new ContainerManager();
+            IContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());
@@ -44,7 +44,7 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void ResolveComponentByName()
         {
-            ContainerManager containerManager = new ContainerManager();
+            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2");
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
@@ -53,7 +53,7 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void ResolveComponentWithParameters()
         {
-            ContainerManager containerManager = new ContainerManager();
+            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());
@@ -62,7 +62,7 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void ResolveComponentWithNameAndParameters()
         {
-            ContainerManager containerManager = new ContainerManager();
+            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2", new Dictionary<string, object>());
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
@@ -74,7 +74,7 @@ namespace Cardinal.IoC.UnitTests
             IWindsorContainer container = new WindsorContainer();
             container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
             string containerKey = Guid.NewGuid().ToString();
-            ContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            ContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());

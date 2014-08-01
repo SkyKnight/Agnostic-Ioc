@@ -20,7 +20,6 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using Cardinal.IoC.UnitTests.Helpers;
 using NUnit.Framework;
 
@@ -32,7 +31,7 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void ResolveItemByInterfaceOnly()
         {
-            ContainerManager containerManager = new ContainerManager();
+            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());

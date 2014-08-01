@@ -21,7 +21,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Autofac;
 using Autofac.Core;
@@ -52,7 +51,12 @@ namespace Cardinal.Ioc.Autofac
         /// </summary>
         /// <param name="container">The existing container</param>
         public AutofacContainerAdapter(IContainer container)
-            : base(container)
+            : this(String.Empty, container)
+        {
+        }
+
+        public AutofacContainerAdapter(string name, IContainer container)
+            : base(name, container)
         {
         }
 
@@ -182,6 +186,21 @@ namespace Cardinal.Ioc.Autofac
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
             builder.Update(Container);
+        }
+
+        public override void RegisterAll<TRegisteredAs>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RegisterAll<TRegisteredAs>(string assemblyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
+        {
+            return Container.Resolve<IEnumerable<TResolvedTo>>();
         }
 
         /// <summary>

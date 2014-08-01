@@ -21,10 +21,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestClasses;
 using Cardinal.IoC.Windsor;
+using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using NUnit.Framework;
 
@@ -38,7 +40,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         {
             IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
@@ -51,7 +53,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         {
             IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
 
             const string dependencyName = "dependantReg";
 
@@ -72,7 +74,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         {
             IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
@@ -86,7 +88,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         {
             IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(containerKey, new WindsorContainerAdapter(container));
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
@@ -96,6 +98,28 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
 
+        }
+
+        [Test]
+        public void RegisterAll()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            containerManager.CurrentAdapter.RegisterAll<IDependantClass>();
+            var resolved = containerManager.ResolveAll<IDependantClass>();
+            Assert.Greater(resolved.Count(), 0);
+        }
+
+        [Test]
+        public void ResolveAll()
+        {
+            IWindsorContainer container = new WindsorContainer();
+            container.Register(Classes.FromAssemblyInThisApplication().BasedOn<IDependantClass>().WithServiceAllInterfaces());
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            var resolved = containerManager.ResolveAll<IDependantClass>();
+            Assert.Greater(resolved.Count(), 0);
         }
     }
 }

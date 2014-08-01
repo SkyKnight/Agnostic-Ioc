@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 using Castle.MicroKernel.Registration;
@@ -33,7 +34,12 @@ namespace Cardinal.IoC.Windsor
         {
         }
 
-        public WindsorContainerAdapter(IWindsorContainer container) : base(container)
+        public WindsorContainerAdapter(IWindsorContainer container) : this(String.Empty, container)
+        {
+        }
+
+        public WindsorContainerAdapter(string name, IWindsorContainer container)
+            : base(name, container)
         {
         }
 
@@ -75,6 +81,21 @@ namespace Cardinal.IoC.Windsor
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
             Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance).Named(name), lifetimeScope));
+        }
+
+        public override void RegisterAll<TRegisteredAs>()
+        {
+            Container.Register(Classes.FromAssemblyContaining<TRegisteredAs>().BasedOn<TRegisteredAs>().WithServiceAllInterfaces());
+        }
+
+        public override void RegisterAll<TRegisteredAs>(string assemblyName)
+        {
+            Container.Register(Classes.FromAssemblyNamed(assemblyName).BasedOn<TRegisteredAs>().WithServiceAllInterfaces());
+        }
+
+        public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
+        {
+            return Container.ResolveAll<TResolvedTo>();
         }
 
         public ComponentRegistration<T> SetLifeStyle<T>(ComponentRegistration<T> registration, LifetimeScope lifeTimeKey) where T : class

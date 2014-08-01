@@ -28,6 +28,11 @@ namespace Cardinal.IoC.UnitTests.TestClasses
 {
     public class TestWindsorContainerAdapter : WindsorContainerAdapter
     {
+        public override string Name
+        {
+            get { return TestConstants.WindsorContainerName; }
+        }
+
         public override void RegisterComponents()
         {
             Container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());

@@ -20,8 +20,9 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cardinal.IoC.Registration;
 using Microsoft.Practices.Unity;
 
@@ -33,7 +34,12 @@ namespace Cardinal.IoC.Unity
         {
         }
 
-        public UnityContainerAdapter(IUnityContainer container) : base(container)
+        public UnityContainerAdapter(IUnityContainer container) : this(String.Empty, container)
+        {
+        }
+
+        public UnityContainerAdapter(string name, IUnityContainer container)
+            : base(name, container)
         {
         }
 
@@ -61,22 +67,37 @@ namespace Cardinal.IoC.Unity
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo));
+            Container.RegisterType<TRegisteredAs, TResolvedTo>();
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.RegisterType(typeof(TRegisteredAs), typeof(TResolvedTo), name);
+            Container.RegisterType<TRegisteredAs, TResolvedTo>(name);
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
         {
-            Container.RegisterInstance(typeof(TRegisteredAs), instance);
+            Container.RegisterInstance<TRegisteredAs>(instance);
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
-            Container.RegisterInstance(typeof(TRegisteredAs), name, instance);
+            Container.RegisterInstance<TRegisteredAs>(name, instance);
+        }
+
+        public override void RegisterAll<TRegisteredAs>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void RegisterAll<TRegisteredAs>(string assemblyName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
+        {
+            return Container.ResolveAll<TResolvedTo>();
         }
 
         private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary<string, object> arguments)
