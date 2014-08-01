@@ -3,14 +3,13 @@
   <metadata>
     <id>Agnostic.IoC.Autofac</id>
     <version>0.1</version>
-    <title>Enables Autofac for Agnostic Inversion of Control Extensions</title>
+    <title>Agnostic IoC - Autofac</title>
     <authors>cardinal252 simonproctor</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This handy extension allows you to define code regardless of the final IoC container, this is to allow you to use Autofac</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Autofac</tags>
 	<dependencies>

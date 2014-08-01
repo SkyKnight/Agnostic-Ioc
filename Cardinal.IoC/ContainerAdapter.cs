@@ -41,7 +41,10 @@ namespace Cardinal.IoC
         {
             Container = container;
             Initialize();
+            LifetimeScopes = new Dictionary<string, object>();
         }
+
+        public Dictionary<string, object> LifetimeScopes { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -58,7 +61,7 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>() where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Default);
+            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient);
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Default, name);
+            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, name);
         }
 
         /// <summary>
@@ -101,7 +104,7 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Default, instance);
+            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, instance);
         }
 
         /// <summary>
@@ -125,7 +128,7 @@ namespace Cardinal.IoC
 
         public void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Default, name, instance);
+            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, name, instance);
         }
 
         /// <summary>

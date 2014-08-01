@@ -20,9 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cardinal.IoC.Registration;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -76,7 +74,16 @@ namespace Cardinal.IoC.Windsor
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
-            Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
+            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance).Named(name), lifetimeScope));
+        }
+
+        public ComponentRegistration<T> SetLifeStyle<T>(ComponentRegistration<T> registration, LifetimeScope lifeTimeKey) where T : class
+        {
+            switch (lifeTimeKey)
+            {
+                default:
+                    return registration.LifestyleTransient();
+            }
         }
     }
 }
