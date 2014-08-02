@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using Autofac;
 using Autofac.Core;
 using Cardinal.IoC;
+using Cardinal.IoC.Autofac;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.Ioc.Autofac
@@ -164,7 +165,7 @@ namespace Cardinal.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Transient per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>().SetLifeStyle(lifetimeScope);
             builder.Update(Container);
         }
 
@@ -172,11 +173,11 @@ namespace Cardinal.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
+            builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name).SetLifeStyle(lifetimeScope);
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
@@ -184,7 +185,7 @@ namespace Cardinal.Ioc.Autofac
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();

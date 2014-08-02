@@ -65,42 +65,27 @@ namespace Cardinal.IoC.Windsor
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>(), lifetimeScope));
+            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().SetLifeStyle(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name), lifetimeScope));
+            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>( TResolvedTo instance)
         {
-            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance), lifetimeScope));
+            Container.Register(Component.For<TRegisteredAs>().Instance(instance));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
         {
-            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance).Named(name), lifetimeScope));
+            Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.ResolveAll<TResolvedTo>();
-        }
-
-        public ComponentRegistration<T> SetLifeStyle<T>(ComponentRegistration<T> registration, LifetimeScope lifeTimeKey) where T : class
-        {
-            switch (lifeTimeKey)
-            {
-                case LifetimeScope.Singleton:
-                    return registration;
-                case LifetimeScope.PerHttpRequest:
-                    return registration.LifestylePerWebRequest();
-                case LifetimeScope.PerThread:
-                    return registration.LifestylePerThread();
-                default:
-                    return registration.LifestyleTransient();
-            }
         }
     }
 }

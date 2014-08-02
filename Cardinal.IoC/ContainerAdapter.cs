@@ -90,36 +90,13 @@ namespace Cardinal.IoC
             Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, name);
         }
 
-        /// <summary>
-        /// Registers a component using a simple named registration definition
-        /// </summary>
-        /// <param name="lifetimeScope">
-        /// The lifetime scope.
-        /// </param>
-        /// <param name="name">
-        /// The name
-        /// </param>
-        /// <typeparam name="TRegisteredAs">
-        /// The type to register as
-        /// </typeparam>
-        /// <typeparam name="TResolvedTo">
-        /// The type it resolves to
-        /// </typeparam>
-        public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
-            where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
-
-        public void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs
-        {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, instance);
-        }
+        public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
+        
+        public abstract void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs;
 
         /// <summary>
         /// Registers a component using a simple instance registration definition
         /// </summary>
-        /// <param name="lifetimeScope">
-        /// The lifetime scope.
-        /// </param>
         /// <param name="instance">
         /// The instance to resolve as
         /// </param>
@@ -129,36 +106,8 @@ namespace Cardinal.IoC
         /// <typeparam name="TResolvedTo">
         /// The type it resolves to
         /// </typeparam>
-        public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
-            where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs;
-
-        public void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
-        {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, name, instance);
-        }
-
-        /// <summary>
-        /// Registers a component using a simple name and instance registration definition
-        /// </summary>
-        /// <param name="lifetimeScope">
-        /// The lifetime scope.
-        /// </param>
-        /// <param name="name">
-        /// The name
-        /// </param>
-        /// <param name="instance">
-        /// The instance to resolve as
-        /// </param>
-        /// <typeparam name="TRegisteredAs">
-        /// The type to register as
-        /// </typeparam>
-        /// <typeparam name="TResolvedTo">
-        /// The type it resolves to
-        /// </typeparam>
-        public abstract void Register<TRegisteredAs, TResolvedTo>(
-            LifetimeScope lifetimeScope, 
-            string name,
-            TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
+        public abstract void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
+            where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
         public void Register(IContainerManagerGroupRegistration groupRegistration)
         {

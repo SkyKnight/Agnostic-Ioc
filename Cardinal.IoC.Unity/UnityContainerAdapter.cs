@@ -67,20 +67,20 @@ namespace Cardinal.IoC.Unity
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.RegisterType<TRegisteredAs, TResolvedTo>();
+            Container.RegisterType<TRegisteredAs, TResolvedTo>(GetLifetimeManager(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.RegisterType<TRegisteredAs, TResolvedTo>(name);
+            Container.RegisterType<TRegisteredAs, TResolvedTo>(name, GetLifetimeManager(lifetimeScope));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
         {
             Container.RegisterInstance<TRegisteredAs>(instance);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
         {
             Container.RegisterInstance<TRegisteredAs>(name, instance);
         }
@@ -88,6 +88,24 @@ namespace Cardinal.IoC.Unity
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.ResolveAll<TResolvedTo>();
+        }
+
+        private LifetimeManager GetLifetimeManager(LifetimeScope lifetimeScope)
+        {
+            switch (lifetimeScope)
+            {
+                case LifetimeScope.Unowned:
+                    return new TransientLifetimeManager();
+                case LifetimeScope.Singleton:
+                    // todo: check this
+                    return new ContainerControlledLifetimeManager();
+                case LifetimeScope.PerHttpRequest:
+                    return new TransientLifetimeManager();
+                case LifetimeScope.PerThread:
+                    return new  PerThreadLifetimeManager();
+                default:
+                    return new TransientLifetimeManager();
+            }
         }
 
         private static ParameterOverrides GetParametersOverrideFromDictionary<T>(IDictionary<string, object> arguments)

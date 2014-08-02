@@ -1,10 +1,10 @@
-﻿// no copyright - used from glass mapper
+﻿// no copyright - borrowed from glass mapper
 
 using Castle.MicroKernel;
 using Castle.MicroKernel.Context;
 using Castle.MicroKernel.Lifestyle;
 
-namespace Cardinal.IoC.UnitTests.TestClasses
+namespace Cardinal.IoC.Windsor
 {
     /// <summary>
     /// This manager deliberately does not track

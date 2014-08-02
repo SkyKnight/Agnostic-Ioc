@@ -84,7 +84,6 @@
     <Compile Include="Registration\AutofacRegistrationTests.cs" />
     <Compile Include="TestClasses\TestGroupRegistration.cs" />
     <Compile Include="Registration\WindsorRegistrationTests.cs" />
-    <Compile Include="TestClasses\NoTrackLifeStyleManager.cs" />
     <Compile Include="TestClasses\TestAutofacContainerAdapter.cs" />
     <Compile Include="TestClasses\TestStructureMapContainerAdapter.cs" />
     <Compile Include="TestClasses\TestUnityContainerAdapter.cs" />

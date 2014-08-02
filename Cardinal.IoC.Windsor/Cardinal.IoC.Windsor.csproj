@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdapterExtensions.cs" />
+    <Compile Include="NoTrackLifeStyleManager.cs" />
     <Compile Include="WindsorContainerAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
