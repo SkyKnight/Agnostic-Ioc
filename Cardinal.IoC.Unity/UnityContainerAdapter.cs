@@ -75,14 +75,14 @@ namespace Cardinal.IoC.Unity
             Container.RegisterType<TRegisteredAs, TResolvedTo>(name, GetLifetimeManager(lifetimeScope));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
+        public override void Register<TRegisteredAs>(TRegisteredAs instance)
         {
-            Container.RegisterInstance<TRegisteredAs>(instance);
+            Container.RegisterInstance(instance);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
-            Container.RegisterInstance<TRegisteredAs>(name, instance);
+            Container.RegisterInstance(name, instance);
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

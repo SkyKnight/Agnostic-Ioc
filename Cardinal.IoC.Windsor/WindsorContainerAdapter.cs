@@ -73,12 +73,12 @@ namespace Cardinal.IoC.Windsor
             Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>( TResolvedTo instance)
+        public override void Register<TRegisteredAs>(TRegisteredAs instance)
         {
             Container.Register(Component.For<TRegisteredAs>().Instance(instance));
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
             Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
         }

@@ -77,7 +77,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
-            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>(instanceDependantClass);
+            containerManager.CurrentAdapter.Register<IDependantClass>(instanceDependantClass);
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.AreEqual(instanceDependantClass, dependantClass);
         }

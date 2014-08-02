@@ -67,13 +67,11 @@ namespace Cardinal.IoC
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
-        void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
-            where TRegisteredAs : class
-            where TResolvedTo : class, TRegisteredAs;
+        void Register<TRegisteredAs>(TRegisteredAs instance)
+            where TRegisteredAs : class;
 
-        void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
-            where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
+        void Register<TRegisteredAs>(string name, TRegisteredAs instance)
+            where TRegisteredAs : class;
 
         void Register(IContainerManagerGroupRegistration groupRegistration);
 

@@ -177,7 +177,7 @@ namespace Cardinal.Ioc.Autofac
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
+        public override void Register<TRegisteredAs>(TRegisteredAs instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
@@ -185,11 +185,11 @@ namespace Cardinal.Ioc.Autofac
             builder.Update(Container);
         }
 
-        public override void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
+        public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
+            builder.RegisterInstance(instance).Named<TRegisteredAs>(name);
             builder.Update(Container);
         }
 

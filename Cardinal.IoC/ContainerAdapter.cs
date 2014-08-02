@@ -91,8 +91,9 @@ namespace Cardinal.IoC
         }
 
         public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
-        
-        public abstract void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs;
+
+        public abstract void Register<TRegisteredAs>(TRegisteredAs instance)
+            where TRegisteredAs : class;
 
         /// <summary>
         /// Registers a component using a simple instance registration definition
@@ -106,8 +107,8 @@ namespace Cardinal.IoC
         /// <typeparam name="TResolvedTo">
         /// The type it resolves to
         /// </typeparam>
-        public abstract void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
-            where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
+        public abstract void Register<TRegisteredAs>(string name, TRegisteredAs instance)
+            where TRegisteredAs : class;
 
         public void Register(IContainerManagerGroupRegistration groupRegistration)
         {
