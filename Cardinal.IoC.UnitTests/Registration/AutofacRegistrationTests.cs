@@ -22,6 +22,8 @@
 
 using System;
 using System.Linq;
+using Autofac;
+using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestClasses;
@@ -33,14 +35,13 @@ using NUnit.Framework;
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class WindsorRegistrationTests : IRegistrationTestSuite
+    public class AutofacRegistrationTests : IRegistrationTestSuite
     {
         [Test]
         public void TestSimpleRegistration()
         {
-            IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
@@ -51,9 +52,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleNamedRegistration()
         {
-            IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
 
             const string dependencyName = "dependantReg";
 
@@ -72,9 +72,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleInstanceRegistration()
         {
-            IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
@@ -86,9 +85,8 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void GroupRegistration()
         {
-            IWindsorContainer container = new WindsorContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
@@ -97,16 +95,15 @@ namespace Cardinal.IoC.UnitTests.Registration
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
-
         }
 
         [Test]
         public void ResolveAll()
         {
-            IWindsorContainer container = new WindsorContainer();
-            container.Register(Classes.FromAssemblyInThisApplication().BasedOn<IDependantClass>().WithServiceAllInterfaces());
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
+            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass2>();
             var resolved = containerManager.ResolveAll<IDependantClass>();
             Assert.Greater(resolved.Count(), 0);
         }

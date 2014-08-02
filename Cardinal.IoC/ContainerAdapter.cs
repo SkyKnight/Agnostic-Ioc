@@ -39,15 +39,18 @@ namespace Cardinal.IoC
             Initialize();
         }
 
+        protected ContainerAdapter(string name)
+        {
+            Name = name;
+            Initialize();
+        }
+
         protected ContainerAdapter(string name, TContainer container)
         {
             Container = container;
             Initialize();
-            LifetimeScopes = new Dictionary<string, object>();
             Name = name;
         }
-
-        public Dictionary<string, object> LifetimeScopes { get; set; }
 
         /// <summary>
         /// Gets the name.
@@ -106,7 +109,7 @@ namespace Cardinal.IoC
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
-        public void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+        public void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs
         {
             Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, instance);
         }
@@ -127,8 +130,7 @@ namespace Cardinal.IoC
         /// The type it resolves to
         /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
-            where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
+            where TRegisteredAs : class where TResolvedTo : class, TRegisteredAs;
 
         public void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
         {
@@ -162,19 +164,6 @@ namespace Cardinal.IoC
         {
             groupRegistration.RegisterComponents(this);
         }
-
-        /// <summary>
-        /// Registers all of the given type
-        /// </summary>
-        /// <typeparam name="TRegisteredAs"></typeparam>
-        public abstract void RegisterAll<TRegisteredAs>();
-
-        /// <summary>
-        /// Registers all of the given types in the assembly
-        /// </summary>
-        /// <typeparam name="TRegisteredAs"></typeparam>
-        /// <param name="assemblyName"></param>
-        public abstract void RegisterAll<TRegisteredAs>(string assemblyName);
 
         /// <summary>
         /// Resolves all registrations of the given type

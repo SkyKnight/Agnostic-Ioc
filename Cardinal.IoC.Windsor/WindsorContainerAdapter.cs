@@ -83,16 +83,6 @@ namespace Cardinal.IoC.Windsor
             Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance).Named(name), lifetimeScope));
         }
 
-        public override void RegisterAll<TRegisteredAs>()
-        {
-            Container.Register(Classes.FromAssemblyContaining<TRegisteredAs>().BasedOn<TRegisteredAs>().WithService.AllInterfaces());
-        }
-
-        public override void RegisterAll<TRegisteredAs>(string assemblyName)
-        {
-            Container.Register(Classes.FromAssemblyNamed(assemblyName).BasedOn<TRegisteredAs>().WithServiceAllInterfaces());
-        }
-
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.ResolveAll<TResolvedTo>();

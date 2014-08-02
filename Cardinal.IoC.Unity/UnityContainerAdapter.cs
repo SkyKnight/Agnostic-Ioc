@@ -85,16 +85,6 @@ namespace Cardinal.IoC.Unity
             Container.RegisterInstance<TRegisteredAs>(name, instance);
         }
 
-        public override void RegisterAll<TRegisteredAs>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RegisterAll<TRegisteredAs>(string assemblyName)
-        {
-            throw new NotImplementedException();
-        }
-
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.ResolveAll<TResolvedTo>();

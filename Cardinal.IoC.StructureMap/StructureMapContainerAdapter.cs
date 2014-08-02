@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cardinal.IoC.Registration;
 using StructureMap;
 using StructureMap.Pipeline;
@@ -86,16 +85,6 @@ namespace Cardinal.IoC.StructureMap
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
         {
             Container.Configure(x => x.For<TRegisteredAs>().UseInstance(new ObjectInstance(instance).Named(name)));
-        }
-
-        public override void RegisterAll<TRegisteredAs>()
-        {
-            Container.Configure(x => x.Scan(y => y.AddAllTypesOf<TRegisteredAs>()));
-        }
-
-        public override void RegisterAll<TRegisteredAs>(string assemblyName)
-        {
-            throw new NotImplementedException();
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

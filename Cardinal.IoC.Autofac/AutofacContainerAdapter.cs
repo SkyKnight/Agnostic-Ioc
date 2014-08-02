@@ -39,7 +39,11 @@ namespace Cardinal.Ioc.Autofac
         /// <summary>
         /// Initializes a new instance of the <see cref="AutofacContainerAdapter"/> class.
         /// </summary>
-        protected AutofacContainerAdapter()
+        public AutofacContainerAdapter() : this(String.Empty)
+        {
+        }
+
+        public AutofacContainerAdapter(string name) : base(name)
         {
         }
 
@@ -150,7 +154,7 @@ namespace Cardinal.Ioc.Autofac
         }
 
         /// <summary>
-        /// Add a late bound registration. Where possible use <see cref="RegisterComponents(Autofac.ContainerBuilder)"/> instead
+        /// Add a late bound registration. Where possible use <see cref="RegisterComponents(ContainerBuilder)"/> instead
         /// as this is done on startup rather than during application execution.
         /// </summary>
         /// <typeparam name="TRegisteredAs">The type definition of the component to register</typeparam>
@@ -168,7 +172,7 @@ namespace Cardinal.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
             builder.Update(Container);
         }
 
@@ -176,7 +180,7 @@ namespace Cardinal.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType<TResolvedTo>().As<TRegisteredAs>();
+            builder.RegisterInstance(instance).As<TRegisteredAs>();
             builder.Update(Container);
         }
 
@@ -186,16 +190,6 @@ namespace Cardinal.Ioc.Autofac
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name);
             builder.Update(Container);
-        }
-
-        public override void RegisterAll<TRegisteredAs>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void RegisterAll<TRegisteredAs>(string assemblyName)
-        {
-            throw new NotImplementedException();
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

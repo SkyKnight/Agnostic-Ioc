@@ -69,11 +69,11 @@ namespace Cardinal.IoC
 
         void Register<TRegisteredAs, TResolvedTo>(TResolvedTo instance)
             where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
+            where TResolvedTo : class, TRegisteredAs;
 
         void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
             where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
+            where TResolvedTo : class, TRegisteredAs;
 
         void Register<TRegisteredAs, TResolvedTo>(string name, TResolvedTo instance)
             where TRegisteredAs : class
@@ -84,10 +84,6 @@ namespace Cardinal.IoC
             where TResolvedTo : TRegisteredAs;
 
         void Register(IContainerManagerGroupRegistration groupRegistration);
-
-        void RegisterAll<TRegisteredAs>();
-
-        void RegisterAll<TRegisteredAs>(string assemblyName);
 
         IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
     }

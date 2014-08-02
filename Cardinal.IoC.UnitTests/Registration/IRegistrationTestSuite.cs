@@ -32,8 +32,6 @@ namespace Cardinal.IoC.UnitTests.Registration
 
         void GroupRegistration();
 
-        void RegisterAll();
-
         void ResolveAll();
     }
 }
