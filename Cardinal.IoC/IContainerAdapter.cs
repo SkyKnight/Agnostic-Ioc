@@ -73,7 +73,7 @@ namespace Cardinal.IoC
         void Register<TRegisteredAs>(string name, TRegisteredAs instance)
             where TRegisteredAs : class;
 
-        void Register(IContainerManagerGroupRegistration groupRegistration);
+        void RegisterGroup(IContainerManagerGroupRegistration groupRegistration);
 
         IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
     }

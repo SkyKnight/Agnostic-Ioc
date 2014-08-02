@@ -92,7 +92,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
-            containerManager.CurrentAdapter.Register(groupRegistration);
+            containerManager.CurrentAdapter.RegisterGroup(groupRegistration);
 
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);

@@ -110,7 +110,7 @@ namespace Cardinal.IoC
         public abstract void Register<TRegisteredAs>(string name, TRegisteredAs instance)
             where TRegisteredAs : class;
 
-        public void Register(IContainerManagerGroupRegistration groupRegistration)
+        public void RegisterGroup(IContainerManagerGroupRegistration groupRegistration)
         {
             groupRegistration.RegisterComponents(this);
         }
