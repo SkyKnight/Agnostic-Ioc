@@ -65,17 +65,17 @@ namespace Cardinal.IoC.Windsor
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>());
+            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>(), lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name));
+            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().Named(name), lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, TResolvedTo instance)
         {
-            Container.Register(Component.For<TRegisteredAs>().Instance(instance));
+            Container.Register(SetLifeStyle(Component.For<TRegisteredAs>().Instance(instance), lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name, TResolvedTo instance)
@@ -85,7 +85,7 @@ namespace Cardinal.IoC.Windsor
 
         public override void RegisterAll<TRegisteredAs>()
         {
-            Container.Register(Classes.FromAssemblyContaining<TRegisteredAs>().BasedOn<TRegisteredAs>().WithServiceAllInterfaces());
+            Container.Register(Classes.FromAssemblyContaining<TRegisteredAs>().BasedOn<TRegisteredAs>().WithService.AllInterfaces());
         }
 
         public override void RegisterAll<TRegisteredAs>(string assemblyName)
@@ -102,6 +102,12 @@ namespace Cardinal.IoC.Windsor
         {
             switch (lifeTimeKey)
             {
+                case LifetimeScope.Singleton:
+                    return registration;
+                case LifetimeScope.PerHttpRequest:
+                    return registration.LifestylePerWebRequest();
+                case LifetimeScope.PerThread:
+                    return registration.LifestylePerThread();
                 default:
                     return registration.LifestyleTransient();
             }

@@ -26,6 +26,7 @@ namespace Cardinal.IoC.Registration
     {
         Transient,
         Singleton,
-        PerHttpRequest
+        PerHttpRequest,
+        PerThread
     }
 }
