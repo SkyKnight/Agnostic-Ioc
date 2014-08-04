@@ -20,25 +20,38 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using Cardinal.IoC.UnitTests.Helpers;
-using NUnit.Framework;
-
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
-    [TestFixture]
-    public class MultipleContainerResolutionTests
+    /// <summary>
+    /// A basic suite of tests to ensure that the containers have at least the same base functionality
+    /// </summary>
+    public interface IResolutionTestSuite
     {
-        [Test]
-        public void ResolveItemByInterfaceOnly()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+        /// <summary>
+        /// Tests resolving an item just passing in the interface
+        /// </summary>
+        void ResolveComponentByInterfaceOnly();
 
-            ContainerManager unityContainerManager = new ContainerManager(TestConstants.UnityContainerName);
-            IDependantClass unityDependency = unityContainerManager.Resolve<IDependantClass>();
-            Assert.AreEqual(typeof(DependantClass2), unityDependency.GetType());
-        }
+        /// <summary>
+        /// Tests resolving a type using the name 
+        /// </summary>
+        void ResolveComponentByName();
+
+        /// <summary>
+        /// Tests resolving a type using the parameters passed in
+        /// </summary>
+        void ResolveComponentWithParameters();
+
+        /// <summary>
+        /// Tests resolving a type using the name and parameters passed in
+        /// </summary>
+        void ResolveComponentWithNameAndParameters();
+
+        /// <summary>
+        /// Tests initialising a container manager based on an existing container of the default type
+        /// </summary>
+        void UseExternalContainer();
+
+        void ResolveAll();
     }
 }

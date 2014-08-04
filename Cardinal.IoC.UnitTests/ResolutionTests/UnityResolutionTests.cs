@@ -22,62 +22,77 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cardinal.IoC.UnitTests.Helpers;
-using Cardinal.IoC.Windsor;
-using Castle.MicroKernel.Registration;
-using Castle.Windsor;
+using Cardinal.IoC.Unity;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
-    public class WindsorContainerTests : IContainerTestSuite
+    public class UnityResolutionTests : IResolutionTestSuite
     {
         [Test]
         public void ResolveComponentByInterfaceOnly()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
+            IContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
         }
 
         [Test]
         public void ResolveComponentByName()
         {
-            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
+            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2");
             Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
+            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
         }
 
         [Test]
         public void ResolveComponentWithParameters()
         {
-            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
+            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentWithNameAndParameters()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.WindsorContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2", new Dictionary<string, object>());
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
         }
 
         [Test]
+        public void ResolveComponentWithNameAndParameters()
+        {
+            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
+            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2", new Dictionary<string, object>());
+            Assert.IsNotNull(dependency);
+            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+        }
+
+        [Test]
         public void UseExternalContainer()
         {
-            IWindsorContainer container = new WindsorContainer();
-            container.Register(Component.For<IDependantClass>().ImplementedBy<DependantClass>());
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType(typeof(IDependantClass), typeof(DependantClass));
             string containerKey = Guid.NewGuid().ToString();
-            ContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+        }
+
+        [Test]
+        public void ResolveAll()
+        {
+            IUnityContainer container = new UnityContainer();
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>("Unique");
+
+            var resolved = containerManager.ResolveAll<IDependantClass>();
+            Assert.Greater(resolved.Count(), 0);
         }
     }
 }

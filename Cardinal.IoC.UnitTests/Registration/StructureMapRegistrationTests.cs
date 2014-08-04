@@ -100,17 +100,5 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
 
         }
-
-        [Test]
-        public void ResolveAll()
-        {
-            IContainer container = new Container();
-            string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
-            var resolved = containerManager.ResolveAll<IDependantClass>();
-            Assert.Greater(resolved.Count(), 0);
-        }
     }
 }

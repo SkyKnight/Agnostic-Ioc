@@ -21,9 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.Windsor;
 using Castle.MicroKernel;
@@ -32,7 +30,7 @@ using Castle.Windsor;
 using Moq;
 using NUnit.Framework;
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
     [TestFixture]
     public class BasicResolutionTests

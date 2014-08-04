@@ -20,20 +20,21 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Cardinal.Ioc.Autofac;
-using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using NUnit.Framework;
 
-namespace Cardinal.IoC.UnitTests
+namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
     /// <summary>
     /// Test fixture for the Autofac container adapter.
     /// </summary>
     [TestFixture]
-    public class AutofacAdapterTests : IContainerTestSuite
+    public class AutofacAdapterTests : IResolutionTestSuite
     {
         /// <summary>
         /// Test that the Autofac container adapter can be loaded from the container factory correctly.
@@ -139,6 +140,17 @@ namespace Cardinal.IoC.UnitTests
             IDependantClass dependency = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependency);
             Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
+        }
+
+        [Test]
+        public void ResolveAll()
+        {
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+            var resolved = containerManager.ResolveAll<IDependantClass>();
+            Assert.Greater(resolved.Count(), 0);
         }
     }
 }
