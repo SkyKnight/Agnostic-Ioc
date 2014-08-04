@@ -69,12 +69,12 @@ namespace Cardinal.IoC.StructureMap
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.Configure(x => x.For<TRegisteredAs>().SetLifeStyle(lifetimeScope).Use<TResolvedTo>());
+            Container.Configure(x => x.For<TRegisteredAs>().Use<TResolvedTo>().SetLifeStyle(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.Configure(x => x.For<TRegisteredAs>().SetLifeStyle(lifetimeScope).Use<TResolvedTo>().Named(name));
+            Container.Configure(x => x.For<TRegisteredAs>().Use<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs>(TRegisteredAs instance)

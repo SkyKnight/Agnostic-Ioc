@@ -20,20 +20,34 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
-    public interface IContainerAdapter<out TContainer> : IContainerAdapter
+    public interface IContainerRegistrar
     {
-        TContainer Container { get; }
-    }
+        void Register<TRegisteredAs, TResolvedTo>()
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
 
-    public interface IContainerAdapter : IContainerResolver, IContainerRegistrar
-    {
-        void RegisterComponents();
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
 
-        string Name { get; }
+        void Register<TRegisteredAs, TResolvedTo>(string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
+            where TRegisteredAs : class
+            where TResolvedTo : TRegisteredAs;
+
+        void Register<TRegisteredAs>(TRegisteredAs instance)
+            where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(string name, TRegisteredAs instance)
+            where TRegisteredAs : class;
+
+        void RegisterGroup(IContainerManagerGroupRegistration groupRegistration);
     }
 }

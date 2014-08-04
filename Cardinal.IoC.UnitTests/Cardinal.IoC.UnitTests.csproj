@@ -82,6 +82,8 @@
     <Compile Include="Helpers\TestConstants.cs" />
     <Compile Include="Registration\IRegistrationTestSuite.cs" />
     <Compile Include="Registration\AutofacRegistrationTests.cs" />
+    <Compile Include="Registration\StructureMapRegistrationTests.cs" />
+    <Compile Include="Registration\UnityRegistrationTests.cs" />
     <Compile Include="TestClasses\TestGroupRegistration.cs" />
     <Compile Include="Registration\WindsorRegistrationTests.cs" />
     <Compile Include="TestClasses\TestAutofacContainerAdapter.cs" />

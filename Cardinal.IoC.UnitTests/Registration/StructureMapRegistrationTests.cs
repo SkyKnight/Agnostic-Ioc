@@ -22,22 +22,26 @@
 
 using System;
 using System.Linq;
-using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.Registration;
+using Cardinal.IoC.StructureMap;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestClasses;
+using Cardinal.IoC.Unity;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
+using StructureMap;
 
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class AutofacRegistrationTests : IRegistrationTestSuite
+    public class StructureMapRegistrationTests : IRegistrationTestSuite
     {
         [Test]
         public void TestSimpleRegistration()
         {
+            IContainer container = new Container();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.Adapter.Register<IDependantClass, DependantClass>();
@@ -48,13 +52,14 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleNamedRegistration()
         {
+            IContainer container = new Container();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
 
             const string dependencyName = "dependantReg";
 
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
             containerManager.Adapter.Register<IDependantClass, DependantClass2>(dependencyName);
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
 
@@ -68,8 +73,9 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleInstanceRegistration()
         {
+            IContainer container = new Container();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
@@ -81,8 +87,9 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void GroupRegistration()
         {
+            IContainer container = new Container();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
@@ -91,13 +98,15 @@ namespace Cardinal.IoC.UnitTests.Registration
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
+
         }
 
         [Test]
         public void ResolveAll()
         {
+            IContainer container = new Container();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new StructureMapContainerAdapter(containerKey, container));
             containerManager.Adapter.Register<IDependantClass, DependantClass>();
             containerManager.Adapter.Register<IDependantClass, DependantClass2>();
             var resolved = containerManager.ResolveAll<IDependantClass>();

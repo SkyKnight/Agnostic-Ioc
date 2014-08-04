@@ -42,7 +42,7 @@ namespace Cardinal.IoC.UnitTests
         public void GetContainerFromFactory()
         {
             IContainerManager containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.AutofacContainerName);
-            Assert.AreEqual(TestConstants.AutofacContainerName, containerManager2.CurrentAdapter.Name);
+            Assert.AreEqual(TestConstants.AutofacContainerName, containerManager2.Adapter.Name);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Cardinal.IoC.UnitTests
         {
             IContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
 
-            containerManager.CurrentAdapter.Register<ILateDependantClass, LateDependantClass>();
+            containerManager.Adapter.Register<ILateDependantClass, LateDependantClass>();
             ILateDependantClass dependantClass = containerManager.Resolve<ILateDependantClass>();
             Assert.IsNotNull(dependantClass);
         }

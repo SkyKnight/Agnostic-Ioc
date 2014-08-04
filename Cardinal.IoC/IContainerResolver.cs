@@ -21,19 +21,27 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
-    public interface IContainerAdapter<out TContainer> : IContainerAdapter
+    public interface IContainerResolver
     {
-        TContainer Container { get; }
-    }
+        T Resolve<T>();
 
-    public interface IContainerAdapter : IContainerResolver, IContainerRegistrar
-    {
-        void RegisterComponents();
+        T TryResolve<T>();
 
-        string Name { get; }
+        T Resolve<T>(string name);
+
+        T TryResolve<T>(string name);
+
+        T Resolve<T>(IDictionary<string, object> arguments);
+
+        T TryResolve<T>(IDictionary<string, object> arguments);
+
+        T Resolve<T>(string name, IDictionary<string, object> arguments);
+
+        T TryResolve<T>(string name, IDictionary<string, object> arguments);
+
+        IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
     }
 }

@@ -27,7 +27,7 @@ namespace Cardinal.IoC
 {
     public class ContainerManager : IContainerManager
     {
-        private IContainerAdapter currentAdapter;
+        private IContainerAdapter adapter;
 
         public ContainerManager() : this(String.Empty)
         {
@@ -45,10 +45,10 @@ namespace Cardinal.IoC
         public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
         {
             adapterFactory.AddAdapter(containerAdapter.Name, containerAdapter);
-            CurrentAdapter = containerAdapter; 
+            Adapter = containerAdapter; 
         }
 
-        public ContainerManager(IContainerManager masterContainerManager) : this(masterContainerManager.CurrentAdapter)
+        public ContainerManager(IContainerManager masterContainerManager) : this(masterContainerManager.Adapter)
         {
             
         }
@@ -59,24 +59,24 @@ namespace Cardinal.IoC
 
         public ContainerManager(string adapterName, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
         {
-            CurrentAdapter = GetAdapter(adapterName);
+            Adapter = GetAdapter(adapterName);
         }
 
         protected IContainerAdapterFactory AdapterFactory { get; private set; }
 
         public T TryResolve<T>(string name)
         {
-            return CurrentAdapter.TryResolve<T>(name);
+            return Adapter.TryResolve<T>(name);
         }
 
         public T TryResolve<T>(IDictionary<string, object> parameters)
         {
-            return CurrentAdapter.TryResolve<T>(parameters);
+            return Adapter.TryResolve<T>(parameters);
         }
 
-        public IContainerAdapter CurrentAdapter
+        public IContainerAdapter Adapter
         {
-            get { return currentAdapter; }
+            get { return adapter; }
             protected set
             {
                 if (value == null)
@@ -84,43 +84,43 @@ namespace Cardinal.IoC
                     throw new ArgumentNullException("adapter", "The current adapter was not located correctly.");
                 }
 
-                currentAdapter = value;
+                adapter = value;
             }
         }
 
         public IEnumerable<T> ResolveAll<T>()
         {
-            return CurrentAdapter.ResolveAll<T>();
+            return Adapter.ResolveAll<T>();
         }
 
         public T Resolve<T>()
         {
-            return CurrentAdapter.Resolve<T>();
+            return Adapter.Resolve<T>();
         }
 
         public T TryResolve<T>()
         {
-            return CurrentAdapter.TryResolve<T>();
+            return Adapter.TryResolve<T>();
         }
 
         public T Resolve<T>(string name)
         {
-            return CurrentAdapter.Resolve<T>(name);
+            return Adapter.Resolve<T>(name);
         }
 
         public T TryResolve<T>(string name, IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.TryResolve<T>(name, arguments);
+            return Adapter.TryResolve<T>(name, arguments);
         }
 
         public T Resolve<T>(IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.Resolve<T>(arguments);
+            return Adapter.Resolve<T>(arguments);
         }
 
         public T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.Resolve<T>(name, arguments);
+            return Adapter.Resolve<T>(name, arguments);
         }
 
         protected IContainerAdapter GetAdapter(string adapterName)

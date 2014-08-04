@@ -43,7 +43,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
-            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
         }
@@ -57,8 +57,8 @@ namespace Cardinal.IoC.UnitTests.Registration
 
             const string dependencyName = "dependantReg";
 
-            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
-            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass2>(dependencyName);
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>(dependencyName);
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
 
@@ -78,7 +78,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
-            containerManager.CurrentAdapter.Register<IDependantClass>(instanceDependantClass);
+            containerManager.Adapter.Register<IDependantClass>(instanceDependantClass);
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.AreEqual(instanceDependantClass, dependantClass);
         }
@@ -92,7 +92,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
-            containerManager.CurrentAdapter.RegisterGroup(groupRegistration);
+            containerManager.Adapter.RegisterGroup(groupRegistration);
 
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);

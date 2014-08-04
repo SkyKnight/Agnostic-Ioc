@@ -136,7 +136,7 @@ namespace Cardinal.IoC
         /// <summary>
         /// Gets the current adapter
         /// </summary>
-        IContainerAdapter CurrentAdapter { get; }
+        IContainerAdapter Adapter { get; }
 
         /// <summary>
         /// Resolves all instances of the given type

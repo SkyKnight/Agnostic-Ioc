@@ -22,22 +22,27 @@
 
 using System;
 using System.Linq;
-using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestClasses;
+using Cardinal.IoC.Unity;
+using Cardinal.IoC.Windsor;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class AutofacRegistrationTests : IRegistrationTestSuite
+    public class UnityRegistrationTests : IRegistrationTestSuite
     {
         [Test]
         public void TestSimpleRegistration()
         {
+            IUnityContainer container = new UnityContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             containerManager.Adapter.Register<IDependantClass, DependantClass>();
@@ -48,8 +53,9 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleNamedRegistration()
         {
+            IUnityContainer container = new UnityContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
 
             const string dependencyName = "dependantReg";
 
@@ -68,8 +74,9 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void TestSimpleInstanceRegistration()
         {
+            IUnityContainer container = new UnityContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             DependantClass instanceDependantClass = new DependantClass();
@@ -81,8 +88,9 @@ namespace Cardinal.IoC.UnitTests.Registration
         [Test]
         public void GroupRegistration()
         {
+            IUnityContainer container = new UnityContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
 
             IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
@@ -91,13 +99,15 @@ namespace Cardinal.IoC.UnitTests.Registration
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
+
         }
 
         [Test]
         public void ResolveAll()
         {
+            IUnityContainer container = new UnityContainer();
             string containerKey = Guid.NewGuid().ToString();
-            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
             containerManager.Adapter.Register<IDependantClass, DependantClass>();
             containerManager.Adapter.Register<IDependantClass, DependantClass2>();
             var resolved = containerManager.ResolveAll<IDependantClass>();

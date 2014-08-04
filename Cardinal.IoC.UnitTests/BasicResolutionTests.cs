@@ -44,10 +44,10 @@ namespace Cardinal.IoC.UnitTests
         public void GetContainerFromFactory()
         {
             var containerManager = ContainerManagerFactory.GetContainerManager(TestConstants.WindsorContainerName);
-            Assert.AreEqual(TestConstants.WindsorContainerName, containerManager.CurrentAdapter.Name);
+            Assert.AreEqual(TestConstants.WindsorContainerName, containerManager.Adapter.Name);
 
             var containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.UnityContainerName);
-            Assert.AreEqual(TestConstants.UnityContainerName, containerManager2.CurrentAdapter.Name); 
+            Assert.AreEqual(TestConstants.UnityContainerName, containerManager2.Adapter.Name); 
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Cardinal.IoC.UnitTests
 
             Assert.IsNull(containerManager.Resolve<IDependantClass>());
 
-            containerManager.CurrentAdapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
 
             Assert.IsNotNull(dependantClass);

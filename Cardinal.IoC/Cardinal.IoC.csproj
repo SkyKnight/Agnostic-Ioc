@@ -46,6 +46,8 @@
     <Compile Include="IContainerAdapterFactory.cs" />
     <Compile Include="IContainerAdapter.cs" />
     <Compile Include="IContainerManager.cs" />
+    <Compile Include="IContainerRegistrar.cs" />
+    <Compile Include="IContainerResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration\IContainerManagerGroupRegistration.cs" />
     <Compile Include="Registration\IRegistrationDecorator.cs" />
