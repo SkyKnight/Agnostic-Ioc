@@ -35,17 +35,17 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void AddAdapterToFactory()
         {
-            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
+            IContainerAdapterAccessor adapterAccessor = new ContainerAdapterAccessor();
             string newAdapterKey = Guid.NewGuid().ToString();
 
-            IContainerAdapter adapter = adapterFactory.GetAdapter(newAdapterKey);
+            IContainerAdapter adapter = adapterAccessor.GetAdapter(newAdapterKey);
             Assert.IsNull(adapter);
             IWindsorContainer container = new WindsorContainer();
             IContainerAdapter addedAdapter = new WindsorContainerAdapter(container);
-            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
+            adapterAccessor.AddAdapter(newAdapterKey, addedAdapter);
 
-            IContainerAdapterFactory newAdapterFactory = new ContainerAdapterFactory();
-            IContainerAdapter newAdapter = newAdapterFactory.GetAdapter(newAdapterKey);
+            IContainerAdapterAccessor newAdapterAccessor = new ContainerAdapterAccessor();
+            IContainerAdapter newAdapter = newAdapterAccessor.GetAdapter(newAdapterKey);
             Assert.IsNotNull(newAdapter);
             Assert.AreEqual(addedAdapter, newAdapter);
         }
@@ -53,8 +53,8 @@ namespace Cardinal.IoC.UnitTests
         [Test]
         public void GetAssemblyScannedAdapter()
         {
-            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
-            IContainerAdapter adapter = adapterFactory.GetAdapter(TestConstants.AutofacContainerName);
+            IContainerAdapterAccessor adapterAccessor = new ContainerAdapterAccessor(true);
+            IContainerAdapter adapter = adapterAccessor.GetAdapter(TestConstants.AutofacContainerName);
             Assert.IsNotNull(adapter);
         }
 
@@ -62,20 +62,20 @@ namespace Cardinal.IoC.UnitTests
         [ExpectedException(typeof(InvalidDataException))]
         public void AddAdapterTwice()
         {
-            IContainerAdapterFactory adapterFactory = new ContainerAdapterFactory();
+            IContainerAdapterAccessor adapterAccessor = new ContainerAdapterAccessor();
             string newAdapterKey = Guid.NewGuid().ToString();
 
-            IContainerAdapter adapter = adapterFactory.GetAdapter(newAdapterKey);
+            IContainerAdapter adapter = adapterAccessor.GetAdapter(newAdapterKey);
             Assert.IsNull(adapter);
 
             IWindsorContainer container = new WindsorContainer();
             IContainerAdapter addedAdapter = new WindsorContainerAdapter(container);
-            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
+            adapterAccessor.AddAdapter(newAdapterKey, addedAdapter);
 
             IWindsorContainer newContainer = new WindsorContainer();
             IContainerAdapter newAdapter = new WindsorContainerAdapter(newContainer);
-            adapterFactory.AddAdapter(newAdapterKey, addedAdapter);
-            IContainerAdapter retrievedAdapter = adapterFactory.GetAdapter(newAdapterKey);
+            adapterAccessor.AddAdapter(newAdapterKey, addedAdapter);
+            IContainerAdapter retrievedAdapter = adapterAccessor.GetAdapter(newAdapterKey);
             Assert.IsNotNull(newAdapter);
             Assert.AreEqual(retrievedAdapter, newAdapter);
         }

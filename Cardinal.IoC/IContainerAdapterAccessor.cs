@@ -20,28 +20,14 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using Cardinal.IoC.StructureMap;
-using Cardinal.IoC.UnitTests.Helpers;
-
-namespace Cardinal.IoC.UnitTests.TestClasses
+namespace Cardinal.IoC
 {
-    public class TestStructureMapContainerAdapter : StructureMapContainerAdapter
+    public interface IContainerAdapterAccessor
     {
-        public TestStructureMapContainerAdapter()
-        {
-            AllowSelfRegistration = true;
-        }
+        bool ScanAssemblies { get; set; }
 
-        public override string Name
-        {
-            get { return TestConstants.StructureMapContainerName; }
-        }
+        IContainerAdapter GetAdapter(string key);
 
-        public override void RegisterComponents()
-        {
-            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass2>());
-
-            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass>().Named("DependentClass3"));
-        }
+        void AddAdapter(string key, IContainerAdapter adapter);
     }
 }

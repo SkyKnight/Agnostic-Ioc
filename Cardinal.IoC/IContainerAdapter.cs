@@ -20,9 +20,6 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using Cardinal.IoC.Registration;
-
 namespace Cardinal.IoC
 {
     public interface IContainerAdapter<out TContainer> : IContainerAdapter
@@ -35,5 +32,7 @@ namespace Cardinal.IoC
         void RegisterComponents();
 
         string Name { get; }
+
+        bool AllowSelfRegistration { get; }
     }
 }

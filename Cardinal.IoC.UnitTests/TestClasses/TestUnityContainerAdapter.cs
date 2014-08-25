@@ -28,6 +28,11 @@ namespace Cardinal.IoC.UnitTests.TestClasses
 {
     public class TestUnityContainerAdapter : UnityContainerAdapter
     {
+        public TestUnityContainerAdapter()
+        {
+            AllowSelfRegistration = true;
+        }
+
         public override string Name
         {
             get { return TestConstants.UnityContainerName; }

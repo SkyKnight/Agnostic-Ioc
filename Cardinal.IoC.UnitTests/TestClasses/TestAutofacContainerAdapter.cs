@@ -31,6 +31,11 @@ namespace Cardinal.IoC.UnitTests.TestClasses
     /// </summary>
     public class TestAutofacContainerAdapter : AutofacContainerAdapter
     {
+        public TestAutofacContainerAdapter()
+        {
+            AllowSelfRegistration = true;
+        }
+
         /// <summary>
         /// 
         /// </summary>

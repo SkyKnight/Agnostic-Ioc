@@ -61,6 +61,8 @@ namespace Cardinal.IoC
             private set { name = value; }
         }
 
+        public bool AllowSelfRegistration { get; protected set; }
+
         /// <summary>
         /// Gets or sets the container.
         /// </summary>

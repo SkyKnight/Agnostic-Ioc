@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerIsolation\ContainerIsolationTests.cs" />
     <Compile Include="ResolutionTests\AutofacAdapterTests.cs" />
     <Compile Include="ContainerAdapterTests.cs" />
     <Compile Include="Helpers\LateDependantClass.cs" />

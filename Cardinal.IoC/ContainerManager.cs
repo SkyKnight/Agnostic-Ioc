@@ -29,41 +29,70 @@ namespace Cardinal.IoC
     {
         private IContainerAdapter adapter;
 
-        public ContainerManager() : this(String.Empty)
+        /// <summary>
+        /// Default constructor, always self scans.
+        /// </summary>
+        public ContainerManager()
+            : this(String.Empty, true)
         {
         }
 
-        public ContainerManager(IContainerAdapterFactory adapterFactory)
+        /// <summary>
+        /// Container adapter constructor,  Never Self Scans
+        /// </summary>
+        /// <param name="containerAdapter">The container adapter</param>
+        public ContainerManager(IContainerAdapter containerAdapter) : this(containerAdapter, new ContainerAdapterAccessor())
         {
-            AdapterFactory = adapterFactory;
         }
 
-        public ContainerManager(IContainerAdapter containerAdapter) : this(containerAdapter, new ContainerAdapterFactory())
+        /// <summary>
+        /// Container adapter & accessor constructor,  Never Self Scans
+        /// </summary>
+        /// <param name="containerAdapter">The container adapter</param>
+        /// <param name="adapterAccessor">The adapter accessor</param>
+        public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterAccessor adapterAccessor)
         {
-        }
-
-        public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
-        {
-            adapterFactory.AddAdapter(containerAdapter.Name, containerAdapter);
+            AdapterAccessor = adapterAccessor;
+            AdapterAccessor.AddAdapter(containerAdapter.Name, containerAdapter);
             Adapter = containerAdapter; 
         }
 
-        public ContainerManager(IContainerManager masterContainerManager) : this(masterContainerManager.Adapter)
+        /// <summary>
+        /// String key constructor, always self scans
+        /// </summary>
+        /// <param name="adapterName">The adapter name</param>
+        public ContainerManager(string adapterName) : this(adapterName, true)
         {
             
         }
 
-        public ContainerManager(string adapterName) : this(adapterName, new ContainerAdapterFactory())
+        /// <summary>
+        /// String key constructor, optional self scan
+        /// </summary>
+        /// <param name="adapterName">The adapter name</param>
+        /// <param name="scanAssemblies">Whether to scan the assemblies</param>
+        public ContainerManager(string adapterName, bool scanAssemblies)
+            : this(adapterName, new ContainerAdapterAccessor(scanAssemblies))
         {
         }
 
-        public ContainerManager(string adapterName, IContainerAdapterFactory adapterFactory) : this(adapterFactory)
+        public ContainerManager(string adapterName, IContainerAdapterAccessor adapterAccessor)
         {
-            Adapter = GetAdapter(adapterName);
+            AdapterAccessor = adapterAccessor;
+            Adapter = AdapterAccessor.GetAdapter(adapterName); ;
         }
 
-        protected IContainerAdapterFactory AdapterFactory { get; private set; }
-
+        /// <summary>
+        /// Gets the adapter accessor
+        /// </summary>
+        internal IContainerAdapterAccessor AdapterAccessor { get; private set; }
+        
+        /// <summary>
+        /// Attempts to resolve a component
+        /// </summary>
+        /// <typeparam name="T">The component type</typeparam>
+        /// <param name="name">The name</param>
+        /// <returns></returns>
         public T TryResolve<T>(string name)
         {
             return Adapter.TryResolve<T>(name);
@@ -125,7 +154,7 @@ namespace Cardinal.IoC
 
         protected IContainerAdapter GetAdapter(string adapterName)
         {
-            return AdapterFactory.GetAdapter(adapterName);
+            return AdapterAccessor.GetAdapter(adapterName);
         }
     }
 }
