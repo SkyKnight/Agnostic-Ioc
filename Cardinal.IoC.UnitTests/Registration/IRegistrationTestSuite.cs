@@ -31,5 +31,7 @@ namespace Cardinal.IoC.UnitTests.Registration
         void TestSimpleInstanceRegistration();
 
         void GroupRegistration();
+
+        void TestRegistrationOrder();
     }
 }

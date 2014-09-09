@@ -44,6 +44,11 @@ namespace Cardinal.IoC.UnitTests.Helpers
             get { return "WindsorContainer"; }
         }
 
+        public static string DependantClass3Name
+        {
+            get { return "Dependant Class 3"; }
+        }
+
         public static string DependantClass2Name
         {
             get { return "Dependant Class 2"; }

@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Autofac.Core;
 using Cardinal.IoC;
@@ -195,7 +196,7 @@ namespace Cardinal.Ioc.Autofac
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
-            return Container.Resolve<IEnumerable<TResolvedTo>>();
+            return Container.Resolve<IEnumerable<TResolvedTo>>().Reverse();
         }
 
         /// <summary>

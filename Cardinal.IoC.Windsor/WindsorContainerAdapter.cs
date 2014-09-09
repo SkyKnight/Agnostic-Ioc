@@ -65,6 +65,12 @@ namespace Cardinal.IoC.Windsor
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
+            if (TryResolve<TRegisteredAs>() != null)
+            {
+                Register<TRegisteredAs, TResolvedTo>(Guid.NewGuid().ToString());
+                return;
+            }
+
             Container.Register(Component.For<TRegisteredAs>().ImplementedBy<TResolvedTo>().SetLifeStyle(lifetimeScope));
         }
 

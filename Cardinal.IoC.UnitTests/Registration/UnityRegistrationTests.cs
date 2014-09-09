@@ -101,5 +101,24 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
 
         }
+
+        [Test]
+        public void TestRegistrationOrder()
+        {
+            IUnityContainer container = new UnityContainer();
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new UnityContainerAdapter(containerKey, container));
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass3>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+
+            IDependantClass[] resolved = containerManager.ResolveAll<IDependantClass>().ToArray();
+            Assert.AreEqual(typeof(DependantClass), resolved[0].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[1].GetType());
+            Assert.AreEqual(typeof(DependantClass3), resolved[2].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
+        }
     }
 }

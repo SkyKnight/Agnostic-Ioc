@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cardinal.Ioc.Autofac;
 using Cardinal.IoC.Registration;
@@ -91,6 +92,25 @@ namespace Cardinal.IoC.UnitTests.Registration
             IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
+        }
+
+        [Test]
+        public void TestRegistrationOrder()
+        {
+            string containerKey = Guid.NewGuid().ToString();
+            IContainerManager containerManager = new ContainerManager(new AutofacContainerAdapter(containerKey));
+
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass3>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+
+            IDependantClass[] resolved = containerManager.ResolveAll<IDependantClass>().ToArray();
+            Assert.AreEqual(typeof(DependantClass), resolved[0].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[1].GetType());
+            Assert.AreEqual(typeof(DependantClass3), resolved[2].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
         }
     }
 }

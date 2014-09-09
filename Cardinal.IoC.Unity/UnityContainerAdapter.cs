@@ -66,7 +66,13 @@ namespace Cardinal.IoC.Unity
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            Container.RegisterType<TRegisteredAs, TResolvedTo>(GetLifetimeManager(lifetimeScope));
+            if (!Container.IsRegistered<TRegisteredAs>())
+            {
+                Container.RegisterType<TRegisteredAs, TResolvedTo>(GetLifetimeManager(lifetimeScope));
+            }
+
+            Register<TRegisteredAs, TResolvedTo>(lifetimeScope, Guid.NewGuid().ToString());
+
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)

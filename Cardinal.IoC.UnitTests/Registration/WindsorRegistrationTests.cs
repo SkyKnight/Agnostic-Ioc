@@ -26,7 +26,6 @@ using Cardinal.IoC.Registration;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.UnitTests.TestClasses;
 using Cardinal.IoC.Windsor;
-using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using NUnit.Framework;
 
@@ -98,6 +97,25 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNotNull(dependantClass);
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
 
+        }
+
+        [Test]
+        public void TestRegistrationOrder()
+        {
+            string containerKey = Guid.NewGuid().ToString();
+            IWindsorContainer container = new WindsorContainer();
+            IContainerManager containerManager = new ContainerManager(new WindsorContainerAdapter(containerKey, container));
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass3>();
+            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
+
+            IDependantClass[] resolved = containerManager.ResolveAll<IDependantClass>().ToArray();
+            Assert.AreEqual(typeof(DependantClass), resolved[0].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[1].GetType());
+            Assert.AreEqual(typeof(DependantClass3), resolved[2].GetType());
+            Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
         }
     }
 }

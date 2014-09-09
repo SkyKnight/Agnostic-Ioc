@@ -22,6 +22,16 @@
 
 namespace Cardinal.IoC.UnitTests.Helpers
 {
+    public class DependantClass3 : IDependantClass
+    {
+        public DependantClass3()
+        {
+            Name = TestConstants.DependantClass3Name;
+        }
+
+        public string Name { get; set; }
+    }
+
     public class DependantClass2 : IDependantClass
     {
         public DependantClass2()
