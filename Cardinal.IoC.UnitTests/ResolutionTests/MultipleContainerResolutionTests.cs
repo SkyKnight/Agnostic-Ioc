@@ -38,7 +38,7 @@ namespace Cardinal.IoC.UnitTests.ResolutionTests
 
             ContainerManager unityContainerManager = new ContainerManager(TestConstants.UnityContainerName);
             IDependantClass unityDependency = unityContainerManager.Resolve<IDependantClass>();
-            Assert.AreEqual(typeof(DependantClass2), unityDependency.GetType());
+            Assert.AreEqual(typeof(DependantClass), unityDependency.GetType());
         }
     }
 }

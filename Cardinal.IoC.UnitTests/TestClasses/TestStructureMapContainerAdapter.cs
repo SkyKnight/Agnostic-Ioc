@@ -39,9 +39,8 @@ namespace Cardinal.IoC.UnitTests.TestClasses
 
         public override void RegisterComponents()
         {
-            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass2>());
-
-            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass>().Named("DependentClass3"));
+            Container.Configure(x => x.For<IDependantClass>().Use<DependantClass>());
+            Container.Configure(x => x.For<IDependantClass>().Add<DependantClass2>().Named("DependentClass2"));
         }
     }
 }

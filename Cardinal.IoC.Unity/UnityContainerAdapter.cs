@@ -90,6 +90,16 @@ namespace Cardinal.IoC.Unity
             Container.RegisterInstance(name, instance);
         }
 
+        public override object Resolve(Type t)
+        {
+            return Container.Resolve(t);
+        }
+
+        protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            Container.RegisterType(componentType, targetType, GetLifetimeManager(lifetimeScope));
+        }
+
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.ResolveAll<TResolvedTo>();

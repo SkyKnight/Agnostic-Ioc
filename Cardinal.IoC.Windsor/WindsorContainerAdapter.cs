@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Cardinal.IoC.Registration;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -46,6 +47,11 @@ namespace Cardinal.IoC.Windsor
         public override T Resolve<T>()
         {
             return Container.Resolve<T>();
+        }
+
+        public override object Resolve(Type t)
+        {
+            return Container.Resolve(t);
         }
 
         public override T Resolve<T>(string name)
@@ -87,6 +93,18 @@ namespace Cardinal.IoC.Windsor
         public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
             Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
+        }
+
+        protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                name = Guid.NewGuid().ToString();
+            }
+
+            ComponentRegistration<object> componentReg = Component.For(componentType).ImplementedBy(targetType).SetLifeStyle(lifetimeScope).Named(name);
+
+            Container.Register(componentReg);
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

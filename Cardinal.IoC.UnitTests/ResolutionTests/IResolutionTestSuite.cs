@@ -30,22 +30,7 @@ namespace Cardinal.IoC.UnitTests.ResolutionTests
         /// <summary>
         /// Tests resolving an item just passing in the interface
         /// </summary>
-        void ResolveComponentByInterfaceOnly();
-
-        /// <summary>
-        /// Tests resolving a type using the name 
-        /// </summary>
-        void ResolveComponentByName();
-
-        /// <summary>
-        /// Tests resolving a type using the parameters passed in
-        /// </summary>
-        void ResolveComponentWithParameters();
-
-        /// <summary>
-        /// Tests resolving a type using the name and parameters passed in
-        /// </summary>
-        void ResolveComponentWithNameAndParameters();
+        void PerformSharedTests();
 
         /// <summary>
         /// Tests initialising a container manager based on an existing container of the default type

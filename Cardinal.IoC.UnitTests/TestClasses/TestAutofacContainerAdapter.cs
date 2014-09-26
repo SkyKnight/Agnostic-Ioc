@@ -50,7 +50,7 @@ namespace Cardinal.IoC.UnitTests.TestClasses
         public override void RegisterComponents()
         {
             Builder.RegisterType<DependantClass>().As<IDependantClass>();
-            Builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependantClass2");
+            Builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependentClass2");
         }
     }
 }

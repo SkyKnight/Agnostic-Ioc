@@ -34,104 +34,15 @@ namespace Cardinal.IoC.UnitTests.ResolutionTests
     /// Test fixture for the Autofac container adapter.
     /// </summary>
     [TestFixture]
-    public class AutofacAdapterTests : IResolutionTestSuite
+    public class AutofacAdapterTests : SharedContainerTests, IResolutionTestSuite
     {
-        /// <summary>
-        /// Test that the Autofac container adapter can be loaded from the container factory correctly.
-        /// </summary>
         [Test]
-        public void GetContainerFromFactory()
+        public void PerformSharedTests()
         {
-            IContainerManager containerManager2 = ContainerManagerFactory.GetContainerManager(TestConstants.AutofacContainerName);
-            Assert.AreEqual(TestConstants.AutofacContainerName, containerManager2.Adapter.Name);
+            PerformSharedTests(() => new ContainerManager(TestConstants.AutofacContainerName));
         }
 
-        /// <summary>
-        /// Test that trying to resolve a component that has been registered returns that component
-        /// </summary>
         [Test]
-        public void TestTryResolvesSuccessful()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            IDependantClass instance = manager.TryResolve<IDependantClass>();
-            Assert.IsNotNull(instance);
-        }
-
-        /// <summary>
-        /// Test that trying to resolve a component that hasn't been registered returns null
-        /// rather than throwing an exception
-        /// </summary>
-        [Test]
-        public void TestTryResolvesFails()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            LateDependantClass instance = manager.TryResolve<LateDependantClass>();
-            Assert.IsNull(instance);
-        }
-
-        /// <summary>
-        /// Test the late registration of components against an existing container
-        /// </summary>
-        [Test]
-        public void TestLateBoundRegistration()
-        {
-            IContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
-
-            containerManager.Adapter.Register<ILateDependantClass, LateDependantClass>();
-            ILateDependantClass dependantClass = containerManager.Resolve<ILateDependantClass>();
-            Assert.IsNotNull(dependantClass);
-        }
-
-        public void ResolveComponentByInterfaceOnly()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            IDependantClass component = manager.Resolve<IDependantClass>();
-            Assert.IsNotNull(component);
-
-            Assert.AreEqual(typeof(DependantClass), component.GetType());
-        }
-
-        public void ResolveComponentByName()
-        {
-            ContainerManager manager = new ContainerManager(TestConstants.AutofacContainerName);
-            Assert.IsNotNull(manager);
-
-            IDependantClass component = manager.Resolve<IDependantClass>("DependantClass2");
-            Assert.IsNotNull(component);
-
-            Assert.AreEqual(typeof(DependantClass2), component.GetType());
-        }
-
-        /// <summary>
-        /// Test that trying to resolve a component with parameters that has been registered returns that component
-        /// </summary>
-        [Test]
-        public void ResolveComponentWithParameters()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        /// <summary>
-        /// Test that trying to resolve a named component with parameters that has been registered returns that component
-        /// </summary>
-        [Test]
-        public void ResolveComponentWithNameAndParameters()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.AutofacContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependantClass2", new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
-        }
-
         public void UseExternalContainer()
         {
             ContainerBuilder builder = new ContainerBuilder();

@@ -30,42 +30,12 @@ using StructureMap;
 
 namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
-    public class StructureMapResolutionTests : IResolutionTestSuite
+    public class StructureMapResolutionTests : SharedContainerTests, IResolutionTestSuite
     {
         [Test]
-        public void ResolveComponentByInterfaceOnly()
+        public void PerformSharedTests()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.StructureMapContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentByName()
-        {
-            IContainerManager containerManager = new ContainerManager(TestConstants.StructureMapContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass3");
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentWithParameters()
-        {
-            IContainerManager containerManager = new ContainerManager(TestConstants.StructureMapContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentWithNameAndParameters()
-        {
-            IContainerManager containerManager = new ContainerManager(TestConstants.StructureMapContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass3", new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+            PerformSharedTests(() => new ContainerManager(TestConstants.StructureMapContainerName));
         }
 
         [Test]

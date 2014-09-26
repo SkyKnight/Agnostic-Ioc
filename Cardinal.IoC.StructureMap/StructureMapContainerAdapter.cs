@@ -69,22 +69,56 @@ namespace Cardinal.IoC.StructureMap
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
+            if (TryResolve<TRegisteredAs>() != null)
+            {
+                Container.Configure(x => x.For<TRegisteredAs>().Add<TResolvedTo>().SetLifeStyle(lifetimeScope));
+                return;
+            }
+
             Container.Configure(x => x.For<TRegisteredAs>().Use<TResolvedTo>().SetLifeStyle(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            Container.Configure(x => x.For<TRegisteredAs>().Add<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
+            if (TryResolve<TRegisteredAs>() != null)
+            {
+                Container.Configure(x => x.For<TRegisteredAs>().Add<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
+                return;
+            }
+
+            Container.Configure(x => x.For<TRegisteredAs>().Use<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
         }
 
         public override void Register<TRegisteredAs>(TRegisteredAs instance)
         {
+            if (TryResolve<TRegisteredAs>() != null)
+            {
+                Container.Configure(x => x.For<TRegisteredAs>().AddInstance(new ObjectInstance(instance)));
+                return;
+            }
+
             Container.Configure(x => x.For<TRegisteredAs>().UseInstance(new ObjectInstance(instance)));
         }
 
         public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
+            if (TryResolve<TRegisteredAs>() != null)
+            {
+                Container.Configure(x => x.For<TRegisteredAs>().AddInstance(new ObjectInstance(instance).Named(name)));
+                return;
+            }
+
             Container.Configure(x => x.For<TRegisteredAs>().UseInstance(new ObjectInstance(instance).Named(name)));
+        }
+
+        public override object Resolve(Type t)
+        {
+            return Container.GetInstance(t);
+        }
+
+        protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            Container.Configure(x => x.For(componentType).Add(targetType));
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

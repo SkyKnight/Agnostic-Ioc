@@ -20,6 +20,8 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Cardinal.IoC.UnitTests.Helpers
 {
     public class DependantClass3 : IDependantClass
@@ -42,7 +44,7 @@ namespace Cardinal.IoC.UnitTests.Helpers
         public string Name { get; set; }
     }
 
-    public class DependantClass : IDependantClass
+    public class DependantClass : ISuperDependantClass
     {
         public DependantClass()
         {
@@ -50,6 +52,13 @@ namespace Cardinal.IoC.UnitTests.Helpers
         }
 
         public string Name { get; set; }
+
+        public DateTime Date { get; set; }
+    }
+
+    public interface ISuperDependantClass : IDependantClass
+    {
+        DateTime Date { get; set; }
     }
 
     public interface IDependantClass

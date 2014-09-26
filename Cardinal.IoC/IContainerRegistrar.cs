@@ -49,5 +49,9 @@ namespace Cardinal.IoC
             where TRegisteredAs : class;
 
         void RegisterGroup(IContainerManagerGroupRegistration groupRegistration);
+
+        void Register(IComponentRegistration registration);
+
+        TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new();
     }
 }

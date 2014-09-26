@@ -20,6 +20,9 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using Cardinal.IoC.Registration;
+
 namespace Cardinal.IoC
 {
     public interface IContainerAdapter<out TContainer> : IContainerAdapter

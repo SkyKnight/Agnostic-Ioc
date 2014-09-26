@@ -21,7 +21,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Cardinal.IoC.UnitTests.Helpers;
 using Cardinal.IoC.Unity;
@@ -30,42 +29,12 @@ using NUnit.Framework;
 
 namespace Cardinal.IoC.UnitTests.ResolutionTests
 {
-    public class UnityResolutionTests : IResolutionTestSuite
+    public class UnityResolutionTests : SharedContainerTests, IResolutionTestSuite
     {
         [Test]
-        public void ResolveComponentByInterfaceOnly()
+        public void PerformSharedTests()
         {
-            IContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentByName()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2");
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentWithParameters()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>(new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass2), dependency.GetType());
-        }
-
-        [Test]
-        public void ResolveComponentWithNameAndParameters()
-        {
-            ContainerManager containerManager = new ContainerManager(TestConstants.UnityContainerName);
-            IDependantClass dependency = containerManager.Resolve<IDependantClass>("DependentClass2", new Dictionary<string, object>());
-            Assert.IsNotNull(dependency);
-            Assert.AreEqual(typeof(DependantClass), dependency.GetType());
+            PerformSharedTests(() => new ContainerManager(TestConstants.UnityContainerName));
         }
 
         [Test]

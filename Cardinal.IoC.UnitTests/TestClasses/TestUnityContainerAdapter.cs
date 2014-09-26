@@ -40,9 +40,9 @@ namespace Cardinal.IoC.UnitTests.TestClasses
 
         public override void RegisterComponents()
         {
-            Container.RegisterType(typeof(IDependantClass), typeof (DependantClass2), null, new ContainerControlledLifetimeManager());
+            Container.RegisterType(typeof(IDependantClass), typeof (DependantClass), null, new ContainerControlledLifetimeManager());
 
-            Container.RegisterType(typeof(IDependantClass), typeof(DependantClass), "DependentClass2", new ContainerControlledLifetimeManager());
+            Container.RegisterType(typeof(IDependantClass), typeof(DependantClass2), "DependentClass2", new ContainerControlledLifetimeManager());
         }
     }
 }

@@ -117,6 +117,23 @@ namespace Cardinal.IoC
             groupRegistration.RegisterComponents(this);
         }
 
+        public abstract object Resolve(Type t);
+
+        protected abstract void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name);
+
+        public void Register(IComponentRegistration registration)
+        {
+            foreach (Type type in registration.Definition.Types)
+            {
+                Register(type, registration.Definition.ReturnType, registration.Definition.LifetimeScope, registration.Definition.Name);
+            }
+        }
+
+        public virtual TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new()
+        {
+            return new TComponentRegistrationType();
+        }
+
         /// <summary>
         /// Resolves all registrations of the given type
         /// </summary>
@@ -176,6 +193,18 @@ namespace Cardinal.IoC
             catch
             {
                 return default(T);
+            }
+        }
+
+        public object TryResolve(Type t)
+        {
+            try
+            {
+                return Resolve(t);
+            }
+            catch
+            {
+                return null;
             }
         }
 

@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 
 namespace Cardinal.IoC
@@ -28,7 +29,11 @@ namespace Cardinal.IoC
     {
         T Resolve<T>();
 
+        object Resolve(Type t);
+
         T TryResolve<T>();
+
+        object TryResolve(Type t);
 
         T Resolve<T>(string name);
 
