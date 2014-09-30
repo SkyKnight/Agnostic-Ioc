@@ -95,6 +95,11 @@ namespace Cardinal.IoC.Unity
             return Container.Resolve(t);
         }
 
+        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        {
+            Container.RegisterInstance(componentType, target, GetLifetimeManager(lifetimeScope));
+        }
+
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
             Container.RegisterType(componentType, targetType, GetLifetimeManager(lifetimeScope));

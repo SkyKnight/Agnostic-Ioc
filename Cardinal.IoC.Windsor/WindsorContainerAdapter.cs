@@ -95,6 +95,18 @@ namespace Cardinal.IoC.Windsor
             Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
         }
 
+        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        {
+            if (String.IsNullOrEmpty(name))
+            {
+                name = Guid.NewGuid().ToString();
+            }
+
+            ComponentRegistration<object> componentReg = Component.For(componentType).Instance(target).SetLifeStyle(lifetimeScope).Named(name);
+
+            Container.Register(componentReg);
+        }
+
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
             if (String.IsNullOrEmpty(name))

@@ -116,9 +116,25 @@ namespace Cardinal.IoC.StructureMap
             return Container.GetInstance(t);
         }
 
+        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        {
+            if (TryResolve(componentType) != null)
+            {
+                Container.Configure(x => x.For(componentType).Add(target));
+                return;
+            }
+
+            Container.Configure(x => x.For(componentType).Use(target));
+        }
+
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
-            Container.Configure(x => x.For(componentType).Add(targetType));
+            if (TryResolve(componentType) != null)
+            {
+                Container.Configure(x => x.For(componentType).Add(targetType));
+                return;
+            }
+            Container.Configure(x => x.For(componentType).Use(targetType));
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

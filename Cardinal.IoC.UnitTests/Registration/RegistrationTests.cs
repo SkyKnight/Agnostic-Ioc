@@ -157,6 +157,20 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
         }
 
+        protected void TestSimpleExtendedSingleInstanceRegistration(Func<IContainerAdapter> adapterFunc)
+        {
+            IContainerAdapter adapter = adapterFunc();
+
+            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
+                .Register<ISuperDependantClass>()
+                .Instance(new DependantClass());
+
+            adapter.Register(registration);
+
+            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
+            Assert.IsNull(adapter.TryResolve<IDependantClass>());
+        }
+
         protected void TestSimpleExtendedSingleRegistration(Func<IContainerAdapter> adapterFunc)
         {
             IContainerAdapter adapter = adapterFunc();

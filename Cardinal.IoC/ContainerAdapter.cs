@@ -119,12 +119,20 @@ namespace Cardinal.IoC
 
         public abstract object Resolve(Type t);
 
+        protected abstract void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name);
+
         protected abstract void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name);
 
         public void Register(IComponentRegistration registration)
         {
             foreach (Type type in registration.Definition.Types)
             {
+                if (registration.Definition.Instance != null)
+                {
+                    Register(type, registration.Definition.Instance, registration.Definition.LifetimeScope, registration.Definition.Name);
+                    continue;
+                }
+
                 Register(type, registration.Definition.ReturnType, registration.Definition.LifetimeScope, registration.Definition.Name);
             }
         }
