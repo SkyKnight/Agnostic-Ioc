@@ -72,6 +72,7 @@ namespace Cardinal.IoC
 
         public IComponentRegistration As<T>()
         {
+            Definition.Instance = null;
             Definition.ReturnType = typeof(T);
             return this;
         }
