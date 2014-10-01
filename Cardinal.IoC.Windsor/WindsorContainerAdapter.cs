@@ -95,14 +95,14 @@ namespace Cardinal.IoC.Windsor
             Container.Register(Component.For<TRegisteredAs>().Instance(instance).Named(name));
         }
 
-        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        protected override void Register(Type componentType, object target, string name)
         {
             if (String.IsNullOrEmpty(name))
             {
                 name = Guid.NewGuid().ToString();
             }
 
-            ComponentRegistration<object> componentReg = Component.For(componentType).Instance(target).SetLifeStyle(lifetimeScope).Named(name);
+            ComponentRegistration<object> componentReg = Component.For(componentType).Instance(target).Named(name);
 
             Container.Register(componentReg);
         }

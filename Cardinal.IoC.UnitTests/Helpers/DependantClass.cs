@@ -44,7 +44,7 @@ namespace Cardinal.IoC.UnitTests.Helpers
         public string Name { get; set; }
     }
 
-    public class DependantClass : ISuperDependantClass
+    public class DependantClass : ISuperDependantClass, IOtherDependantClass
     {
         public DependantClass()
         {
@@ -54,6 +54,13 @@ namespace Cardinal.IoC.UnitTests.Helpers
         public string Name { get; set; }
 
         public DateTime Date { get; set; }
+
+        public string Other { get; set; }
+    }
+
+    public interface IOtherDependantClass : IDependantClass
+    {
+        string Other { get; set; }
     }
 
     public interface ISuperDependantClass : IDependantClass

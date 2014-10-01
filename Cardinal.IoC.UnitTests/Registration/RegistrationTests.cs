@@ -68,13 +68,15 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(T), adapterFunc().GetType());
             TestSimpleRegistration(adapterFunc);
             TestSimpleNamedRegistration(adapterFunc);
-            TestRegistrationOrder(adapterFunc);
-            TestGroupRegistration(adapterFunc);
-            TestSimpleInstanceRegistration(adapterFunc);
-            TestSimpleExtendedSingleRegistration(adapterFunc);
-            TestSimpleExtendedDoubleRegistration(adapterFunc);
+            EnsureRegistrationOrderCorrect(adapterFunc);
+            CanRegisterGroup(adapterFunc);
+            CanRegisterBasicType(adapterFunc);
+            CanRegisterOneFluentTypes(adapterFunc);
+            CanRegisterTwoFluentTypes(adapterFunc);
+            CanRegisterThreeFluentTypes(adapterFunc);
             TestMultipleSimpleRegistrationsResolvesFirst(adapterFunc);
-            TestSimpleExtendedRegistrationWithLifetime(adapterFunc);
+            CanRegisterFluentTypeWithLifetime(adapterFunc);
+            CanRegisterFluentInstance(adapterFunc);
         }
 
         protected void TestSimpleRegistration(Func<IContainerAdapter> adapterFunc)
@@ -117,7 +119,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(TestConstants.DependantClass2Name, dependantClass2.Name);
         }
 
-        protected void TestSimpleInstanceRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterBasicType(Func<IContainerAdapter> adapterFunc)
         {
             IContainerManager containerManager = new ContainerManager(adapterFunc());
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
@@ -128,7 +130,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(instanceDependantClass, dependantClass);
         }
 
-        protected void TestGroupRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterGroup(Func<IContainerAdapter> adapterFunc)
         {
             IContainerManager containerManager = new ContainerManager(adapterFunc());
             Assert.IsNull(containerManager.TryResolve<IDependantClass>());
@@ -141,7 +143,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
         }
 
-        protected void TestRegistrationOrder(Func<IContainerAdapter> adapterFunc)
+        protected void EnsureRegistrationOrderCorrect(Func<IContainerAdapter> adapterFunc)
         {
             IContainerManager containerManager = new ContainerManager(adapterFunc());
 
@@ -157,21 +159,23 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
         }
 
-        protected void TestSimpleExtendedSingleInstanceRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterFluentInstance(Func<IContainerAdapter> adapterFunc)
         {
             IContainerAdapter adapter = adapterFunc();
 
+            var returnClass = new DependantClass();
+
             var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
                 .Register<ISuperDependantClass>()
-                .Instance(new DependantClass());
+                .Instance(returnClass);
 
             adapter.Register(registration);
 
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
+            Assert.AreEqual(returnClass, adapter.Resolve<ISuperDependantClass>());
             Assert.IsNull(adapter.TryResolve<IDependantClass>());
         }
 
-        protected void TestSimpleExtendedSingleRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterOneFluentTypes(Func<IContainerAdapter> adapterFunc)
         {
             IContainerAdapter adapter = adapterFunc();
 
@@ -185,7 +189,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNull(adapter.TryResolve<IDependantClass>());
         }
 
-        protected void TestSimpleExtendedDoubleRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterTwoFluentTypes(Func<IContainerAdapter> adapterFunc)
         {
             IContainerAdapter adapter = adapterFunc();
 
@@ -200,7 +204,23 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IDependantClass>().GetType());
         }
 
-        protected void TestSimpleExtendedRegistrationWithLifetime(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterThreeFluentTypes(Func<IContainerAdapter> adapterFunc)
+        {
+            IContainerAdapter adapter = adapterFunc();
+
+            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
+                .Register<IDependantClass, ISuperDependantClass, IOtherDependantClass>()
+                .As<DependantClass>();
+
+            adapter.Register(registration);
+
+            Assert.AreEqual(adapter.Resolve<IDependantClass>().GetType(), adapter.Resolve<ISuperDependantClass>().GetType());
+            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
+            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IDependantClass>().GetType());
+            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IOtherDependantClass>().GetType());
+        }
+
+        protected void CanRegisterFluentTypeWithLifetime(Func<IContainerAdapter> adapterFunc)
         {
             IContainerAdapter adapter = adapterFunc();
 

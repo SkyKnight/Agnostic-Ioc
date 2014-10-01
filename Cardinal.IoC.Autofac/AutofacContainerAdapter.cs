@@ -232,10 +232,10 @@ namespace Cardinal.Ioc.Autofac
             return Container.Resolve(t);
         }
 
-        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        protected override void Register(Type componentType, object target, string name)
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterInstance(target).As(componentType).SetLifeStyle(lifetimeScope);
+            builder.RegisterInstance(target).As(componentType);
             builder.Update(Container);
         }
 

@@ -116,7 +116,7 @@ namespace Cardinal.IoC.StructureMap
             return Container.GetInstance(t);
         }
 
-        protected override void Register(Type componentType, object target, LifetimeScope lifetimeScope, string name)
+        protected override void Register(Type componentType, object target, string name)
         {
             if (TryResolve(componentType) != null)
             {
