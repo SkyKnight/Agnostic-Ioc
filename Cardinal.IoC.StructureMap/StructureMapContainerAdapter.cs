@@ -131,10 +131,10 @@ namespace Cardinal.IoC.StructureMap
         {
             if (TryResolve(componentType) != null)
             {
-                Container.Configure(x => x.For(componentType).Add(targetType));
+                Container.Configure(x => x.For(componentType).Add(targetType).SetLifeStyle(lifetimeScope));
                 return;
             }
-            Container.Configure(x => x.For(componentType).Use(targetType));
+            Container.Configure(x => x.For(componentType).Use(targetType).SetLifeStyle(lifetimeScope));
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

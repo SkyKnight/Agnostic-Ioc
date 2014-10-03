@@ -72,6 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContainerIsolation\ContainerIsolationTests.cs" />
+    <Compile Include="Registration\BasicRegistrationTests.cs" />
+    <Compile Include="Registration\ContainerAdapterFactory.cs" />
+    <Compile Include="Registration\FluentRegistrationTests.cs" />
+    <Compile Include="Registration\LifecycleTypeRegistrationTests.cs" />
     <Compile Include="Registration\RegistrationTests.cs" />
     <Compile Include="ResolutionTests\AutofacAdapterTests.cs" />
     <Compile Include="ContainerAdapterTests.cs" />

@@ -37,30 +37,30 @@ using StructureMap;
 namespace Cardinal.IoC.UnitTests.Registration
 {
     [TestFixture]
-    public class RegistrationTests
+    public partial class RegistrationTests
     {
         [Test]
         public void TestWindsorContainerAdapter()
         {
-            TestContainerAdapter<WindsorContainerAdapter>(GetWindsorContainerAdapter);
+            TestContainerAdapter<WindsorContainerAdapter>(ContainerAdapterFactory.GetWindsorContainerAdapter);
         }
 
         [Test]
         public void TestAutofacContainerAdapter()
         {
-            TestContainerAdapter<AutofacContainerAdapter>(GetAutofacContainerAdapter);
+            TestContainerAdapter<AutofacContainerAdapter>(ContainerAdapterFactory.GetAutofacContainerAdapter);
         }
 
         [Test]
         public void TestStructureMapContainerAdapter()
         {
-            TestContainerAdapter<StructureMapContainerAdapter>(GetStructureMapContainerAdapter);
+            TestContainerAdapter<StructureMapContainerAdapter>(ContainerAdapterFactory.GetStructureMapContainerAdapter);
         }
 
         [Test]
         public void TestUnityMapContainerAdapter()
         {
-            TestContainerAdapter<UnityContainerAdapter>(GetUnityContainerAdapter);
+            TestContainerAdapter<UnityContainerAdapter>(ContainerAdapterFactory.GetUnityContainerAdapter);
         }
 
         protected void TestContainerAdapter<T>(Func<IContainerAdapter> adapterFunc) where T : IContainerAdapter
@@ -77,187 +77,13 @@ namespace Cardinal.IoC.UnitTests.Registration
             TestMultipleSimpleRegistrationsResolvesFirst(adapterFunc);
             CanRegisterFluentTypeWithLifetime(adapterFunc);
             CanRegisterFluentInstance(adapterFunc);
-        }
 
-        protected void TestSimpleRegistration(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
+            CanRegisterDefaultTypeComponent(adapterFunc);
+            CanRegisterSingletonTypeComponent(adapterFunc);
+            CanRegisterTransientTypeComponent(adapterFunc);
 
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
-            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependantClass);
-        }
-
-        protected void TestMultipleSimpleRegistrationsResolvesFirst(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
-
-            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
-            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependantClass);
-            Assert.AreEqual(typeof(DependantClass2), dependantClass.GetType());
-        }
-
-        protected void TestSimpleNamedRegistration(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-
-            const string dependencyName = "dependantReg";
-
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass2>(dependencyName);
-            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependantClass);
-
-            IDependantClass dependantClass2 = containerManager.Resolve<IDependantClass>(dependencyName);
-            Assert.IsNotNull(dependantClass2);
-            Assert.AreEqual(typeof(DependantClass2), dependantClass2.GetType());
-            Assert.AreEqual(TestConstants.DependantClassName, dependantClass.Name);
-            Assert.AreEqual(TestConstants.DependantClass2Name, dependantClass2.Name);
-        }
-
-        protected void CanRegisterBasicType(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
-
-            DependantClass instanceDependantClass = new DependantClass();
-            containerManager.Adapter.Register<IDependantClass>(instanceDependantClass);
-            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
-            Assert.AreEqual(instanceDependantClass, dependantClass);
-        }
-
-        protected void CanRegisterGroup(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-            Assert.IsNull(containerManager.TryResolve<IDependantClass>());
-
-            IContainerManagerGroupRegistration groupRegistration = new TestGroupRegistration();
-            containerManager.Adapter.RegisterGroup(groupRegistration);
-
-            IDependantClass dependantClass = containerManager.Resolve<IDependantClass>();
-            Assert.IsNotNull(dependantClass);
-            Assert.AreEqual(typeof(DependantClass), dependantClass.GetType());
-        }
-
-        protected void EnsureRegistrationOrderCorrect(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerManager containerManager = new ContainerManager(adapterFunc());
-
-            containerManager.Adapter.Register<IDependantClass, DependantClass>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass3>();
-            containerManager.Adapter.Register<IDependantClass, DependantClass2>();
-
-            IDependantClass[] resolved = containerManager.ResolveAll<IDependantClass>().ToArray();
-            Assert.AreEqual(typeof(DependantClass), resolved[0].GetType());
-            Assert.AreEqual(typeof(DependantClass2), resolved[1].GetType());
-            Assert.AreEqual(typeof(DependantClass3), resolved[2].GetType());
-            Assert.AreEqual(typeof(DependantClass2), resolved[3].GetType());
-        }
-
-        protected void CanRegisterFluentInstance(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerAdapter adapter = adapterFunc();
-
-            var returnClass = new DependantClass();
-
-            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
-                .Register<ISuperDependantClass>()
-                .Instance(returnClass);
-
-            adapter.Register(registration);
-
-            Assert.AreEqual(returnClass, adapter.Resolve<ISuperDependantClass>());
-            Assert.IsNull(adapter.TryResolve<IDependantClass>());
-        }
-
-        protected void CanRegisterOneFluentTypes(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerAdapter adapter = adapterFunc();
-
-            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
-                .Register<ISuperDependantClass>()
-                .As<DependantClass>();
-
-            adapter.Register(registration);
-
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.IsNull(adapter.TryResolve<IDependantClass>());
-        }
-
-        protected void CanRegisterTwoFluentTypes(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerAdapter adapter = adapterFunc();
-
-            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
-                .Register<IDependantClass, ISuperDependantClass>()
-                .As<DependantClass>();
-
-            adapter.Register(registration);
-
-            Assert.AreEqual(adapter.Resolve<IDependantClass>().GetType(), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IDependantClass>().GetType());
-        }
-
-        protected void CanRegisterThreeFluentTypes(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerAdapter adapter = adapterFunc();
-
-            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
-                .Register<IDependantClass, ISuperDependantClass, IOtherDependantClass>()
-                .As<DependantClass>();
-
-            adapter.Register(registration);
-
-            Assert.AreEqual(adapter.Resolve<IDependantClass>().GetType(), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IOtherDependantClass>().GetType());
-        }
-
-        protected void CanRegisterFluentTypeWithLifetime(Func<IContainerAdapter> adapterFunc)
-        {
-            IContainerAdapter adapter = adapterFunc();
-
-            var registration = adapter.CreateComponentRegistration<ComponentRegistration>()
-                .Register<IDependantClass, ISuperDependantClass>()
-                .As<DependantClass>()
-                .Lifetime(LifetimeScope.Singleton);
-
-            adapter.Register(registration);
-
-            Assert.AreEqual(adapter.Resolve<IDependantClass>().GetType(), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<ISuperDependantClass>().GetType());
-            Assert.AreEqual(typeof(DependantClass), adapter.Resolve<IDependantClass>().GetType());
-        }
-
-        protected static IContainerAdapter GetAutofacContainerAdapter()
-        {
-            string containerKey = Guid.NewGuid().ToString();
-            return new AutofacContainerAdapter(containerKey);
-        }
-
-        protected static IContainerAdapter GetStructureMapContainerAdapter()
-        {
-            IContainer container = new Container();
-            return new StructureMapContainerAdapter(Guid.NewGuid().ToString(), container);
-        }
-
-        protected static IContainerAdapter GetUnityContainerAdapter()
-        {
-            IUnityContainer container = new UnityContainer();
-            return new UnityContainerAdapter(Guid.NewGuid().ToString(), container);
-        }
-
-        protected static IContainerAdapter GetWindsorContainerAdapter()
-        {
-            IWindsorContainer container = new WindsorContainer();
-            return new WindsorContainerAdapter(Guid.NewGuid().ToString(), container);
+            CanRegisterFluentSingletonTypeComponent(adapterFunc);
+            CanRegisterFluentTransientTypeComponent(adapterFunc);
         }
     }
 }
