@@ -138,9 +138,17 @@ namespace Cardinal.IoC
 
         object TryResolve(Type t);
 
+        T Resolve<T>(Type t) where T : class;
+
+        T TryResolve<T>(Type t) where T : class;
+
         object Resolve(Type t, string name);
 
         object TryResolve(Type t, string name);
+
+        T Resolve<T>(Type t, string name) where T : class;
+
+        T TryResolve<T>(Type t, string name) where T : class;
 
         /// <summary>
         /// Gets the current adapter

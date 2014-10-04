@@ -31,6 +31,14 @@ namespace Cardinal.IoC
 
         T TryResolve<T>();
 
+        T Resolve<T>(Type t) where T : class;
+
+        T TryResolve<T>(Type t) where T : class;
+
+        T Resolve<T>(Type t, string name) where T : class;
+
+        T TryResolve<T>(Type t, string name) where T : class;
+
         object Resolve(Type t);
 
         object TryResolve(Type t);

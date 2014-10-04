@@ -113,6 +113,16 @@ namespace Cardinal.IoC
             return Adapter.TryResolve(t);
         }
 
+        public T Resolve<T>(Type t) where T : class
+        {
+            return Adapter.Resolve<T>(t);
+        }
+
+        public T TryResolve<T>(Type t) where T : class
+        {
+            return Adapter.TryResolve<T>(t);
+        }
+
         public object Resolve(Type t, string name)
         {
             return Adapter.Resolve(t, name);
@@ -121,6 +131,16 @@ namespace Cardinal.IoC
         public object TryResolve(Type t, string name)
         {
             return Adapter.TryResolve(t, name);
+        }
+
+        public T Resolve<T>(Type t, string name) where T : class
+        {
+            return Adapter.Resolve<T>(t, name);
+        }
+
+        public T TryResolve<T>(Type t, string name) where T : class
+        {
+            return Adapter.TryResolve<T>(t, name);
         }
 
         public IContainerAdapter Adapter

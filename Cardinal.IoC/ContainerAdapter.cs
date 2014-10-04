@@ -121,6 +121,11 @@ namespace Cardinal.IoC
             groupRegistration.RegisterComponents(this);
         }
 
+        public T TryResolve<T>(Type t, string name) where T : class
+        {
+            return Resolve(t, name) as T;
+        }
+
         public abstract object Resolve(Type t);
 
         public abstract object Resolve(Type t, string name);
@@ -221,6 +226,21 @@ namespace Cardinal.IoC
             {
                 return default(T);
             }
+        }
+
+        public T Resolve<T>(Type t) where T : class
+        {
+            return Resolve(t) as T;
+        }
+
+        public T TryResolve<T>(Type t) where T : class
+        {
+            return TryResolve(t) as T;
+        }
+
+        public T Resolve<T>(Type t, string name) where T : class
+        {
+            return Resolve(t, name) as T;
         }
 
         public object TryResolve(Type t)

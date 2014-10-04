@@ -42,6 +42,37 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.IsNotNull(dependantClass);
         }
 
+        protected void CanRegisterRawType(Func<IContainerAdapter> adapterFunc)
+        {
+            IContainerManager containerManager = new ContainerManager(adapterFunc());
+            Assert.IsNull(containerManager.TryResolve(typeof(IDependantClass)));
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>();
+            IDependantClass dependantClass = containerManager.Resolve(typeof(IDependantClass)) as IDependantClass;
+            Assert.IsNotNull(dependantClass);
+        }
+
+        protected void CanRegisterNamedRawType(Func<IContainerAdapter> adapterFunc)
+        {
+            IContainerManager containerManager = new ContainerManager(adapterFunc());
+            Assert.IsNull(containerManager.TryResolve(typeof(IDependantClass), "fred"));
+
+            containerManager.Adapter.Register<IDependantClass, DependantClass>("fred");
+            IDependantClass dependantClass = containerManager.Resolve(typeof(IDependantClass), "fred") as IDependantClass;
+            Assert.IsNotNull(dependantClass);
+        }
+
+        protected void CanRegisterInstanceByName(Func<IContainerAdapter> adapterFunc)
+        {
+            IContainerManager containerManager = new ContainerManager(adapterFunc());
+            Assert.IsNull(containerManager.TryResolve<IDependantClass>("fred"));
+
+            var dependantClassToRegister = new DependantClass2();
+            containerManager.Adapter.Register<IDependantClass>("fred", dependantClassToRegister);
+            IDependantClass dependantClass = containerManager.Resolve(typeof(IDependantClass), "fred") as IDependantClass;
+            Assert.AreEqual(dependantClassToRegister, dependantClass);
+        }
+
         protected void TestMultipleSimpleRegistrationsResolvesFirst(Func<IContainerAdapter> adapterFunc)
         {
             IContainerManager containerManager = new ContainerManager(adapterFunc());
@@ -54,7 +85,7 @@ namespace Cardinal.IoC.UnitTests.Registration
             Assert.AreEqual(typeof(DependantClass2), dependantClass.GetType());
         }
 
-        protected void TestSimpleNamedRegistration(Func<IContainerAdapter> adapterFunc)
+        protected void CanRegisterByName(Func<IContainerAdapter> adapterFunc)
         {
             IContainerManager containerManager = new ContainerManager(adapterFunc());
 

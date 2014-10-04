@@ -74,7 +74,10 @@ namespace Cardinal.IoC.UnitTests.Registration
         {
             Assert.AreEqual(typeof(T), adapterFunc().GetType());
             TestSimpleRegistration(adapterFunc);
-            TestSimpleNamedRegistration(adapterFunc);
+            CanRegisterRawType(adapterFunc);
+            CanRegisterNamedRawType(adapterFunc);
+            CanRegisterInstanceByName(adapterFunc);
+            CanRegisterByName(adapterFunc);
             EnsureRegistrationOrderCorrect(adapterFunc);
             CanRegisterGroup(adapterFunc);
             CanRegisterBasicType(adapterFunc);
