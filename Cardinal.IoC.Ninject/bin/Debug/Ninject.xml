@@ -5067,12 +5067,6 @@
             The base .ctor definition.
             </summary>
         </member>
-        <member name="P:Ninject.Planning.Directives.ConstructorInjectionDirective.HasInjectAttribute">
-            <summary>
-            Gets or sets a value indicating whether this constructor has an inject attribute.
-            </summary>
-            <value><c>true</c> if this constructor has an inject attribute; otherwise, <c>false</c>.</value>
-        </member>
         <member name="T:Ninject.Planning.Directives.MethodInjectionDirective">
             <summary>
             Describes the injection of a method.
@@ -5463,12 +5457,6 @@
             Gets the type that the plan describes.
             </summary>
         </member>
-        <member name="P:Ninject.Planning.IPlan.ConstructorInjectionDirectives">
-            <summary>
-            Gets the constructor injection directives.
-            </summary>
-            <value>The constructor injection directives.</value>
-        </member>
         <member name="T:Ninject.Planning.IPlanner">
             <summary>
             Generates plans for how to activate instances.
@@ -5533,12 +5521,6 @@
             <summary>
             Gets the directives defined in the plan.
             </summary>
-        </member>
-        <member name="P:Ninject.Planning.Plan.ConstructorInjectionDirectives">
-            <summary>
-            Gets the constructor injection directives.
-            </summary>
-            <value>The constructor injection directives.</value>
         </member>
         <member name="T:Ninject.Planning.Planner">
             <summary>

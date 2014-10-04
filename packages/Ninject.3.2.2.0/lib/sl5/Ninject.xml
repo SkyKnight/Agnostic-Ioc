@@ -201,12 +201,6 @@
             <returns><see langword="True"/> if the instance was found and released; otherwise <see langword="false"/>.</returns>
             <remarks></remarks>
         </member>
-        <member name="M:Ninject.Activation.Blocks.ActivationBlock.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            A block used for deterministic disposal of activated instances. When the block is
-            disposed, all instances activated via it will be deactivated.
-            </summary>
-        </member>
         <member name="P:Ninject.Activation.Blocks.ActivationBlock.Parent">
             <summary>
             Gets or sets the parent resolution root (usually the kernel).
@@ -348,7 +342,7 @@
             Prunes this instance.
             </summary>
         </member>
-        <member name="M:Ninject.Activation.Caching.ActivationCache.RemoveDeadObjects(System.Collections.Generic.IDictionary{System.Object,System.Boolean})">
+        <member name="M:Ninject.Activation.Caching.ActivationCache.RemoveDeadObjects(System.Collections.Generic.HashSet{System.Object})">
             <summary>
             Removes all dead objects.
             </summary>
@@ -2543,11 +2537,6 @@
             </summary>
             <param name="binding">The binding to remove.</param>
         </member>
-        <member name="M:Ninject.Syntax.BindingRoot.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a path to register bindings.
-            </summary>
-        </member>
         <member name="P:Ninject.Syntax.BindingRoot.KernelInstance">
             <summary>
             Gets the kernel.
@@ -3399,11 +3388,6 @@
             <typeparam name="T1">The type of the parameter</typeparam>
             <returns>Not used. This interface has no implementation.</returns>
         </member>
-        <member name="M:Ninject.Planning.Bindings.BindingBuilder.ConstructorArgumentSyntax.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Passed to ToConstructor to specify that a constructor value is Injected.
-            </summary>
-        </member>
         <member name="P:Ninject.Planning.Bindings.BindingBuilder.ConstructorArgumentSyntax.Context">
             <summary>
             Gets the context.
@@ -3583,15 +3567,6 @@
             <param name="value">The constant value.</param>
             <returns>The fluent syntax.</returns>
         </member>
-        <member name="M:Ninject.Planning.Bindings.BindingBuilder`4.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder.BindingConfiguration"/>.
-            </summary>
-            <typeparam name="T1">The first service type.</typeparam>
-            <typeparam name="T2">The second service type.</typeparam>
-            <typeparam name="T3">The third service type.</typeparam>
-            <typeparam name="T4">The fourth service type.</typeparam>
-        </member>
         <member name="T:Ninject.Planning.Bindings.BindingBuilder`3">
             <summary>
             Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder.BindingConfiguration"/>.
@@ -3758,14 +3733,6 @@
             <param name="value">The constant value.</param>
             <returns>The fluent syntax.</returns>
         </member>
-        <member name="M:Ninject.Planning.Bindings.BindingBuilder`3.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder.BindingConfiguration"/>.
-            </summary>
-            <typeparam name="T1">The first service type.</typeparam>
-            <typeparam name="T2">The second service type.</typeparam>
-            <typeparam name="T3">The third service type.</typeparam>
-        </member>
         <member name="T:Ninject.Planning.Bindings.BindingBuilder`2">
             <summary>
             Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder.BindingConfiguration"/>.
@@ -3929,13 +3896,6 @@
             <typeparam name="TImplementation">The type of the implementation.</typeparam>
             <param name="value">The constant value.</param>
             <returns>The fluent syntax.</returns>
-        </member>
-        <member name="M:Ninject.Planning.Bindings.BindingBuilder`2.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder.BindingConfiguration"/>.
-            </summary>
-            <typeparam name="T1">The first service type.</typeparam>
-            <typeparam name="T2">The second service type.</typeparam>
         </member>
         <member name="T:Ninject.Planning.Bindings.BindingBuilder`1">
             <summary>
@@ -4106,12 +4066,6 @@
             <typeparam name="TImplementation">The type of the implementation.</typeparam>
             <param name="value">The constant value.</param>
             <returns>The fluent syntax.</returns>
-        </member>
-        <member name="M:Ninject.Planning.Bindings.BindingBuilder`1.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingBuilder`1.Binding"/>.
-            </summary>
-            <typeparam name="T1">The service type.</typeparam>
         </member>
         <member name="P:Ninject.Planning.Bindings.BindingBuilder`1.Binding">
             <summary>
@@ -4961,12 +4915,6 @@
             <param name="action">The action callback.</param>
             <returns>The fluent syntax.</returns>
         </member>
-        <member name="M:Ninject.Planning.Bindings.BindingConfigurationBuilder`1.Ninject#Syntax#IFluentSyntax#GetType">
-            <summary>
-            Provides a root for the fluent syntax associated with an <see cref="P:Ninject.Planning.Bindings.BindingConfigurationBuilder`1.BindingConfiguration"/>.
-            </summary>
-            <typeparam name="T">The implementation type of the built binding.</typeparam>
-        </member>
         <member name="P:Ninject.Planning.Bindings.BindingConfigurationBuilder`1.BindingConfiguration">
             <summary>
             Gets the binding being built.
@@ -5139,12 +5087,6 @@
             <summary>
             The base .ctor definition.
             </summary>
-        </member>
-        <member name="P:Ninject.Planning.Directives.ConstructorInjectionDirective.HasInjectAttribute">
-            <summary>
-            Gets or sets a value indicating whether this constructor has an inject attribute.
-            </summary>
-            <value><c>true</c> if this constructor has an inject attribute; otherwise, <c>false</c>.</value>
         </member>
         <member name="T:Ninject.Planning.Directives.MethodInjectionDirective">
             <summary>
@@ -5536,12 +5478,6 @@
             Gets the type that the plan describes.
             </summary>
         </member>
-        <member name="P:Ninject.Planning.IPlan.ConstructorInjectionDirectives">
-            <summary>
-            Gets the constructor injection directives.
-            </summary>
-            <value>The constructor injection directives.</value>
-        </member>
         <member name="T:Ninject.Planning.IPlanner">
             <summary>
             Generates plans for how to activate instances.
@@ -5606,12 +5542,6 @@
             <summary>
             Gets the directives defined in the plan.
             </summary>
-        </member>
-        <member name="P:Ninject.Planning.Plan.ConstructorInjectionDirectives">
-            <summary>
-            Gets the constructor injection directives.
-            </summary>
-            <value>The constructor injection directives.</value>
         </member>
         <member name="T:Ninject.Planning.Planner">
             <summary>
