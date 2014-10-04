@@ -103,6 +103,26 @@ namespace Cardinal.IoC
             return Adapter.TryResolve<T>(parameters);
         }
 
+        public object Resolve(Type t)
+        {
+            return Adapter.Resolve(t);
+        }
+
+        public object TryResolve(Type t)
+        {
+            return Adapter.TryResolve(t);
+        }
+
+        public object Resolve(Type t, string name)
+        {
+            return Adapter.Resolve(t, name);
+        }
+
+        public object TryResolve(Type t, string name)
+        {
+            return Adapter.TryResolve(t, name);
+        }
+
         public IContainerAdapter Adapter
         {
             get { return adapter; }

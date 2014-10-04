@@ -116,6 +116,11 @@ namespace Cardinal.IoC.StructureMap
             return Container.GetInstance(t);
         }
 
+        public override object Resolve(Type t, string name)
+        {
+            return Container.GetInstance(t, name);
+        }
+
         protected override void Register(Type componentType, object target, string name)
         {
             if (TryResolve(componentType) != null)
@@ -127,14 +132,31 @@ namespace Cardinal.IoC.StructureMap
             Container.Configure(x => x.For(componentType).Use(target));
         }
 
+        protected override void Register(Type[] componentTypes, object target, string name)
+        {
+            foreach (var componentType in componentTypes)
+            {
+                Register(componentType, target, name);
+            }
+        }
+
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
-            if (TryResolve(componentType) != null)
+            if (!String.IsNullOrEmpty(name))
             {
-                Container.Configure(x => x.For(componentType).Add(targetType).SetLifeStyle(lifetimeScope));
+                Container.Configure(x => x.For(componentType).Add(targetType).Named(name).SetLifeStyle(lifetimeScope));
                 return;
             }
+
             Container.Configure(x => x.For(componentType).Use(targetType).SetLifeStyle(lifetimeScope));
+        }
+
+        protected override void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            foreach (var componentType in componentTypes)
+            {
+                Register(componentType, targetType, lifetimeScope, name);
+            }
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

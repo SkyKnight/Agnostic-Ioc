@@ -119,6 +119,12 @@ namespace Cardinal.IoC.UnitTests.ResolutionTests
 
             containerAdapterMock.Setup(x => x.Resolve<IDependantClass>(It.IsAny<string>(), It.IsAny<IDictionary<string, object>>())).Throws<Exception>();
             Assert.IsNull(containerManager.TryResolve<IDependantClass>("name", new Dictionary<string, object>()));
+
+            containerAdapterMock.Setup(x => x.Resolve(typeof(IDependantClass))).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve(typeof(IDependantClass)));
+
+            containerAdapterMock.Setup(x => x.Resolve(typeof(IDependantClass), It.IsAny<string>())).Throws<Exception>();
+            Assert.IsNull(containerManager.TryResolve(typeof(IDependantClass), "fred"));
         }
 
         [Test]

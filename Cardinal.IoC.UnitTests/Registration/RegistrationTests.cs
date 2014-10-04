@@ -23,6 +23,7 @@
 using System;
 using System.Linq;
 using Cardinal.Ioc.Autofac;
+using Cardinal.IoC.Ninject;
 using Cardinal.IoC.Registration;
 using Cardinal.IoC.StructureMap;
 using Cardinal.IoC.UnitTests.Helpers;
@@ -58,9 +59,15 @@ namespace Cardinal.IoC.UnitTests.Registration
         }
 
         [Test]
-        public void TestUnityMapContainerAdapter()
+        public void TestUnityContainerAdapter()
         {
             TestContainerAdapter<UnityContainerAdapter>(ContainerAdapterFactory.GetUnityContainerAdapter);
+        }
+
+        [Test]
+        public void TestNinjectContainerAdapter()
+        {
+            TestContainerAdapter<NinjectContainerAdapter>(ContainerAdapterFactory.GetNinjectContainerAdapter);
         }
 
         protected void TestContainerAdapter<T>(Func<IContainerAdapter> adapterFunc) where T : IContainerAdapter
@@ -71,9 +78,17 @@ namespace Cardinal.IoC.UnitTests.Registration
             EnsureRegistrationOrderCorrect(adapterFunc);
             CanRegisterGroup(adapterFunc);
             CanRegisterBasicType(adapterFunc);
-            CanRegisterOneFluentTypes(adapterFunc);
+
+            CanRegisterOneFluentType(adapterFunc);
             CanRegisterTwoFluentTypes(adapterFunc);
             CanRegisterThreeFluentTypes(adapterFunc);
+
+            CanRegisterOneNamedFluentType(adapterFunc);
+
+            // todo: fix this
+            // CanRegisterTwoNamedFluentTypes(adapterFunc);
+            // CanRegisterThreeNamedFluentTypes(adapterFunc);
+
             TestMultipleSimpleRegistrationsResolvesFirst(adapterFunc);
             CanRegisterFluentTypeWithLifetime(adapterFunc);
             CanRegisterFluentInstance(adapterFunc);
@@ -82,6 +97,11 @@ namespace Cardinal.IoC.UnitTests.Registration
             CanRegisterSingletonTypeComponent(adapterFunc);
             CanRegisterTransientTypeComponent(adapterFunc);
 
+            CanRegisterNamedDefaultTypeComponent(adapterFunc);
+            CanRegisterNamedSingletonTypeComponent(adapterFunc);
+            CanRegisterNamedTransientTypeComponent(adapterFunc);
+
+            CanRegisterFluentDefaultTypeComponent(adapterFunc);
             CanRegisterFluentSingletonTypeComponent(adapterFunc);
             CanRegisterFluentTransientTypeComponent(adapterFunc);
         }

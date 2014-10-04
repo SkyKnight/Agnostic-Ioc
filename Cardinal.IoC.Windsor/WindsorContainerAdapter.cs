@@ -54,6 +54,11 @@ namespace Cardinal.IoC.Windsor
             return Container.Resolve(t);
         }
 
+        public override object Resolve(Type t, string name)
+        {
+            return Container.Resolve(name, t);
+        }
+
         public override T Resolve<T>(string name)
         {
             return Container.Resolve<T>(name);
@@ -103,6 +108,20 @@ namespace Cardinal.IoC.Windsor
             }
 
             ComponentRegistration<object> componentReg = Component.For(componentType).Instance(target).Named(name);
+
+            Container.Register(componentReg);
+        }
+
+        protected override void Register(Type[] componentTypes, object target, string name)
+        {
+            ComponentRegistration<object> componentReg = Component.For(componentTypes).Instance(target).Named(name);
+
+            Container.Register(componentReg);
+        }
+
+        protected override void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            ComponentRegistration<object> componentReg = Component.For(componentTypes).ImplementedBy(targetType).SetLifeStyle(lifetimeScope).Named(name);
 
             Container.Register(componentReg);
         }

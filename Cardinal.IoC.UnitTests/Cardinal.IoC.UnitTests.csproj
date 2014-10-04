@@ -53,6 +53,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.3-unstable-003\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -105,6 +108,10 @@
     <ProjectReference Include="..\Cardinal.IoC.Autofac\Cardinal.IoC.Autofac.csproj">
       <Project>{10415df0-94e3-4636-993b-a4e56068edb9}</Project>
       <Name>Cardinal.IoC.Autofac</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cardinal.IoC.Ninject\Cardinal.IoC.Ninject.csproj">
+      <Project>{4090eb44-9eb2-4cc7-b6ac-0b331ae414c3}</Project>
+      <Name>Cardinal.IoC.Ninject</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cardinal.IoC.StructureMap\Cardinal.IoC.StructureMap.csproj">
       <Project>{74133670-400a-4162-9c14-626623f1b9f4}</Project>

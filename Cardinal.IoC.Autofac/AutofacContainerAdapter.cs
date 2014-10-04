@@ -232,17 +232,53 @@ namespace Cardinal.Ioc.Autofac
             return Container.Resolve(t);
         }
 
+        public override object Resolve(Type t, string name)
+        {
+            return Container.ResolveNamed(name, t);
+        }
+
         protected override void Register(Type componentType, object target, string name)
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterInstance(target).As(componentType);
+            if (!String.IsNullOrEmpty(name))
+            {
+                builder.RegisterInstance(target).Named(name, componentType);
+            }
+            else
+            {
+                builder.RegisterInstance(target).As(componentType);
+            }
+
+            
+            builder.Update(Container);
+        }
+
+        protected override void Register(Type[] componentTypes, object target, string name)
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterInstance(target).As(componentTypes);
             builder.Update(Container);
         }
 
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
             ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterType(targetType).As(componentType).SetLifeStyle(lifetimeScope);
+            if (!String.IsNullOrEmpty(name))
+            {
+                builder.RegisterType(targetType).Named(name, componentType).SetLifeStyle(lifetimeScope);
+            }
+            else
+            {
+                builder.RegisterType(targetType).As(componentType).SetLifeStyle(lifetimeScope);
+            }
+
+            builder.Update(Container);
+        }
+
+        protected override void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            ContainerBuilder builder = new ContainerBuilder();
+            builder.RegisterType(targetType).As(componentTypes).SetLifeStyle(lifetimeScope);
             builder.Update(Container);
         }
 

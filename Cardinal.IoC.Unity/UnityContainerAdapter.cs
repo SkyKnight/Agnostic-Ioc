@@ -95,6 +95,11 @@ namespace Cardinal.IoC.Unity
             return Container.Resolve(t);
         }
 
+        public override object Resolve(Type t, string name)
+        {
+            return Container.Resolve(t, name);
+        }
+
         protected override void Register(Type componentType, object target, string name)
         {
             if (!String.IsNullOrEmpty(name))
@@ -106,16 +111,46 @@ namespace Cardinal.IoC.Unity
             Container.RegisterInstance(componentType, target);
         }
 
+        protected override void Register(Type[] componentTypes, object target, string name)
+        {
+            foreach (var componentType in componentTypes)
+            {
+                Register(componentType, target, name);
+            }
+        }
+
         protected override void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name)
         {
             if (!String.IsNullOrEmpty(name))
             {
-                Container.RegisterType(componentType, targetType, name, GetLifetimeManager(lifetimeScope));
+                if (TryResolve(componentType, name) != null)
+                {
+                    Container.RegisterType(componentType, name);
+                }
+                else
+                {
+                    Container.RegisterType(componentType, targetType, name, GetLifetimeManager(lifetimeScope));
+                }
+
+                return;
+            }
+
+            if (TryResolve(componentType, name) != null)
+            {
+                Container.RegisterType(componentType, name);
                 return;
             }
 
             Container.RegisterType(componentType, targetType, GetLifetimeManager(lifetimeScope));
 
+        }
+
+        protected override void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name)
+        {
+            foreach (var componentType in componentTypes)
+            {
+                Register(componentType, targetType, lifetimeScope, name);
+            }
         }
 
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()

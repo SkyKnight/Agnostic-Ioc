@@ -68,6 +68,12 @@ namespace Cardinal.IoC
             return this;
         }
 
+        public IComponentRegistration Named(string name)
+        {
+            Definition.Name = name;
+            return this;
+        }
+
         public IComponentRegistrationDefinition Definition { get; private set; }
 
         public IComponentRegistration As<T>()

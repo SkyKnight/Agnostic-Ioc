@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
@@ -32,7 +33,7 @@ namespace Cardinal.IoC
     /// <typeparam name="TContainer">The resulting container type</typeparam>
     public abstract class ContainerAdapter<TContainer> : IContainerAdapter<TContainer>
     {
-        private string name;
+        private string containerAdapterName;
 
         protected ContainerAdapter()
         {
@@ -57,8 +58,8 @@ namespace Cardinal.IoC
         /// </summary>
         public virtual string Name
         {
-            get { return name ?? String.Empty; }
-            private set { name = value; }
+            get { return containerAdapterName ?? String.Empty; }
+            private set { containerAdapterName = value; }
         }
 
         public bool AllowSelfRegistration { get; protected set; }
@@ -100,6 +101,9 @@ namespace Cardinal.IoC
         /// <summary>
         /// Registers a component using a simple instance registration definition
         /// </summary>
+        /// <param name="name">
+        /// The name
+        /// </param>
         /// <param name="instance">
         /// The instance to resolve as
         /// </param>
@@ -119,22 +123,37 @@ namespace Cardinal.IoC
 
         public abstract object Resolve(Type t);
 
+        public abstract object Resolve(Type t, string name);
+
         protected abstract void Register(Type componentType, object target, string name);
 
+        protected abstract void Register(Type[] componentTypes, object target, string name);
+
         protected abstract void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name);
+        
+        protected abstract void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name);
 
         public void Register(IComponentRegistration registration)
         {
-            foreach (Type type in registration.Definition.Types)
+            if (registration.Definition.Types.Length == 1)
             {
                 if (registration.Definition.Instance != null)
                 {
-                    Register(type, registration.Definition.Instance, registration.Definition.Name);
-                    continue;
+                    Register(registration.Definition.Types.First(), registration.Definition.Instance, registration.Definition.Name);
+                    return;
                 }
 
-                Register(type, registration.Definition.ReturnType, registration.Definition.LifetimeScope, registration.Definition.Name);
+                Register(registration.Definition.Types.First(), registration.Definition.ReturnType, registration.Definition.LifetimeScope, registration.Definition.Name);
+                return;
             }
+
+            if (registration.Definition.Instance != null)
+            {
+                Register(registration.Definition.Types, registration.Definition.Instance, registration.Definition.Name);
+                return;
+            }
+
+            Register(registration.Definition.Types, registration.Definition.ReturnType, registration.Definition.LifetimeScope, registration.Definition.Name);
         }
 
         public virtual TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new()
@@ -209,6 +228,18 @@ namespace Cardinal.IoC
             try
             {
                 return Resolve(t);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public object TryResolve(Type t, string name)
+        {
+            try
+            {
+                return Resolve(t, name);
             }
             catch
             {

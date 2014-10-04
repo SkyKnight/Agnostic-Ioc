@@ -29,11 +29,15 @@ namespace Cardinal.IoC
     {
         T Resolve<T>();
 
-        object Resolve(Type t);
-
         T TryResolve<T>();
 
+        object Resolve(Type t);
+
         object TryResolve(Type t);
+
+        object Resolve(Type t, string name);
+
+        object TryResolve(Type t, string name);
 
         T Resolve<T>(string name);
 

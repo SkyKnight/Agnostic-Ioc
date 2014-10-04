@@ -22,23 +22,6 @@ namespace Cardinal.IoC.StructureMap
                     return registration.Transient();
             }
         }
-        
-        public static CreatePluginFamilyExpression<TPluginType> SetLifeStyle<TPluginType>(this CreatePluginFamilyExpression<TPluginType> registration, LifetimeScope lifeTimeKey)
-        {
-            switch (lifeTimeKey)
-            {
-                case LifetimeScope.Unowned:
-                    return registration.Transient();
-                case LifetimeScope.Singleton:
-                    return registration.Singleton();
-                case LifetimeScope.PerHttpRequest:
-                    return registration.Transient();
-                case LifetimeScope.PerThread:
-                    return registration.Transient();
-                default:
-                    return registration.Transient();
-            }   
-        }
 
         public static ConfiguredInstance SetLifeStyle(this ConfiguredInstance registration, LifetimeScope lifeTimeKey)
         {

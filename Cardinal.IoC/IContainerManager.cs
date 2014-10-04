@@ -20,6 +20,7 @@
 // THE SOFTWARE.
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using Cardinal.IoC.Registration;
 
@@ -132,6 +133,14 @@ namespace Cardinal.IoC
         /// The resolved dependency or default
         /// </returns>
         T TryResolve<T>(IDictionary<string, object> parameters);
+
+        object Resolve(Type t);
+
+        object TryResolve(Type t);
+
+        object Resolve(Type t, string name);
+
+        object TryResolve(Type t, string name);
 
         /// <summary>
         /// Gets the current adapter
