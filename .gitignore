@@ -13,3 +13,5 @@ Cardinal.IoC.Unity/obj/
 Cardinal.IoC.StructureMap/bin/
 Cardinal.IoC.StructureMap/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 Cardinal.IoC.StructureMap/obj/
+Cardinal.IoC.Ninject/bin/
+Cardinal.IoC.Ninject/obj/
