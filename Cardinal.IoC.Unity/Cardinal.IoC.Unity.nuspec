@@ -3,8 +3,8 @@
   <metadata>
     <id>Agnostic.IoC.Unity</id>
     <version>0.1</version>
-    <title>Enables Unity for Agnostic Inversion of Control Extensions</title>
-    <authors></authors>
+    <title>Agnostic IoC - Unity</title>
+    <authors>cardinal252 simonproctor</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>
@@ -13,5 +13,8 @@
     <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Unity</tags>
+	<dependencies>
+       <dependency id="Agnostic.IoC.Core" version="0.1"/>
+    </dependencies>	
   </metadata>
 </package>

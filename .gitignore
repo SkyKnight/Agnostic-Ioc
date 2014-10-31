@@ -2,9 +2,16 @@ Cardinal.IoC.UnitTests/bin/
 Cardinal.IoC.UnitTests/obj/
 Cardinal.IoC.Windsor/bin/
 Cardinal.IoC.Windsor/obj/
+Cardinal.IoC.Autofac/bin/
+Cardinal.IoC.Autofac/obj/
 Cardinal.IoC/obj/
 Cardinal.IoC/bin/
 *.suo
 Cardinal.IoC.Unity/bin/
 Cardinal.IoC.Unity/obj/
 *.user
+Cardinal.IoC.StructureMap/bin/
+Cardinal.IoC.StructureMap/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+Cardinal.IoC.StructureMap/obj/
+Cardinal.IoC.Ninject/bin/
+Cardinal.IoC.Ninject/obj/

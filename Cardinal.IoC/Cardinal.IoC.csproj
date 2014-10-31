@@ -39,13 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentRegistration.cs" />
+    <Compile Include="ComponentRegistrationDefinition.cs" />
+    <Compile Include="ContainerAdapterAccessor.cs" />
     <Compile Include="ContainerAdapter.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="ContainerManagerFactory.cs" />
+    <Compile Include="IComponentRegistration.cs" />
+    <Compile Include="IComponentRegistrationDefinition.cs" />
+    <Compile Include="IContainerAdapterAccessor.cs" />
     <Compile Include="IContainerAdapter.cs" />
     <Compile Include="IContainerManager.cs" />
+    <Compile Include="IContainerRegistrar.cs" />
+    <Compile Include="IContainerResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registration\IRegistration.cs" />
+    <Compile Include="Registration\IContainerManagerGroupRegistration.cs" />
+    <Compile Include="Registration\IRegistrationDecorator.cs" />
+    <Compile Include="Registration\LifetimeScope.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

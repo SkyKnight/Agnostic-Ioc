@@ -3,15 +3,17 @@
   <metadata>
     <id>Agnostic.IoC.Windsor</id>
     <version>0.1</version>
-    <title>Enables Windsor for Agnostic Inversion of Control Extensions</title>
-    <authors></authors>
+    <title>Agnostic IoC - Windsor</title>
+    <authors>cardinal252 simonproctor</authors>
     <owners>cardinal252</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl.html</licenseUrl>
 	<projectUrl>https://github.com/cardinal252/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This handy extension allows you to define code regardless of the final IoC container, simply add the desired Container type and define your assemblies according to </description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <description>This handy extension allows you to define code regardless of the final IoC container, this is to allow you to use windsor</description>
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Windsor</tags>
+	<dependencies>
+	  <dependency id="Agnostic.IoC.Core" version="0.8"/>
+	</dependencies>  
   </metadata>
 </package>

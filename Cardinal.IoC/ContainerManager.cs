@@ -1,61 +1,151 @@
-﻿using System;
-using System.Collections;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// Copyright (c) 2014, Simon Proctor and Nathanael Mann
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using Cardinal.IoC.Registration;
 
 namespace Cardinal.IoC
 {
     public class ContainerManager : IContainerManager
     {
-        private static readonly Dictionary<string, IContainerAdapter> adapters = new Dictionary<string, IContainerAdapter>();
+        private IContainerAdapter adapter;
 
-        private static bool hasScanned;
-
-        private readonly bool preventAssemblyScan;
-
-        private IContainerAdapter currentAdapter;
-
-        public ContainerManager() : this(String.Empty)
+        /// <summary>
+        /// Default constructor, always self scans.
+        /// </summary>
+        public ContainerManager()
+            : this(String.Empty, true)
         {
         }
+
+        /// <summary>
+        /// Container adapter constructor,  Never Self Scans
+        /// </summary>
+        /// <param name="containerAdapter">The container adapter</param>
+        public ContainerManager(IContainerAdapter containerAdapter) : this(containerAdapter, new ContainerAdapterAccessor())
+        {
+        }
+
+        /// <summary>
+        /// Container adapter & accessor constructor,  Never Self Scans
+        /// </summary>
+        /// <param name="containerAdapter">The container adapter</param>
+        /// <param name="adapterAccessor">The adapter accessor</param>
+        public ContainerManager(IContainerAdapter containerAdapter, IContainerAdapterAccessor adapterAccessor)
+        {
+            AdapterAccessor = adapterAccessor;
+            AdapterAccessor.AddAdapter(containerAdapter.Name, containerAdapter);
+            Adapter = containerAdapter; 
+        }
+
+        /// <summary>
+        /// String key constructor, always self scans
+        /// </summary>
+        /// <param name="adapterName">The adapter name</param>
+        public ContainerManager(string adapterName) : this(adapterName, true)
+        {
+            
+        }
+
+        /// <summary>
+        /// String key constructor, optional self scan
+        /// </summary>
+        /// <param name="adapterName">The adapter name</param>
+        /// <param name="scanAssemblies">Whether to scan the assemblies</param>
+        public ContainerManager(string adapterName, bool scanAssemblies)
+            : this(adapterName, new ContainerAdapterAccessor(scanAssemblies))
+        {
+        }
+
+        public ContainerManager(string adapterName, IContainerAdapterAccessor adapterAccessor)
+        {
+            AdapterAccessor = adapterAccessor;
+            Adapter = AdapterAccessor.GetAdapter(adapterName); ;
+        }
+
+        /// <summary>
+        /// Gets the adapter accessor
+        /// </summary>
+        internal IContainerAdapterAccessor AdapterAccessor { get; private set; }
         
-        public ContainerManager(IContainerAdapter containerAdapter)
-        {
-            preventAssemblyScan = true;
-            CurrentAdapter = containerAdapter;
-        }
-
-        public ContainerManager(string adapterName)
-        {
-            CurrentAdapter = GetAdapter(adapterName);
-        }
-
-        protected Dictionary<string, IContainerAdapter> Adapters
-        {
-            get
-            {
-                PopulateAdapters();
-                return adapters;
-            }
-        }
-
+        /// <summary>
+        /// Attempts to resolve a component
+        /// </summary>
+        /// <typeparam name="T">The component type</typeparam>
+        /// <param name="name">The name</param>
+        /// <returns></returns>
         public T TryResolve<T>(string name)
         {
-            return CurrentAdapter.TryResolve<T>(name);
+            return Adapter.TryResolve<T>(name);
         }
 
-        public T TryResolve<T>(IDictionary parameters)
+        public T TryResolve<T>(IDictionary<string, object> parameters)
         {
-            return CurrentAdapter.TryResolve<T>(parameters);
+            return Adapter.TryResolve<T>(parameters);
         }
 
-        public IContainerAdapter CurrentAdapter
+        public object Resolve(Type t)
         {
-            get { return currentAdapter; }
+            return Adapter.Resolve(t);
+        }
+
+        public object TryResolve(Type t)
+        {
+            return Adapter.TryResolve(t);
+        }
+
+        public T Resolve<T>(Type t) where T : class
+        {
+            return Adapter.Resolve<T>(t);
+        }
+
+        public T TryResolve<T>(Type t) where T : class
+        {
+            return Adapter.TryResolve<T>(t);
+        }
+
+        public object Resolve(Type t, string name)
+        {
+            return Adapter.Resolve(t, name);
+        }
+
+        public object TryResolve(Type t, string name)
+        {
+            return Adapter.TryResolve(t, name);
+        }
+
+        public T Resolve<T>(Type t, string name) where T : class
+        {
+            return Adapter.Resolve<T>(t, name);
+        }
+
+        public T TryResolve<T>(Type t, string name) where T : class
+        {
+            return Adapter.TryResolve<T>(t, name);
+        }
+
+        public IContainerAdapter Adapter
+        {
+            get { return adapter; }
             protected set
             {
                 if (value == null)
@@ -63,116 +153,48 @@ namespace Cardinal.IoC
                     throw new ArgumentNullException("adapter", "The current adapter was not located correctly.");
                 }
 
-                currentAdapter = value;
+                adapter = value;
             }
         }
 
-        public void Register<TRegisteredAs, TResolvedTo>(IRegistrationDefinition<TRegisteredAs, TResolvedTo> registrationDefinition) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
+        public IEnumerable<T> ResolveAll<T>()
         {
-            CurrentAdapter.Register(registrationDefinition);
-        }
-
-        public static void AddAdapter(string name, IContainerAdapter adapter)
-        {
-            if (adapters.ContainsKey(name))
-            {
-                return;
-            }
-
-            adapters.Add(name, adapter);
+            return Adapter.ResolveAll<T>();
         }
 
         public T Resolve<T>()
         {
-            return CurrentAdapter.Resolve<T>();
+            return Adapter.Resolve<T>();
         }
 
         public T TryResolve<T>()
         {
-            return CurrentAdapter.TryResolve<T>();
+            return Adapter.TryResolve<T>();
         }
 
         public T Resolve<T>(string name)
         {
-            return CurrentAdapter.Resolve<T>(name);
+            return Adapter.Resolve<T>(name);
         }
 
-        public T TryResolve<T>(string name, IDictionary arguments)
+        public T TryResolve<T>(string name, IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.TryResolve<T>(name, arguments);
+            return Adapter.TryResolve<T>(name, arguments);
         }
 
-        public T Resolve<T>(IDictionary arguments)
+        public T Resolve<T>(IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.Resolve<T>(arguments);
+            return Adapter.Resolve<T>(arguments);
         }
 
-        public T Resolve<T>(string name, IDictionary arguments)
+        public T Resolve<T>(string name, IDictionary<string, object> arguments)
         {
-            return CurrentAdapter.Resolve<T>(name, arguments);
+            return Adapter.Resolve<T>(name, arguments);
         }
 
         protected IContainerAdapter GetAdapter(string adapterName)
         {
-            return !Adapters.ContainsKey(adapterName) ? null : Adapters[adapterName];
-        }
-
-        protected void PopulateAdapters()
-        {
-            if (hasScanned || preventAssemblyScan)
-            {
-                return;
-            }
-
-            hasScanned = true;
-
-            // go fishing ;)
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                PopulateAdaptersInAssembly(assembly);   
-            }
-        }
-
-        private static void PopulateAdaptersInAssembly(Assembly assembly)
-        {
-            IEnumerable<Type> potentialAdapters;
-            try
-            {
-                potentialAdapters = assembly.GetTypes().Where(IsPotentialAdapter);
-            }
-            catch
-            {
-                return;
-            }
-
-            foreach (Type potentialAdapter in potentialAdapters)
-            {
-                if (potentialAdapter.IsAbstract)
-                {
-                    continue;
-                }
-
-                IContainerAdapter adapter = Activator.CreateInstance(potentialAdapter) as IContainerAdapter;
-                if (adapter == null)
-                {
-                    continue;
-                }
-
-                adapters.Add(adapter.Name, adapter);
-            }
-        }
-
-        private static bool IsPotentialAdapter(Type type)
-        {
-            try
-            {
-                // todo: IsAssignableFrom doesn't work - need a better way.
-                return type.GetInterface(typeof(IContainerAdapter).FullName.ToString(CultureInfo.InvariantCulture)) != null;
-            }
-            catch
-            {
-                return false;
-            }
+            return AdapterAccessor.GetAdapter(adapterName);
         }
     }
 }
