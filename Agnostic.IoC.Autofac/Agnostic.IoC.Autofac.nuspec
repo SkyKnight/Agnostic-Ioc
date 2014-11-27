@@ -13,7 +13,7 @@
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Autofac</tags>
 	<dependencies>
-       <dependency id="Agnostic.IoC.Core" version="0.1"/>
+       <dependency id="Agnostic.IoC.Core" version="0.34"/>
     </dependencies>	
   </metadata>
 </package>

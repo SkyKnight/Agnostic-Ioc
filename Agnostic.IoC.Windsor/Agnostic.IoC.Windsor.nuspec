@@ -13,7 +13,7 @@
     <copyright>Copyright 2014</copyright>
     <tags>DI IoC Windsor</tags>
 	<dependencies>
-	  <dependency id="Agnostic.IoC.Core" version="0.8"/>
+	  <dependency id="Agnostic.IoC.Core" version="0.34"/>
 	</dependencies>  
   </metadata>
 </package>
