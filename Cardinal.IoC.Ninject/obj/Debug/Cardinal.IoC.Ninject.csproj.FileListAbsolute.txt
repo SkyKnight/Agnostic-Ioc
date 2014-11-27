@@ -1,9 +1,0 @@
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Cardinal.IoC.Ninject.dll
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Cardinal.IoC.Ninject.pdb
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Cardinal.IoC.dll
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Ninject.dll
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Cardinal.IoC.pdb
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\bin\Debug\Ninject.xml
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\obj\Debug\Cardinal.IoC.Ninject.csprojResolveAssemblyReference.cache
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\obj\Debug\Cardinal.IoC.Ninject.dll
-D:\Work\Agnostic.Ioc\Cardinal.IoC.Ninject\obj\Debug\Cardinal.IoC.Ninject.pdb
