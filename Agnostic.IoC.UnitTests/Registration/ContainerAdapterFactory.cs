@@ -28,9 +28,9 @@ using Agnostic.IoC.StructureMap;
 using Agnostic.IoC.Unity;
 using Agnostic.IoC.Windsor;
 using Castle.Windsor;
-using Microsoft.Practices.Unity;
 using Ninject;
 using StructureMap;
+using Unity;
 
 namespace Agnostic.IoC.UnitTests.Registration
 {

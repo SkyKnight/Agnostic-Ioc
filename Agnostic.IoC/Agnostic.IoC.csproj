@@ -45,6 +45,10 @@
     <Compile Include="ContainerAdapter.cs" />
     <Compile Include="ContainerManager.cs" />
     <Compile Include="ContainerManagerFactory.cs" />
+    <Compile Include="ContainerRegistrar.cs" />
+    <Compile Include="ContainerRegistrarExtensions.cs" />
+    <Compile Include="ContainerResolver.cs" />
+    <Compile Include="ContainerResolverExtensions.cs" />
     <Compile Include="IComponentRegistration.cs" />
     <Compile Include="IComponentRegistrationDefinition.cs" />
     <Compile Include="IContainerAdapterAccessor.cs" />

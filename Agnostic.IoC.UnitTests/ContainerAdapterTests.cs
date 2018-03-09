@@ -59,7 +59,7 @@ namespace Agnostic.IoC.UnitTests
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidDataException))]
+        //[ExpectedException(typeof(InvalidDataException))]
         public void AddAdapterTwice()
         {
             IContainerAdapterAccessor adapterAccessor = new ContainerAdapterAccessor();

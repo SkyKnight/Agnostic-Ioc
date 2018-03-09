@@ -27,10 +27,10 @@ namespace Agnostic.IoC.UnitTests.TestClasses
 {
     public class TestGroupRegistration : IContainerManagerGroupRegistration
     {
-        public void RegisterComponents(IContainerAdapter containerAdapter)
+        public void RegisterComponents(IContainerRegistrar containerRegistrar)
         {
-            containerAdapter.Register<IDependantClass, DependantClass>();
-            containerAdapter.Register<IDependantClass, DependantClass2>("new name");
+            containerRegistrar.Register<IDependantClass, DependantClass>();
+            containerRegistrar.Register<IDependantClass, DependantClass2>("new name");
         }
     }
 }

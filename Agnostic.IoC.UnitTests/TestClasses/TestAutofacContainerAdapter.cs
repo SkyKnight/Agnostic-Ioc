@@ -47,10 +47,10 @@ namespace Agnostic.IoC.UnitTests.TestClasses
         /// <summary>
         /// Registers the components
         /// </summary>
-        public override void RegisterComponents()
+        public override void RegisterComponents(IContainerRegistrar registrar)
         {
-            Builder.RegisterType<DependantClass>().As<IDependantClass>();
-            Builder.RegisterType<DependantClass2>().Named<IDependantClass>("DependentClass2");
+            registrar.Register<IDependantClass, DependantClass>();
+            registrar.Register<IDependantClass, DependantClass2>("DependentClass2");
         }
     }
 }

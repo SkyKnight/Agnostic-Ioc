@@ -88,11 +88,6 @@ namespace Agnostic.IoC
         /// </typeparam>
         public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
-        public void Register<TRegisteredAs, TResolvedTo>(string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs
-        {
-            Register<TRegisteredAs, TResolvedTo>(LifetimeScope.Transient, name);
-        }
-
         public abstract void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name) where TRegisteredAs : class where TResolvedTo : TRegisteredAs;
 
         public abstract void Register<TRegisteredAs>(TRegisteredAs instance)
@@ -116,16 +111,6 @@ namespace Agnostic.IoC
         public abstract void Register<TRegisteredAs>(string name, TRegisteredAs instance)
             where TRegisteredAs : class;
 
-        public void RegisterGroup(IContainerManagerGroupRegistration groupRegistration)
-        {
-            groupRegistration.RegisterComponents(this);
-        }
-
-        public T TryResolve<T>(Type t, string name) where T : class
-        {
-            return Resolve(t, name) as T;
-        }
-
         public abstract object Resolve(Type t);
 
         public abstract object Resolve(Type t, string name);
@@ -137,6 +122,18 @@ namespace Agnostic.IoC
         protected abstract void Register(Type componentType, Type targetType, LifetimeScope lifetimeScope, string name);
         
         protected abstract void Register(Type[] componentTypes, Type targetType, LifetimeScope lifetimeScope, string name);
+
+        public abstract void Register<TRegisteredAs>(Func<TRegisteredAs> factory) where TRegisteredAs : class;
+
+        public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory) where TRegisteredAs : class;
+
+        public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory) where TRegisteredAs : class;
+
+        public abstract void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory) where TRegisteredAs : class;
+
+        public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory) where TRegisteredAs : class;
+
+        public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory) where TRegisteredAs : class;
 
         public void Register(IComponentRegistration registration)
         {
@@ -176,144 +173,13 @@ namespace Agnostic.IoC
         /// <summary>
         /// Use this method to register components if you are creating the container
         /// </summary>
+        public virtual void RegisterComponents(IContainerRegistrar registrar)
+        {
+        }
+
         public virtual void RegisterComponents()
         {
-        }
-
-        /// <summary>
-        /// Attempts to resolve the requested type with arguments
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="arguments">
-        /// The arguments.
-        /// </param>
-        /// <typeparam name="T">
-        /// The requested type
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public T TryResolve<T>(string name, IDictionary<string, object> arguments)
-        {
-            try
-            {
-                return Resolve<T>(name, arguments);
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to resolve the requested type
-        /// </summary>
-        /// <typeparam name="T">
-        /// The requested type
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public T TryResolve<T>()
-        {
-            try
-            {
-                return Resolve<T>();
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
-
-        public T Resolve<T>(Type t) where T : class
-        {
-            return Resolve(t) as T;
-        }
-
-        public T TryResolve<T>(Type t) where T : class
-        {
-            return TryResolve(t) as T;
-        }
-
-        public T Resolve<T>(Type t, string name) where T : class
-        {
-            return Resolve(t, name) as T;
-        }
-
-        public object TryResolve(Type t)
-        {
-            try
-            {
-                return Resolve(t);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public object TryResolve(Type t, string name)
-        {
-            try
-            {
-                return Resolve(t, name);
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Attempts to resolve the requested type by name
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <typeparam name="T">
-        /// The requested type
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public T TryResolve<T>(string name)
-        {
-            try
-            {
-                return Resolve<T>(name);
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
-
-        /// <summary>
-        /// Attempts to resolve the requested type with arguments
-        /// </summary>
-        /// <param name="arguments">
-        /// The arguments.
-        /// </param>
-        /// <typeparam name="T">
-        /// The requested type
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        public T TryResolve<T>(IDictionary<string, object> arguments)
-        {
-            try
-            {
-                return Resolve<T>(arguments);
-            }
-            catch
-            {
-                return default(T);
-            }
-        }
+        }        
 
         /// <summary>
         /// Attempts to resolve the requested type
@@ -377,6 +243,7 @@ namespace Agnostic.IoC
         protected void Initialize()
         {
             InitializeAdapter();
+            RegisterComponents(GetContainerRegistrar());
             RegisterComponents();
             InitializeContainer();
         }
@@ -393,6 +260,11 @@ namespace Agnostic.IoC
         /// </summary>
         protected virtual void InitializeAdapter()
         {
+        }
+
+        protected virtual IContainerRegistrar GetContainerRegistrar()
+        {
+            return this;
         }
     }
 }

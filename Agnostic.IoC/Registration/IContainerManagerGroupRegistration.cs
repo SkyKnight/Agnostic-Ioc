@@ -24,6 +24,6 @@ namespace Agnostic.IoC.Registration
 {
     public interface IContainerManagerGroupRegistration
     {
-        void RegisterComponents(IContainerAdapter containerAdapter);
+        void RegisterComponents(IContainerRegistrar registrar);
     }
 }

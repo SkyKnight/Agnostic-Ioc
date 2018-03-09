@@ -17,7 +17,7 @@ namespace Agnostic.IoC.UnitTests.ContainerIsolation
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        //[ExpectedException(typeof(ArgumentNullException))]
         public void NonSelfScanningContainerAdapters()
         {
             ContainerAdapterAccessor.Clear();

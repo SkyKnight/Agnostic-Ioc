@@ -21,6 +21,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Agnostic.IoC.Registration;
+using System;
 
 namespace Agnostic.IoC
 {
@@ -34,9 +35,9 @@ namespace Agnostic.IoC
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;
 
-        void Register<TRegisteredAs, TResolvedTo>(string name)
-            where TRegisteredAs : class
-            where TResolvedTo : TRegisteredAs;
+        //void Register<TRegisteredAs, TResolvedTo>(string name)
+        //    where TRegisteredAs : class
+        //    where TResolvedTo : TRegisteredAs;
 
         void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
             where TRegisteredAs : class
@@ -48,7 +49,31 @@ namespace Agnostic.IoC
         void Register<TRegisteredAs>(string name, TRegisteredAs instance)
             where TRegisteredAs : class;
 
-        void RegisterGroup(IContainerManagerGroupRegistration groupRegistration);
+        void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        //void Register<TRegisteredAs>(string name, Func<TRegisteredAs> factory)
+        //    where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        //void Register<TRegisteredAs>(string name, Func<IContainerResolver, TRegisteredAs> factory)
+        //    where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory)
+            where TRegisteredAs : class;
+
+        //void RegisterGroup(IContainerManagerGroupRegistration groupRegistration);
 
         void Register(IComponentRegistration registration);
 

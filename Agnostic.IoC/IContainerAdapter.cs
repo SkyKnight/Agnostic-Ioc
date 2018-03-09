@@ -32,7 +32,7 @@ namespace Agnostic.IoC
 
     public interface IContainerAdapter : IContainerResolver, IContainerRegistrar
     {
-        void RegisterComponents();
+        void RegisterComponents(IContainerRegistrar registrar);
 
         string Name { get; }
 

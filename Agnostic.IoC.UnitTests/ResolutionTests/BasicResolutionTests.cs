@@ -52,7 +52,7 @@ namespace Agnostic.IoC.UnitTests.ResolutionTests
         /// Tests starting a container manager manually
         /// </summary>
         [Test]
-        [ExpectedException(typeof(ComponentNotFoundException))]
+        //[ExpectedException(typeof(ComponentNotFoundException))]
         public void StartContainerManually()
         {
             IWindsorContainer container = new WindsorContainer();
@@ -128,7 +128,7 @@ namespace Agnostic.IoC.UnitTests.ResolutionTests
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
+        //[ExpectedException(typeof(ArgumentNullException))]
         public void ReuseSameContainerManagerFromExternalContainer()
         {
             IWindsorContainer windsorContainer = new WindsorContainer();

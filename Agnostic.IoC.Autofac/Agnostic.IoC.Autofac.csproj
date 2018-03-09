@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="AdapterExtensions.cs" />
     <Compile Include="AutofacContainerAdapter.cs" />
+    <Compile Include="AutofacContainerRegistrar.cs" />
+    <Compile Include="AutofacContainerResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

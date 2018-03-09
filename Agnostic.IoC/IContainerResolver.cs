@@ -29,35 +29,35 @@ namespace Agnostic.IoC
     {
         T Resolve<T>();
 
-        T TryResolve<T>();
+        //T TryResolve<T>();
 
-        T Resolve<T>(Type t) where T : class;
+        //T Resolve<T>(Type t) where T : class;
 
-        T TryResolve<T>(Type t) where T : class;
+        //T TryResolve<T>(Type t) where T : class;
 
-        T Resolve<T>(Type t, string name) where T : class;
+        //T Resolve<T>(Type t, string name) where T : class;
 
-        T TryResolve<T>(Type t, string name) where T : class;
+        //T TryResolve<T>(Type t, string name) where T : class;
 
         object Resolve(Type t);
 
-        object TryResolve(Type t);
+        //object TryResolve(Type t);
 
         object Resolve(Type t, string name);
 
-        object TryResolve(Type t, string name);
+        //object TryResolve(Type t, string name);
 
         T Resolve<T>(string name);
 
-        T TryResolve<T>(string name);
+        //T TryResolve<T>(string name);
 
         T Resolve<T>(IDictionary<string, object> arguments);
 
-        T TryResolve<T>(IDictionary<string, object> arguments);
+        //T TryResolve<T>(IDictionary<string, object> arguments);
 
         T Resolve<T>(string name, IDictionary<string, object> arguments);
 
-        T TryResolve<T>(string name, IDictionary<string, object> arguments);
+        //T TryResolve<T>(string name, IDictionary<string, object> arguments);
 
         IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>();
     }

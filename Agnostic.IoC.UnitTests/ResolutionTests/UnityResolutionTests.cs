@@ -24,8 +24,8 @@ using System;
 using System.Linq;
 using Agnostic.IoC.UnitTests.Helpers;
 using Agnostic.IoC.Unity;
-using Microsoft.Practices.Unity;
 using NUnit.Framework;
+using Unity;
 
 namespace Agnostic.IoC.UnitTests.ResolutionTests
 {

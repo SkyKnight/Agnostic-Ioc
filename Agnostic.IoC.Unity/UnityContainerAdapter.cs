@@ -125,7 +125,7 @@ namespace Agnostic.IoC.Unity
         {
             if (!String.IsNullOrEmpty(name))
             {
-                if (TryResolve(componentType, name) != null)
+                if (this.TryResolve(componentType, name) != null)
                 {
                     Container.RegisterType(componentType, name);
                 }
@@ -137,7 +137,7 @@ namespace Agnostic.IoC.Unity
                 return;
             }
 
-            if (TryResolve(componentType, name) != null)
+            if (this.TryResolve(componentType, name) != null)
             {
                 Container.RegisterType(componentType, name);
                 return;
@@ -186,6 +186,36 @@ namespace Agnostic.IoC.Unity
                 resolverOverride.Add(key, arguments[key]);
             }
             return resolverOverride;
+        }
+
+        public override void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

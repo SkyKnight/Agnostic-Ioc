@@ -22,7 +22,7 @@
 
 using Agnostic.IoC.UnitTests.Helpers;
 using Agnostic.IoC.Unity;
-using Microsoft.Practices.Unity;
+using Unity.Lifetime;
 
 namespace Agnostic.IoC.UnitTests.TestClasses
 {

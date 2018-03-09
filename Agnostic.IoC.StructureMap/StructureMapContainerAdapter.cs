@@ -69,7 +69,7 @@ namespace Agnostic.IoC.StructureMap
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 Container.Configure(x => x.For<TRegisteredAs>().Add<TResolvedTo>().SetLifeStyle(lifetimeScope));
                 return;
@@ -80,7 +80,7 @@ namespace Agnostic.IoC.StructureMap
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope, string name)
         {
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 Container.Configure(x => x.For<TRegisteredAs>().Add<TResolvedTo>().Named(name).SetLifeStyle(lifetimeScope));
                 return;
@@ -91,7 +91,7 @@ namespace Agnostic.IoC.StructureMap
 
         public override void Register<TRegisteredAs>(TRegisteredAs instance)
         {
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 Container.Configure(x => x.For<TRegisteredAs>().AddInstance(new ObjectInstance(instance)));
                 return;
@@ -102,7 +102,7 @@ namespace Agnostic.IoC.StructureMap
 
         public override void Register<TRegisteredAs>(string name, TRegisteredAs instance)
         {
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 Container.Configure(x => x.For<TRegisteredAs>().AddInstance(new ObjectInstance(instance).Named(name)));
                 return;
@@ -123,7 +123,7 @@ namespace Agnostic.IoC.StructureMap
 
         protected override void Register(Type componentType, object target, string name)
         {
-            if (TryResolve(componentType) != null)
+            if (this.TryResolve(componentType) != null)
             {
                 Container.Configure(x => x.For(componentType).Add(target));
                 return;
@@ -162,6 +162,36 @@ namespace Agnostic.IoC.StructureMap
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.GetAllInstances<TResolvedTo>();
+        }
+
+        public override void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

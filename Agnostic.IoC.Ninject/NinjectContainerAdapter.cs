@@ -82,9 +82,9 @@ namespace Agnostic.IoC.Ninject
 
         public override void Register<TRegisteredAs, TResolvedTo>(LifetimeScope lifetimeScope)
         {
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
-                Register<TRegisteredAs, TResolvedTo>(Guid.NewGuid().ToString());
+                this.Register<TRegisteredAs, TResolvedTo>(Guid.NewGuid().ToString());
                 return;
             }
 
@@ -145,6 +145,36 @@ namespace Agnostic.IoC.Ninject
         public override IEnumerable<TResolvedTo> ResolveAll<TResolvedTo>()
         {
             return Container.GetAll<TResolvedTo>();
+        }
+
+        public override void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

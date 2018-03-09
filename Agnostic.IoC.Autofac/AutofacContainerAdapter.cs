@@ -88,6 +88,12 @@ namespace Agnostic.Ioc.Autofac
             Container = Builder.Build();
         }
 
+        protected override IContainerRegistrar GetContainerRegistrar()
+        {
+            return new AutofacContainerRegistrar(Builder);
+        }
+
+        #region resolve
         /// <summary>
         /// Resolves a component by type definition.
         /// </summary>
@@ -132,9 +138,7 @@ namespace Agnostic.Ioc.Autofac
                 throw new ArgumentException("Component not registered");
             }
 
-            Parameter[] array = GetParametersFromDictionary(arguments);
-
-            return Container.Resolve<T>(array);
+            return Container.Resolve<T>(arguments.GetParametersFromDictionary());
         }
 
         /// <summary>
@@ -151,10 +155,9 @@ namespace Agnostic.Ioc.Autofac
                 throw new ArgumentException("Component not registered with provided name", name);
             }
 
-            Parameter[] array = GetParametersFromDictionary(arguments);
-
-            return Container.ResolveNamed<T>(name, array);
+            return Container.ResolveNamed<T>(name, arguments.GetParametersFromDictionary());
         }
+        #endregion
 
         /// <summary>
         /// Add a late bound registration. Where possible use <see cref="RegisterComponents(ContainerBuilder)"/> instead
@@ -167,7 +170,7 @@ namespace Agnostic.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Transient per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 builder.RegisterType<TResolvedTo>().As<TRegisteredAs>().SetLifeStyle(lifetimeScope).PreserveExistingDefaults();
             }
@@ -183,7 +186,7 @@ namespace Agnostic.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 builder.RegisterType<TResolvedTo>().Named<TRegisteredAs>(name).SetLifeStyle(lifetimeScope).PreserveExistingDefaults();
             }
@@ -199,7 +202,7 @@ namespace Agnostic.Ioc.Autofac
         {
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 builder.RegisterInstance(instance).As<TRegisteredAs>().PreserveExistingDefaults();
             }
@@ -216,7 +219,7 @@ namespace Agnostic.Ioc.Autofac
             // Http is the default for Autofac ASP.NET integrations. Instance per dependency otherwise.
             ContainerBuilder builder = new ContainerBuilder();
 
-            if (TryResolve<TRegisteredAs>() != null)
+            if (this.TryResolve<TRegisteredAs>() != null)
             {
                 builder.RegisterInstance(instance).Named<TRegisteredAs>(name).PreserveExistingDefaults();
             }
@@ -287,23 +290,34 @@ namespace Agnostic.Ioc.Autofac
             return Container.Resolve<IEnumerable<TResolvedTo>>();
         }
 
-        /// <summary>
-        /// Converts the generic IDictionary to an array of named parameters for the container to
-        /// use in constructor resolution. See <see cref="NamedParameter"/>.
-        /// </summary>
-        /// <param name="arguments">The dictionary of arguments</param>
-        /// <returns>The named parameter array</returns>
-        internal static Parameter[] GetParametersFromDictionary(IDictionary<string, object> arguments)
+        public override void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
         {
-            List<Parameter> parameters = new List<Parameter>(arguments.Keys.Count);
+            throw new NotImplementedException();
+        }
 
-            foreach (string key in arguments.Keys)
-            {
-                NamedParameter p = new NamedParameter(key, arguments[key]);
-                parameters.Add(p);
-            }
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
 
-            return parameters.ToArray();
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, string name, Func<IContainerResolver, TRegisteredAs> factory)
+        {
+            throw new NotImplementedException();
         }
     }
 }
