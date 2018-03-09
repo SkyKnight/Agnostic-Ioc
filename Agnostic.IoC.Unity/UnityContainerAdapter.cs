@@ -23,7 +23,9 @@
 using System;
 using System.Collections.Generic;
 using Agnostic.IoC.Registration;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Resolution;
+using Unity.Lifetime;
 
 namespace Agnostic.IoC.Unity
 {
