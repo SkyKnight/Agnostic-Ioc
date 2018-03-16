@@ -319,5 +319,10 @@ namespace Agnostic.Ioc.Autofac
         {
             throw new NotImplementedException();
         }
+
+        public override void Register(IAssemblyRegistration registration)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

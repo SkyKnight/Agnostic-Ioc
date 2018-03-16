@@ -17,6 +17,25 @@ namespace Agnostic.IoC.Autofac
             _containerBuilder = containerBuilder;
         }
 
+        public override void Register(IAssemblyRegistration registration)
+        {
+            var definition = registration.Definition;
+
+            if (definition.Assembly == null)
+                return;
+
+            var regBuilder = _containerBuilder.RegisterAssemblyTypes(definition.Assembly);
+            if (definition.AssignableTo != null)
+                regBuilder = regBuilder.AssignableTo(definition.AssignableTo);
+            if (definition.Filter != null)
+                regBuilder = regBuilder.Where(type => definition.Filter(type));
+            if (definition.RegistrationMode == AssemblyRegistrationMode.AsImplementedInterfaces)
+                regBuilder = regBuilder.AsImplementedInterfaces();
+            else
+                regBuilder = regBuilder.AsSelf();
+            regBuilder.SetLifeStyle(definition.LifetimeScope);
+        }
+
         public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
         {
             _containerBuilder.Register(context => factory(new AutofacContainerResolver(context)));

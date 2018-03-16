@@ -78,5 +78,9 @@ namespace Agnostic.IoC
         void Register(IComponentRegistration registration);
 
         TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new();
+
+        void Register(IAssemblyRegistration registration);
+
+        TAssemblyRegistration CreateAssemblyRegistration<TAssemblyRegistration>() where TAssemblyRegistration : IAssemblyRegistration, new();
     }
 }

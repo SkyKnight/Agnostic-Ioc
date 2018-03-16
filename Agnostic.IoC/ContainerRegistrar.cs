@@ -9,10 +9,17 @@ namespace Agnostic.IoC
 {
     public abstract class ContainerRegistrar : IContainerRegistrar
     {
-        public virtual TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new()
+        public TAssemblyRegistration CreateAssemblyRegistration<TAssemblyRegistration>() where TAssemblyRegistration : IAssemblyRegistration, new()
         {
             throw new NotImplementedException();
         }
+
+        public virtual TComponentRegistrationType CreateComponentRegistration<TComponentRegistrationType>() where TComponentRegistrationType : IComponentRegistration, new()
+        {
+            return new TComponentRegistrationType();
+        }
+
+        public abstract void Register(IAssemblyRegistration registration);
 
         public virtual void Register(IComponentRegistration registration)
         {

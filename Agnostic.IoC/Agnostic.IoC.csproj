@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyRegistration.cs" />
+    <Compile Include="AssemblyRegistrationDefinition.cs" />
+    <Compile Include="AssemblyRegistrationExtensions.cs" />
     <Compile Include="ComponentRegistration.cs" />
     <Compile Include="ComponentRegistrationDefinition.cs" />
     <Compile Include="ContainerAdapterAccessor.cs" />
@@ -49,6 +52,8 @@
     <Compile Include="ContainerRegistrarExtensions.cs" />
     <Compile Include="ContainerResolver.cs" />
     <Compile Include="ContainerResolverExtensions.cs" />
+    <Compile Include="IAssemblyRegistration.cs" />
+    <Compile Include="IAssemblyRegistrationDefinition.cs" />
     <Compile Include="IComponentRegistration.cs" />
     <Compile Include="IComponentRegistrationDefinition.cs" />
     <Compile Include="IContainerAdapterAccessor.cs" />

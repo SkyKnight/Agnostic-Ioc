@@ -266,5 +266,12 @@ namespace Agnostic.IoC
         {
             return this;
         }
+
+        public abstract void Register(IAssemblyRegistration registration);
+
+        public TAssemblyRegistration CreateAssemblyRegistration<TAssemblyRegistration>() where TAssemblyRegistration : IAssemblyRegistration, new()
+        {
+            return new TAssemblyRegistration();
+        }
     }
 }
