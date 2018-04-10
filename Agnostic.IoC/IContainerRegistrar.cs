@@ -27,6 +27,12 @@ namespace Agnostic.IoC
 {
     public interface IContainerRegistrar
     {
+        void Register<T>() where T : class;
+
+        void Register<T>(LifetimeScope lifetimeScope) where T : class;
+
+        void Register<T>(LifetimeScope lifetimeScope, string name) where T : class;
+
         void Register<TRegisteredAs, TResolvedTo>()
             where TRegisteredAs : class
             where TResolvedTo : TRegisteredAs;

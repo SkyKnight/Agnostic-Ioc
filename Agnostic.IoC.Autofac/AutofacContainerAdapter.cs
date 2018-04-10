@@ -324,5 +324,20 @@ namespace Agnostic.Ioc.Autofac
         {
             throw new NotImplementedException();
         }
+
+        public override void Register<T>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<T>(LifetimeScope lifetimeScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Register<T>(LifetimeScope lifetimeScope, string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

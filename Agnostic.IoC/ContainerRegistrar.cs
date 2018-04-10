@@ -26,14 +26,15 @@ namespace Agnostic.IoC
             throw new NotImplementedException();
         }
 
+        public abstract void Register<T>() where T : class;
         public abstract void Register<TRegisteredAs>(Func<TRegisteredAs> factory) where TRegisteredAs : class;
 
         public abstract void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory) where TRegisteredAs : class;
-
+        public abstract void Register<T>(LifetimeScope lifetimeScope) where T : class;
         public abstract void Register<TRegisteredAs>(TRegisteredAs instance) where TRegisteredAs : class;
 
         public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory) where TRegisteredAs : class;
-
+        public abstract void Register<T>(LifetimeScope lifetimeScope, string name) where T : class;
         public abstract void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory) where TRegisteredAs : class;
 
         public abstract void Register<TRegisteredAs>(string name, TRegisteredAs instance) where TRegisteredAs : class;

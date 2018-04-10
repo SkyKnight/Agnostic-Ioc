@@ -36,9 +36,19 @@ namespace Agnostic.IoC.Autofac
             regBuilder.SetLifeStyle(definition.LifetimeScope);
         }
 
+        public override void Register<T>()
+        {
+            _containerBuilder.RegisterType<T>();
+        }
+
         public override void Register<TRegisteredAs>(Func<IContainerResolver, TRegisteredAs> factory)
         {
             _containerBuilder.Register(context => factory(new AutofacContainerResolver(context)));
+        }
+
+        public override void Register<T>(LifetimeScope lifetimeScope)
+        {
+            _containerBuilder.RegisterType<T>().SetLifeStyle(lifetimeScope);
         }
 
         public override void Register<TRegisteredAs>(Func<TRegisteredAs> factory)
@@ -54,6 +64,11 @@ namespace Agnostic.IoC.Autofac
         public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<IContainerResolver, TRegisteredAs> factory)
         {
             _containerBuilder.Register(context => factory(new AutofacContainerResolver(context))).SetLifeStyle(lifetimeScope);
+        }
+
+        public override void Register<T>(LifetimeScope lifetimeScope, string name)
+        {
+            _containerBuilder.RegisterType<T>().Named<T>(name).SetLifeStyle(lifetimeScope);
         }
 
         public override void Register<TRegisteredAs>(LifetimeScope lifetimeScope, Func<TRegisteredAs> factory)

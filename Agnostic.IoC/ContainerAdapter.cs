@@ -273,5 +273,9 @@ namespace Agnostic.IoC
         {
             return new TAssemblyRegistration();
         }
+
+        public abstract void Register<T>() where T : class;
+        public abstract void Register<T>(LifetimeScope lifetimeScope) where T : class;
+        public abstract void Register<T>(LifetimeScope lifetimeScope, string name) where T : class;
     }
 }
